@@ -1463,6 +1463,21 @@ p { margin: 0; }
 .why-build__card h4 { font-size: var(--fs-small); font-weight: 600; margin: 0; }
 .why-build__card p { font-size: var(--fs-tiny); line-height: 20px; color: var(--text-weak); margin: 0; }
 
+/* Version B: reverts to the original icon-badge treatment instead of A's
+   divider-line cards. */
+.why-build__card--b { gap: 16px; }
+.why-build__icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--bg-section-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.why-build__icon img { width: 20px; height: 20px; }
+
 /* ==========================================================================
    Showcase (See what YouCam can create)
    ========================================================================== */
