@@ -15,6 +15,31 @@
   window.addEventListener('resize', setViewportHeightVar);
   window.addEventListener('orientationchange', setViewportHeightVar);
 
+  /* ---------------- Hero A/B review switch ----------------
+     Temporary side-by-side comparison aid — toggles which hero__variant is
+     shown (each is a whole top-banner: background + copy + video panel).
+     Not part of either design; remove this block once a version is picked. */
+  var heroVersionSwitch = document.getElementById('heroVersionSwitch');
+  if (heroVersionSwitch) {
+    var heroVariants = Array.prototype.slice.call(document.querySelectorAll('.hero__variant'));
+    heroVersionSwitch.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-hero-switch]');
+      if (!btn) return;
+      var version = btn.getAttribute('data-hero-switch');
+      heroVersionSwitch.querySelectorAll('button').forEach(function (b) {
+        b.classList.toggle('is-active', b === btn);
+      });
+      heroVariants.forEach(function (variant) {
+        var isMatch = variant.getAttribute('data-hero-version') === version;
+        variant.hidden = !isMatch;
+        // Only the visible variant's video should actually play — keeps the
+        // hidden one from burning CPU/battery decoding off-screen.
+        var video = variant.querySelector('video');
+        if (video) { if (isMatch) { video.play(); } else { video.pause(); } }
+      });
+    });
+  }
+
   /* ---------------- Mobile nav toggle ---------------- */
   var burger = document.getElementById('burgerBtn');
   var mobilePanel = document.getElementById('mobilePanel');

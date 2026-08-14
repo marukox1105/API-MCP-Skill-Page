@@ -40,8 +40,12 @@
 <main>
 
   <!-- ============================== HERO ============================== -->
+  <!-- Two interchangeable hero treatments (A/B) for review — #heroVersionSwitch
+       toggles which one is visible; everything below the top banner (marquee
+       onward) is shared, not duplicated. -->
   <section class="hero">
-    <div class="hero__top">
+    <!-- Version A: light background, video-hero-s.mp4 panel -->
+    <div class="hero__top hero__variant hero__variant--a is-active" data-hero-version="a">
       <div class="hero__content">
         <div>
           <h1 class="hero__heading">
@@ -64,6 +68,39 @@
           <source src="assets/hero/video-hero-s.mp4" type="video/mp4">
         </video>
       </div>
+    </div>
+
+    <!-- Version B: dark navy gradient background, B01.mp4 panel -->
+    <div class="hero__top hero__variant hero__variant--b" data-hero-version="b" hidden>
+      <div class="hero__content hero__content--b">
+        <div>
+          <h1 class="hero__heading hero__heading--b">
+            <span class="gradient gradient--b">MCP Servers &amp; Agent Skills</span>
+            <span>for Visual AI</span>
+          </h1>
+          <p class="hero__desc hero__desc--b" style="margin-top:20px;">
+            Connect YouCam’s beauty, fashion, image, and video APIs through MCP—or install reusable Agent Skills for complete visual AI workflows. One YouCam API key, from prompt to real output.
+          </p>
+        </div>
+
+        <div class="hero__buttons">
+          <a class="btn btn-primary" href="#connect">Get started now <img src="assets/icons/arrow-right-white.svg" alt=""></a>
+          <a class="btn btn-outline btn-outline--inverse" href="#">View documentation</a>
+        </div>
+      </div>
+
+      <div class="hero__video hero__video--b">
+        <video autoplay muted loop playsinline aria-label="YouCam API demo">
+          <source src="assets/hero/B01.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+
+    <!-- Small floating control for reviewers to compare A/B — not part of
+         either design, purely a temporary review aid. -->
+    <div class="hero-version-switch" id="heroVersionSwitch" aria-label="Hero version preview switch">
+      <button type="button" class="is-active" data-hero-switch="a">A</button>
+      <button type="button" data-hero-switch="b">B</button>
     </div>
 
     <!-- Marquee: infinite left-to-right scrolling partner logo strip, full width along the bottom of the hero -->

@@ -236,9 +236,6 @@ p { margin: 0; }
   flex-direction: column;
   overflow: hidden;
   background: #eef4ff;
-  background-image: url(../assets/hero/BG.png);
-  background-size: cover;
-  background-position: center;
 }
 .hero__top {
   position: relative;
@@ -249,6 +246,16 @@ p { margin: 0; }
   gap: 40px;
   min-height: 560px; /* give the background room to breathe instead of being cropped tight */
   padding: 56px max(clamp(20px, 6vw, 80px), calc((100% - var(--page-content-max)) / 2)) 48px;
+}
+/* Version A / B share the .hero__top layout above; only their own background
+   (and the text/button color overrides further down) differ. */
+.hero__variant--a {
+  background-image: url(../assets/hero/BG.png);
+  background-size: cover;
+  background-position: center;
+}
+.hero__variant--b {
+  background: linear-gradient(269.86deg, rgb(0, 32, 97) 2.0857%, rgb(0, 51, 130) 55.079%);
 }
 .hero__video {
   flex: 1 1 0;
@@ -266,6 +273,12 @@ p { margin: 0; }
   object-fit: cover;
   aspect-ratio: 3 / 2; /* matches video-hero-s.mp4's native 1800×1200 */
 }
+.hero__video--b {
+  max-width: 1000px;
+  border: none;
+  aspect-ratio: 16 / 9; /* matches B01.mp4's native 1920×1080 */
+}
+.hero__video--b video { aspect-ratio: 16 / 9; }
 .hero__content {
   position: relative;
   z-index: 1;
@@ -298,6 +311,21 @@ p { margin: 0; }
   color: var(--text-strong);
   margin: 0;
 }
+/* Version B: dark background, so heading/body text flip to white and the
+   headline gradient shifts to the design's own blue→mint pairing. */
+.hero__heading--b { color: var(--text-inverse-strong); }
+.hero__heading--b .gradient--b {
+  background: linear-gradient(90deg, rgba(115,171,255,0.95), rgba(49,255,207,0.95));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero__desc--b { color: var(--text-inverse-weak); }
+.btn-outline--inverse {
+  color: var(--text-inverse-strong);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.btn-outline--inverse:hover { background: rgba(255, 255, 255, 0.12); }
 .hero__buttons {
   display: flex;
   flex-wrap: wrap;
@@ -356,6 +384,36 @@ p { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   .marquee__track { animation: none; }
 }
+
+/* Temporary reviewer aid — lets whoever's looking flip between the two hero
+   treatments live, without touching either design. Remove once one's picked. */
+.hero-version-switch {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: rgba(17, 24, 26, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-pill);
+}
+.hero-version-switch button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--fs-tiny);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.hero-version-switch button:hover { color: #fff; }
+.hero-version-switch button.is-active { background: var(--color-primary); color: #fff; }
 
 /* Partner logo lockups — clean per-brand SVG exports (assets/hero/logo/),
    each already a self-contained icon+wordmark, so no fragment positioning needed. */
