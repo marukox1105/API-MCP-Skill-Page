@@ -816,12 +816,7 @@ p { margin: 0; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.connector-item.is-active span { font-weight: 600; }
-/* Active label text picks up each domain's own brand accent (border + status
-   badge stay universal blue — only the text flourishes per-domain). */
-.connector-item[data-domain="beauty"].is-active span { color: #6D34F6; }
-.connector-item[data-domain="fashion"].is-active span { color: #3ABB9C; }
-.connector-item[data-domain="creators"].is-active span { color: #F7AD2D; }
+.connector-item.is-active span { font-weight: 600; color: var(--color-primary); }
 .connector-item__status {
   flex-shrink: 0;
   width: 16px;
