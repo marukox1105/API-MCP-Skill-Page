@@ -466,8 +466,11 @@
 
       <div class="workspace-card__right">
         <div class="result-reveal reveal-item" data-reveal="8">
-          <img class="bg" id="wsResultImage" src="assets/workspace/img-right-preview-workspace.png" alt="Generated result">
-          <span class="result-badge">RESULT</span>
+          <div class="result-header"><span class="result-header__dot" aria-hidden="true"></span><span class="result-badge">RESULT</span></div>
+          <div class="result-frame">
+            <img class="result-frame__img" id="wsResultImage" src="assets/workspace/img-right-preview-workspace.png" alt="Generated result">
+          </div>
+          <span class="result-caption" id="wsResultCaption"></span>
         </div>
       </div>
     </div>
@@ -481,7 +484,7 @@
       <p>Build complete visual AI experiences with specialized APIs for analysis, virtual try-on, generation, and editing.</p>
     </div>
 
-    <div class="feature-grid">
+    <div class="feature-grid pv-block" data-pv="a">
       <div class="feature-card">
         <span class="feature-card__icon"><img src="assets/icons/sparkle-burst.svg" alt=""></span>
         <h4>Visual AI built for real use cases</h4>
@@ -501,6 +504,40 @@
         <span class="feature-card__icon"><img src="assets/icons/key.svg" alt=""></span>
         <h4>One key, existing billing</h4>
         <p>Access YouCam capabilities with the same API key and existing API plan—no separate MCP or Agent Skill billing.</p>
+      </div>
+    </div>
+
+    <!-- Version B: 2x2 grid, each card carrying its own tinted background +
+         a decorative illustration bleeding off the edge, instead of A's
+         4-across plain icon cards. -->
+    <div class="feature-grid feature-grid--b pv-block" data-pv="b" hidden>
+      <div class="feature-card-b" style="background:#EAF2FF;">
+        <div class="feature-card-b__text">
+          <h4>Visual AI built for real use cases</h4>
+          <p>Specialized APIs for beauty, hair, fashion, jewelry, image creation, and video workflows.</p>
+        </div>
+        <img class="feature-card-b__art" src="assets/features-b/card-1.jpg" alt="">
+      </div>
+      <div class="feature-card-b" style="background:#FEF8E7;">
+        <div class="feature-card-b__text">
+          <h4>From prompt to real output</h4>
+          <p>Return structured analysis, virtual try-on previews, generated images, and videos in your workflow.</p>
+        </div>
+        <img class="feature-card-b__art" src="assets/features-b/card-2.jpg" alt="">
+      </div>
+      <div class="feature-card-b" style="background:#EAF7EE;">
+        <div class="feature-card-b__text">
+          <h4>Compose multi-step visual workflows</h4>
+          <p>Combine analysis, generation, editing, and virtual try-on APIs to build complete visual experiences.</p>
+        </div>
+        <img class="feature-card-b__art" src="assets/features-b/card-3.jpg" alt="">
+      </div>
+      <div class="feature-card-b" style="background:#F1ECFB;">
+        <div class="feature-card-b__text">
+          <h4>One key, existing billing</h4>
+          <p>Access YouCam capabilities with the same API key and existing API plan—no separate MCP or Agent Skill billing.</p>
+        </div>
+        <img class="feature-card-b__art" src="assets/features-b/card-4.jpg" alt="">
       </div>
     </div>
   </section>

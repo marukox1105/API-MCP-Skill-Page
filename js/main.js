@@ -308,6 +308,9 @@
 
     var resultImg = document.getElementById('wsResultImage');
     if (resultImg) resultImg.src = data.result;
+
+    var resultCaptionEl = document.getElementById('wsResultCaption');
+    if (resultCaptionEl) resultCaptionEl.textContent = data.toolBadge;
   }
 
   function setActiveUseCase(key) {
