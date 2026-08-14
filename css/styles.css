@@ -151,6 +151,7 @@ p { margin: 0; }
   min-width: 0;
 }
 
+.navbar__logo { flex-shrink: 0; } /* the right side is already flex-shrink:0, so without this the logo was the only thing left to compress when space got tight — squashing its aspect ratio */
 .navbar__logo img { height: 24px; width: auto; }
 
 .navbar__links {
@@ -1518,9 +1519,11 @@ p { margin: 0; }
   .navbar__links { display: none; }
   .navbar__burger { display: flex; }
 
-  .hero__top { padding-top: 40px; text-align: left; min-height: 560px; }
+  /* No room for side-by-side once nav collapses — stack instead, video on
+     top (via order, so markup doesn't need to change) rather than hiding it. */
+  .hero__top { flex-direction: column; align-items: stretch; padding-top: 40px; text-align: left; min-height: 0; }
   .hero__content { max-width: 100%; }
-  .hero__video { display: none; } /* no room for the side-by-side layout once nav collapses */
+  .hero__video, .hero__video--b { order: -1; max-width: 100%; }
 
   .connect__cards { grid-template-columns: repeat(2, 1fr); }
 
@@ -1553,7 +1556,6 @@ p { margin: 0; }
 @media (max-width: 767px) {
   .navbar { padding: 0 16px; }
   .hero { gap: 32px; }
-  .hero__top { min-height: 480px; }
   .hero__heading { font-size: 30px; }
   .hero__desc { font-size: 15px; line-height: 22px; }
   .hero__buttons .btn { flex: 1 1 auto; }
