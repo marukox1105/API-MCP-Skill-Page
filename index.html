@@ -40,12 +40,13 @@
 <main>
 
   <!-- ============================== HERO ============================== -->
-  <!-- Two interchangeable hero treatments (A/B) for review — #heroVersionSwitch
-       toggles which one is visible; everything below the top banner (marquee
-       onward) is shared, not duplicated. -->
+  <!-- Two interchangeable hero treatments (A/B) for review — #pvSwitch (a
+       page-wide fixed control, added at the end of <main>) toggles every
+       .pv-block on the page together; shared content between them (like the
+       marquee below) isn't duplicated. -->
   <section class="hero">
     <!-- Version A: light background, video-hero-s.mp4 panel -->
-    <div class="hero__top hero__variant hero__variant--a is-active" data-hero-version="a">
+    <div class="hero__top hero__variant hero__variant--a pv-block is-active" data-pv="a">
       <div class="hero__content">
         <div>
           <h1 class="hero__heading">
@@ -71,7 +72,7 @@
     </div>
 
     <!-- Version B: dark navy gradient background, B01.mp4 panel -->
-    <div class="hero__top hero__variant hero__variant--b" data-hero-version="b" hidden>
+    <div class="hero__top hero__variant hero__variant--b pv-block" data-pv="b" hidden>
       <div class="hero__content hero__content--b">
         <div>
           <h1 class="hero__heading hero__heading--b">
@@ -94,13 +95,6 @@
           <source src="assets/hero/B01.mp4" type="video/mp4">
         </video>
       </div>
-    </div>
-
-    <!-- Small floating control for reviewers to compare A/B — not part of
-         either design, purely a temporary review aid. -->
-    <div class="hero-version-switch" id="heroVersionSwitch" aria-label="Hero version preview switch">
-      <button type="button" class="is-active" data-hero-switch="a">A</button>
-      <button type="button" data-hero-switch="b">B</button>
     </div>
 
     <!-- Marquee: infinite left-to-right scrolling partner logo strip, full width along the bottom of the hero -->
@@ -203,7 +197,7 @@
       <p>Choose a domain server, add its configuration to your MCP client, and authenticate with your YouCam API key.</p>
     </div>
 
-    <div class="diagram-section__body">
+    <div class="diagram-section__body pv-block" data-pv="a">
       <div class="steps-wrap">
         <div class="steps__connector" aria-hidden="true"><span class="steps__dot"></span></div>
         <ol class="steps steps--animated">
@@ -319,6 +313,103 @@
               <button class="code-block__copy" data-copy-value='/youcam:clothes-tryon "try this dress on the model photo"'>Copy</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Version B: 3-column flow diagram (Connector -> API Console -> Agent
+         Chat Preview) above the same terminal config card. Static/illustrative
+         (not wired to the live domain switch) — purely for A/B visual review. -->
+    <div class="diagram-section__body diagram-section__body--b pv-block" data-pv="b" hidden>
+      <div class="flow-grid">
+        <div class="flow-grid__col flow-grid__col--connector">
+          <p class="flow-grid__label">CONNECTOR</p>
+          <div class="connector-row connector-row--stack">
+            <button type="button" class="connector-item is-active" data-domain="beauty">
+              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-beauty.svg" alt=""><span>Beauty MCP</span></span>
+              <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
+            </button>
+            <button type="button" class="connector-item" data-domain="fashion">
+              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-fashion.svg" alt=""><span>Fashion MCP</span></span>
+              <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
+            </button>
+            <button type="button" class="connector-item" data-domain="creators">
+              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-creators.svg" alt=""><span>Creators MCP</span></span>
+              <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
+            </button>
+          </div>
+        </div>
+
+        <span class="flow-grid__arrow"><img src="assets/icons/flow-arrow-right.svg" alt=""></span>
+
+        <div class="flow-grid__col flow-grid__col--console">
+          <p class="flow-grid__label">API CONSOLE</p>
+          <div class="flow-console">
+            <div class="flow-console__key">
+              <span class="flow-console__key-icon"><img src="assets/icons/flow-key.svg" alt=""></span>
+              <span class="flow-console__dots">•••••••••••••••</span>
+              <span class="flow-console__eye"><img src="assets/icons/flow-eye.svg" alt=""></span>
+            </div>
+            <div class="flow-console__token">
+              <p class="flow-console__token-label">Your Bearer token</p>
+              <div class="flow-console__token-row">
+                <span>YOUCAM_API_KEY</span>
+                <button class="flow-console__copy" data-copy-value="YOUCAM_API_KEY">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span class="flow-grid__arrow"><img src="assets/icons/flow-arrow-right.svg" alt=""></span>
+
+        <div class="flow-grid__col flow-grid__col--chat">
+          <div class="flow-chat">
+            <div class="flow-chat__area">
+              <div class="flow-chat__msg flow-chat__msg--user">Find the top 5 trending foundations for oily skin.</div>
+              <div class="flow-chat__msg flow-chat__msg--ai">
+                <p class="flow-chat__ai-name">YouCam Assistant</p>
+                <p>Found matching high-diagnostic tools. Here are the top oily-skin matches:</p>
+                <div class="flow-chat__product"><img src="assets/diagram-skill/img-product-thumb.png" alt="">1. Stay-Perfect Liquid</div>
+                <div class="flow-chat__product"><img src="assets/diagram-skill/img-product-thumb1.png" alt="">2. Oil-Control Matte</div>
+              </div>
+            </div>
+            <div class="flow-chat__input">
+              <span>Ask anything...</span>
+              <span class="flow-chat__send"><img src="assets/icons/flow-send.svg" alt=""></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal__header">
+          <div class="terminal__logos">
+            <button type="button" class="terminal__logo is-active"><img src="assets/hero/logo/claude.svg" alt="Claude"></button>
+            <button type="button" class="terminal__logo"><img src="assets/hero/logo/github-copilot.svg" alt="GitHub Copilot"></button>
+            <button type="button" class="terminal__logo"><img src="assets/hero/logo/n8n.svg" alt="n8n"></button>
+            <button type="button" class="terminal__logo"><img src="assets/hero/logo/cursor.svg" alt="Cursor"></button>
+            <button type="button" class="terminal__logo"><img src="assets/hero/logo/codex.svg" alt="Codex"></button>
+          </div>
+          <button class="terminal__copy" data-copy-target="mcpJsonB">Copy</button>
+        </div>
+        <pre class="terminal__body" id="mcpJsonB">{
+  "mcpServers": {
+    "youcam-beauty": {
+      "command": "npx",
+      "args": [
+        "-y", "mcp-remote",
+        "https://mcp-api-01.youcamapi.com/mcp/beauty",
+        "--header", "Authorization:${AUTH}"
+      ],
+      "env": {
+        "AUTH": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}</pre>
+        <div class="terminal__footer">
+          <span class="terminal__footer-status"><img src="assets/icons/info.svg" alt="">Requires Node.js and npm</span>
+          <a class="terminal__footer-link" href="#">Full docs →</a>
         </div>
       </div>
     </div>
@@ -569,6 +660,13 @@
     </div>
   </section>
 
+  <!-- Page-wide A/B review switch — floats above everything, toggles every
+       .pv-block together. Purely a temporary reviewer aid; not part of
+       either design. Remove this whole block once a version is picked. -->
+  <div class="pv-switch" id="pvSwitch" aria-label="Design version preview switch">
+    <button type="button" class="is-active" data-pv-switch="a">A</button>
+    <button type="button" data-pv-switch="b">B</button>
+  </div>
 </main>
 
 <!-- ==================== FOOTER ==================== -->

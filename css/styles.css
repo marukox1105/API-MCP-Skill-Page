@@ -388,33 +388,34 @@ p { margin: 0; }
 
 /* Temporary reviewer aid — lets whoever's looking flip between the two hero
    treatments live, without touching either design. Remove once one's picked. */
-.hero-version-switch {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 10;
+.pv-switch {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 300;
   display: flex;
   gap: 2px;
   padding: 4px;
-  background: rgba(17, 24, 26, 0.55);
+  background: rgba(17, 24, 26, 0.7);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-overlay);
 }
-.hero-version-switch button {
-  width: 28px;
-  height: 28px;
+.pv-switch button {
+  width: 32px;
+  height: 32px;
   border: none;
   border-radius: 50%;
   background: none;
   color: rgba(255, 255, 255, 0.7);
-  font-size: var(--fs-tiny);
+  font-size: var(--fs-small);
   font-weight: 700;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.hero-version-switch button:hover { color: #fff; }
-.hero-version-switch button.is-active { background: var(--color-primary); color: #fff; }
+.pv-switch button:hover { color: #fff; }
+.pv-switch button.is-active { background: var(--color-primary); color: #fff; }
 
 /* Partner logo lockups — clean per-brand SVG exports (assets/hero/logo/),
    each already a self-contained icon+wordmark, so no fragment positioning needed. */
@@ -915,6 +916,136 @@ p { margin: 0; }
 .terminal__footer-status { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--terminal-text-dim); }
 .terminal__footer-status img { width: 12px; height: 12px; filter: invert(0.6); }
 .terminal__footer-link { font-size: 11px; font-weight: 700; color: var(--color-primary); }
+
+/* ==========================================================================
+   Diagram-Section Version B: 3-column flow (Connector -> API Console ->
+   Agent Chat Preview), stacked above the same terminal config card A uses.
+   ========================================================================== */
+.diagram-section__body--b { flex-direction: column; gap: 40px; }
+.flow-grid {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+  width: 100%;
+}
+.flow-grid__col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.16);
+}
+.flow-grid__col--console { gap: 20px; padding: 24px; border-radius: var(--radius-lg); }
+.flow-grid__col--chat { padding: 12px; }
+.flow-grid__label { font-size: var(--fs-micro); font-weight: 600; color: var(--text-weak); margin: 0; }
+.flow-grid__arrow { flex-shrink: 0; align-self: center; width: 20px; height: 20px; }
+.flow-grid__arrow img { width: 100%; height: 100%; }
+/* Reuses .connector-item but stacked full-width inside its own card instead
+   of the three sitting side by side (that's .connector-row's usual layout). */
+.connector-row--stack { flex-direction: column; gap: 12px; flex: 1 1 0; }
+.connector-row--stack .connector-item { height: auto; }
+
+.flow-console { display: flex; flex-direction: column; gap: 20px; flex: 1 1 0; }
+.flow-console__key {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-section-tint);
+  border: 1px solid var(--stroke-weak);
+  border-radius: var(--radius-md);
+}
+.flow-console__key-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  background: rgba(49, 131, 255, 0.07);
+  border-radius: var(--radius-sm);
+}
+.flow-console__key-icon img { width: 16px; height: 16px; }
+.flow-console__dots { flex: 1 1 0; min-width: 0; font-size: 18px; font-weight: 700; color: var(--text-strong); }
+.flow-console__eye { flex-shrink: 0; width: 20px; height: 20px; }
+.flow-console__eye img { width: 100%; height: 100%; }
+.flow-console__token-label { font-size: var(--fs-tiny); color: var(--text-weak); margin: 0 0 6px; }
+.flow-console__token-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 10px 10px 16px;
+  background: var(--bg-section-tint);
+  border: 1px solid var(--stroke-weak);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.flow-console__copy {
+  flex-shrink: 0;
+  padding: 6px 16px;
+  background: #fff;
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.flow-chat { display: flex; flex-direction: column; gap: 8px; flex: 1 1 0; padding: 4px 8px; }
+.flow-chat__area { display: flex; flex-direction: column; gap: 8px; flex: 1 1 0; }
+.flow-chat__msg {
+  max-width: 70%;
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 14px;
+  color: var(--text-strong);
+}
+.flow-chat__msg--user {
+  align-self: flex-end;
+  background: rgba(49, 131, 255, 0.08);
+  border-radius: 12px 12px 4px 12px;
+}
+.flow-chat__msg--ai {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #f1f3f5;
+  border-radius: 12px 12px 12px 4px;
+}
+.flow-chat__ai-name { font-size: 10px; font-weight: 700; color: var(--color-primary); margin: 0; }
+.flow-chat__msg--ai p { margin: 0; }
+.flow-chat__product { display: flex; align-items: center; gap: 6px; font-size: 9px; }
+.flow-chat__product img { width: 20px; height: 20px; border-radius: 4px; object-fit: cover; flex-shrink: 0; }
+.flow-chat__input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 8px 0 10px;
+  background: #f1f3f5;
+  border: 1px solid var(--stroke-weak);
+  border-radius: var(--radius-md);
+}
+.flow-chat__input span:first-child { flex: 1 1 0; min-width: 0; font-size: 11px; color: var(--text-weak); }
+.flow-chat__send {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--color-primary);
+  border-radius: var(--radius-md);
+}
+.flow-chat__send img { width: 14px; height: 14px; }
 
 /* Agent Skill mode's install/auth/invoke card — a self-contained dark "code
    editor" look distinct from the light MCP connector+terminal it swaps with. */
@@ -1528,6 +1659,8 @@ p { margin: 0; }
   .connect__cards { grid-template-columns: repeat(2, 1fr); }
 
   .diagram-section__body { flex-direction: column; }
+  .flow-grid { flex-direction: column; }
+  .flow-grid__arrow { transform: rotate(90deg); }
   .steps-wrap { width: 100%; }
   .steps { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 24px; }
   .step { flex: 1 1 260px; }
