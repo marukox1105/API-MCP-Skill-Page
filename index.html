@@ -1,0 +1,570 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouCam API — MCP Servers &amp; Agent Skills for Visual AI</title>
+<meta name="description" content="Connect YouCam's beauty, fashion, image, and video APIs through MCP servers or Agent Skills. One API key, from prompt to real output.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Wix+Madefor+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+
+<!-- ============================== NAVBAR ============================== -->
+<header class="navbar">
+  <div class="navbar__left">
+    <a href="#" class="navbar__logo" aria-label="YouCam API home">
+      <img src="assets/nav/img-vector.svg" alt="YouCam API">
+    </a>
+    <nav class="navbar__links" aria-label="Primary">
+      <button class="navbar__link">Products <img class="chev" src="assets/icons/chevron-down-small.svg" alt=""></button>
+      <a class="navbar__link" href="#">Pricing</a>
+      <a class="navbar__link" href="#">Documentation</a>
+      <a class="navbar__link" href="#">Playground</a>
+      <a class="navbar__link" href="#">Contact Us</a>
+    </nav>
+  </div>
+  <div class="navbar__right">
+    <a class="btn-login" href="#">Log In / Sign Up</a>
+    <button class="navbar__burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="navbar__mobile-panel" id="mobilePanel">
+    <button class="navbar__link">Products <img class="chev" src="assets/icons/chevron-down-small.svg" alt=""></button>
+    <a class="navbar__link" href="#">Pricing</a>
+    <a class="navbar__link" href="#">Documentation</a>
+    <a class="navbar__link" href="#">Playground</a>
+    <a class="navbar__link" href="#">Contact Us</a>
+    <a class="btn-login" href="#">Log In / Sign Up</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="hero">
+    <div class="hero__top">
+      <div class="hero__content">
+        <div>
+          <h1 class="hero__heading">
+            <span class="gradient">MCP Servers &amp; Agent Skills</span>
+            <span>for Visual AI</span>
+          </h1>
+          <p class="hero__desc" style="margin-top:20px;">
+            Connect YouCam’s beauty, fashion, image, and video APIs through MCP—or install reusable Agent Skills for complete visual AI workflows. One YouCam API key, from prompt to real output.
+          </p>
+        </div>
+
+        <div class="hero__buttons">
+          <a class="btn btn-primary" href="#connect">Get started now <img src="assets/icons/arrow-right-white.svg" alt=""></a>
+          <a class="btn btn-outline" href="#">View documentation</a>
+        </div>
+      </div>
+
+      <div class="hero__video">
+        <video autoplay muted loop playsinline aria-label="YouCam API demo">
+          <source src="assets/hero/video-hero-s.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+
+    <!-- Marquee: infinite left-to-right scrolling partner logo strip, full width along the bottom of the hero -->
+    <div class="marquee hero__marquee" aria-label="Works with Claude, Codex, Cursor, GitHub Copilot, and n8n">
+      <div class="marquee__track" id="marqueeTrack">
+        <span class="marquee-logo"><img src="assets/hero/logo/claude.svg" alt="Claude"></span>
+        <span class="marquee-logo"><img src="assets/hero/logo/codex.svg" alt="Codex"></span>
+        <span class="marquee-logo"><img src="assets/hero/logo/cursor.svg" alt="Cursor"></span>
+        <span class="marquee-logo"><img src="assets/hero/logo/github-copilot.svg" alt="GitHub Copilot"></span>
+        <span class="marquee-logo"><img src="assets/hero/logo/n8n.svg" alt="n8n"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== TWO WAYS TO CONNECT ========================= -->
+  <!-- .connect-flow wraps the switch plus every section it applies to (cards,
+       both diagram panels) — position:sticky stays pinned for as long as its
+       PARENT is still on screen, so the sticky bar needs to be a direct child
+       of a wrapper spanning the whole flow, not just the first section. -->
+  <div class="connect-flow">
+    <div class="section-eyebrow section-px">
+      <h3>Two ways to connect</h3>
+      <p>Connect one or more domain servers to give your agent direct access to YouCam API tools. All three servers use the same API key.</p>
+    </div>
+
+    <div class="method-tabs-bar">
+      <div class="method-tabs" id="methodTabs">
+        <span class="method-tabs__thumb" id="methodTabsThumb" aria-hidden="true"></span>
+        <button class="method-tab is-active" data-method="mcp">
+          <img src="assets/icons/link.svg" alt="">
+          MCP
+        </button>
+        <button class="method-tab" data-method="skill">
+          <img src="assets/icons/document.svg" alt="">
+          Agent Skill
+        </button>
+      </div>
+    </div>
+
+    <section class="connect section-px" id="connect">
+      <div class="section-title">
+        <h2 id="connectTitleH2">Three MCPs, one API key</h2>
+        <p id="connectTitleP">Each MCP server groups YouCam API tools by domain. Connect only the server your agent needs, or add all three using the same API key.</p>
+      </div>
+
+      <div class="connect__cards" id="connectCardsGrid">
+      <article class="connect-card">
+        <div class="connect-card__thumb">
+          <img src="assets/connect/img-img.png" alt="" style="object-fit:contain;">
+          <img src="assets/connect/img-img1.png" alt="Beauty and personal care visual example" style="position:absolute; inset:0;">
+        </div>
+        <span class="connect-card__tag">Beauty &amp; Personal Care</span>
+        <h4>YouCam for Beauty &amp; Personal Care</h4>
+        <p>Give your agent tools for cosmetic skin analysis, makeup try-on, facial analysis, hairstyle generation, hair color, and beard editing.</p>
+        <div class="connect-card__pills">
+          <span class="pill">Skin, Face &amp; Body</span>
+          <span class="pill">Beauty</span>
+          <span class="pill">Hair &amp; Beard</span>
+        </div>
+      </article>
+
+      <article class="connect-card">
+        <div class="connect-card__thumb">
+          <img src="assets/connect/img-img.png" alt="" style="object-fit:contain;">
+          <img src="assets/connect/img-img2.png" alt="Fashion and retail visual example" style="position:absolute; inset:0;">
+        </div>
+        <span class="connect-card__tag">Fashion &amp; Retail</span>
+        <h4>YouCam for Fashion &amp; Retail</h4>
+        <p>Give your agent tools to dress models, change backgrounds, and place jewelry or watches on photos for virtual try-on experiences.</p>
+        <div class="connect-card__pills">
+          <span class="pill">Fashion</span>
+          <span class="pill">Jewelry &amp; Watch</span>
+        </div>
+      </article>
+
+      <article class="connect-card">
+        <div class="connect-card__thumb">
+          <img src="assets/connect/img-img.png" alt="" style="object-fit:contain;">
+          <img src="assets/connect/img-img3.png" alt="Creators visual example" style="position:absolute; inset:0;">
+          <img src="assets/connect/img-img4.png" alt="" style="position:absolute; inset:0;">
+        </div>
+        <span class="connect-card__tag">Creators</span>
+        <h4>YouCam for Creators</h4>
+        <p>Remove background from photo with impeccable accuracy, ensuring the high quality of images.</p>
+        <div class="connect-card__pills">
+          <span class="pill">Skin, Face &amp; Body</span>
+          <span class="pill">Beauty</span>
+          <span class="pill">Hair &amp; Beard</span>
+        </div>
+      </article>
+    </div>
+
+    <a class="btn btn-outline" href="#">Learn more in the API docs <img src="assets/icons/arrow-right-blue.svg" alt=""></a>
+  </section>
+
+  <!-- ==================== DIAGRAM: CONNECT AN MCP SERVER (compact) ==================== -->
+  <section class="diagram-section section-px">
+    <div class="section-title">
+      <h2>Connect an MCP Server</h2>
+      <p>Choose a domain server, add its configuration to your MCP client, and authenticate with your YouCam API key.</p>
+    </div>
+
+    <div class="diagram-section__body">
+      <div class="steps-wrap">
+        <div class="steps__connector" aria-hidden="true"><span class="steps__dot"></span></div>
+        <ol class="steps steps--animated">
+        <li class="step">
+          <span class="step__num">1</span>
+          <div class="step__body">
+            <h4 id="dgStep1Title">Add the connector</h4>
+            <p id="dgStep1Desc">Paste the selected MCP configuration into your client.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step__num">2</span>
+          <div class="step__body">
+            <h4 id="dgStep2Title">Add your API key</h4>
+            <p id="dgStep2Desc">Get a <span class="accent">Bearer</span> key from the API Console, then add it to your MCP configuration or set <span class="accent">YOUCAM_API_KEY</span> for Agent Skills.</p>
+            <button class="step__key-btn" id="dgStep2Btn">GET FREE API KEY</button>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step__num">3</span>
+          <div class="step__body">
+            <h4 id="dgStep3Title">Call it from chat</h4>
+            <p id="dgStep3Desc">Ask in plain English; your agent selects the right tool and returns structured results.</p>
+          </div>
+        </li>
+        </ol>
+      </div>
+
+      <div class="diagram-section__right">
+        <!-- MCP mode: domain switcher + copyable client config -->
+        <div class="diagram-panel-mcp" id="diagramPanelMcp">
+          <div class="connector-row" id="mcpDomainSwitch" data-terminal="mcpJson">
+            <button type="button" class="connector-item is-active" data-domain="beauty">
+              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-beauty.svg" alt=""><span>Beauty MCP</span></span>
+              <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
+            </button>
+            <button type="button" class="connector-item" data-domain="fashion">
+              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-fashion.svg" alt=""><span>Fashion MCP</span></span>
+              <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
+            </button>
+            <button type="button" class="connector-item" data-domain="creators">
+              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-creators.svg" alt=""><span>Creators MCP</span></span>
+              <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
+            </button>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal__header">
+              <div class="terminal__logos" id="mcpClientSwitch" data-terminal="mcpJson">
+                <button type="button" class="terminal__logo is-active" data-client="claude"><img src="assets/hero/logo/claude.svg" alt="Claude"></button>
+                <button type="button" class="terminal__logo" data-client="copilot"><img src="assets/hero/logo/github-copilot.svg" alt="GitHub Copilot"></button>
+                <button type="button" class="terminal__logo" data-client="n8n"><img src="assets/hero/logo/n8n.svg" alt="n8n"></button>
+                <button type="button" class="terminal__logo" data-client="cursor"><img src="assets/hero/logo/cursor.svg" alt="Cursor"></button>
+                <button type="button" class="terminal__logo" data-client="codex"><img src="assets/hero/logo/codex.svg" alt="Codex"></button>
+              </div>
+              <button class="terminal__copy" data-copy-target="mcpJson">Copy</button>
+            </div>
+            <pre class="terminal__body" id="mcpJson">{
+  "mcpServers": {
+    "youcam-beauty": {
+      "command": "npx",
+      "args": [
+        "-y", "mcp-remote",
+        "https://mcp-api-01.youcamapi.com/mcp/beauty",
+        "--header", "Authorization:${AUTH}"
+      ],
+      "env": {
+        "AUTH": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}</pre>
+            <div class="terminal__footer">
+              <span class="terminal__footer-status" id="mcpFooterStatus"><img src="assets/icons/info.svg" alt="">Requires Node.js and npm</span>
+              <a class="terminal__footer-link" href="#">Full docs →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agent Skill mode: copyable install / auth / invoke commands -->
+        <div class="code-steps-card" id="diagramPanelSkill" hidden>
+          <div class="code-step">
+            <div class="code-step__header">
+              <span class="code-step__num">1</span>
+              <p>Install the YouCam skill collection</p>
+            </div>
+            <div class="code-block">
+              <code><span class="tok-kw">npx</span> <span class="tok-fg">skills add</span> <span class="tok-str">youcam</span></code>
+              <button class="code-block__copy" data-copy-value="npx skills add youcam">Copy</button>
+            </div>
+          </div>
+          <div class="code-step">
+            <div class="code-step__header">
+              <span class="code-step__num">2</span>
+              <p>Set your API key</p>
+            </div>
+            <div class="code-block">
+              <code><span class="tok-kw">export</span> <span class="tok-fg">YOUCAM_API_KEY=</span><span class="tok-str">"YOUR_API_KEY"</span></code>
+              <button class="code-block__copy" data-copy-value='export YOUCAM_API_KEY="YOUR_API_KEY"'>Copy</button>
+            </div>
+          </div>
+          <div class="code-step">
+            <div class="code-step__header">
+              <span class="code-step__num">3</span>
+              <p>Invoke a skill in chat</p>
+            </div>
+            <div class="code-block">
+              <code><span class="tok-kw">/youcam:</span><span class="tok-fg">skin-analysis-expert </span><span class="tok-str">"analyze this selfie"</span></code>
+              <button class="code-block__copy" data-copy-value='/youcam:skin-analysis-expert "analyze this selfie"'>Copy</button>
+            </div>
+            <div class="code-block">
+              <code><span class="tok-kw">/youcam:</span><span class="tok-fg">clothes-tryon </span><span class="tok-str">"try this dress on the model photo"</span></code>
+              <button class="code-block__copy" data-copy-value='/youcam:clothes-tryon "try this dress on the model photo"'>Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== WORKSPACE DEMO ==================== -->
+  <!-- Still inside .connect-flow: the sticky switch should persist through
+       this section too, only disappearing once Features scrolls well into view. -->
+  <section class="workspace section-px">
+    <div class="section-title" style="max-width:1146px;">
+      <h2>One Prompt In, a Real Result Out</h2>
+    </div>
+
+    <div class="workspace__tabs" id="workspaceTabs" role="tablist"></div>
+
+    <div class="workspace-card" id="workspaceDemo">
+      <div class="workspace-card__left">
+        <div class="workspace-card__assets">
+          <div class="asset-badge reveal-item" data-reveal="1" id="wsBadge1"><img alt="Approved key visual"></div>
+          <div class="asset-badge reveal-item" data-reveal="1" id="wsBadge2"><img alt="Approved key visual"></div>
+        </div>
+        <div class="speech-bubble reveal-item" data-reveal="2" id="wsPrompt"></div>
+
+        <hr class="reveal-item" data-reveal="2" style="border:none;border-top:1px solid var(--stroke-weak);width:100%;margin:0;">
+
+        <div class="agent-log">
+          <div class="chat-typing reveal-item" id="workspaceTyping" style="align-self:flex-start;">
+            <img class="dots" src="assets/icons/dots-loading.svg" alt="">
+            <span>AI is thinking...</span>
+          </div>
+
+          <div class="agent-log__status reveal-item" data-reveal="3">
+            <img id="wsStatusIcon" src="assets/hero/logo/claude-icon.svg" alt="">
+            <span id="wsStatusLabel"></span>
+          </div>
+          <p class="reveal-item" data-reveal="4" id="wsDescription"></p>
+          <span class="tool-badge reveal-item" data-reveal="5"><span id="wsToolBadge"></span> <img src="assets/icons/chevron-right.svg" alt=""></span>
+
+          <div class="outcome reveal-item" data-reveal="6">
+            <h5 id="wsOutcomeTitle"></h5>
+            <ul id="wsBulletList"></ul>
+            <p id="wsFooterNote"></p>
+          </div>
+        </div>
+
+        <div class="chat-actions reveal-item" data-reveal="7">
+          <button><img src="assets/icons/copy.svg" alt="Copy"></button>
+          <button><img src="assets/icons/volume-2.svg" alt="Read aloud"></button>
+          <button><img src="assets/icons/thumbs-up.svg" alt="Good response"></button>
+          <button><img src="assets/icons/thumbs-down.svg" alt="Bad response"></button>
+          <button><img src="assets/icons/more-horizontal.svg" alt="More actions"></button>
+        </div>
+      </div>
+
+      <div class="workspace-card__right">
+        <div class="result-reveal reveal-item" data-reveal="8">
+          <img class="bg" id="wsResultImage" src="assets/workspace/img-right-preview-workspace.png" alt="Generated result">
+          <span class="result-badge">RESULT</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div> <!-- /.connect-flow -->
+
+  <!-- ==================== FEATURES (4-across) ==================== -->
+  <section class="features section-px">
+    <div class="section-title">
+      <h2>YouCam AI Capabilities, Now Available to Your Agent</h2>
+      <p>Build complete visual AI experiences with specialized APIs for analysis, virtual try-on, generation, and editing.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span class="feature-card__icon"><img src="assets/icons/sparkle-burst.svg" alt=""></span>
+        <h4>Visual AI built for real use cases</h4>
+        <p>Specialized APIs for beauty, hair, fashion, jewelry, image creation, and video workflows.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-card__icon"><img src="assets/icons/link-chain.svg" alt=""></span>
+        <h4>Compose multi-step visual workflows</h4>
+        <p>Combine analysis, generation, editing, and virtual try-on APIs to build complete visual experiences.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-card__icon"><img src="assets/icons/document-lines.svg" alt=""></span>
+        <h4>From prompt to real output</h4>
+        <p>Return structured analysis, virtual try-on previews, generated images, and videos in your workflow.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-card__icon"><img src="assets/icons/key.svg" alt=""></span>
+        <h4>One key, existing billing</h4>
+        <p>Access YouCam capabilities with the same API key and existing API plan—no separate MCP or Agent Skill billing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STATS BANNER ==================== -->
+  <section class="stats section-px">
+    <div class="section-title">
+      <h2>A Complete Visual AI Toolkit for Agents</h2>
+      <p>Access a focused set of YouCam capabilities selected for beauty, personal care, fashion, retail, and creator workflows.</p>
+    </div>
+
+    <div class="stats__row stats__row--figures">
+      <div class="stats__figure">
+        <p class="stats__figure-num">3</p>
+        <p class="stats__figure-label">Specialized MCP servers</p>
+      </div>
+      <span class="stats__divider" aria-hidden="true"></span>
+      <div class="stats__figure">
+        <p class="stats__figure-num">6</p>
+        <p class="stats__figure-label">Ready-made Agent Skills</p>
+      </div>
+      <span class="stats__divider" aria-hidden="true"></span>
+      <div class="stats__figure">
+        <p class="stats__figure-num">14</p>
+        <p class="stats__figure-label">AI APIs powering the Skills</p>
+      </div>
+      <span class="stats__divider" aria-hidden="true"></span>
+      <div class="stats__figure">
+        <p class="stats__figure-num">1</p>
+        <p class="stats__figure-label">API key for integration</p>
+      </div>
+    </div>
+
+    <div class="stats__row stats__row--cards" id="statsCards">
+      <div class="stats__card">
+        <p class="stats__card-num" data-count-to="800" data-suffix="+">0+</p>
+        <p class="stats__card-label">Global brand partners</p>
+      </div>
+      <div class="stats__card">
+        <p class="stats__card-num" data-count-to="200" data-suffix="M+">0M+</p>
+        <p class="stats__card-label">AI visuals created</p>
+      </div>
+      <div class="stats__card">
+        <p class="stats__card-num" data-count-to="1.2" data-decimals="1" data-suffix="B+">0.0B+</p>
+        <p class="stats__card-label">AR interactions</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== WHY BUILD WITH YOUCAM ==================== -->
+  <section class="why-build section-px">
+    <div class="section-title">
+      <h2>Why Build with YouCam MCP &amp; Agent Skills?</h2>
+      <p>Choose the level of control your workflow needs—from individual visual AI tools to ready-made, multi-step Skills.</p>
+    </div>
+
+    <div class="why-build__grid">
+      <div class="why-build__card">
+        <h4>Specialized Visual AI</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
+        <p>Access purpose-built tools across skin, face, beauty, hair, fashion, jewelry, image, and video workflows—not only general image generation.</p>
+      </div>
+      <div class="why-build__card">
+        <h4>MCP Servers and Ready-Made Skills</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
+        <p>Give agents direct access to individual tools through MCP, or install Skills that select and call the required APIs automatically.</p>
+      </div>
+      <div class="why-build__card">
+        <h4>Connect Only What You Need</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
+        <p>Choose Beauty &amp; Personal Care, Fashion &amp; Retail, or Creators—or connect all three servers when your workflow spans multiple domains.</p>
+      </div>
+      <div class="why-build__card">
+        <h4>One API Key and Existing Billing</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
+        <p>Use the same YouCam API key and API plan across all three MCP servers and every Agent Skill. There is no separate charge for the MCP or Skill layer.</p>
+      </div>
+      <div class="why-build__card">
+        <h4>Structured Results and Real Media</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
+        <p>Return cosmetic analysis reports, appearance profiles, virtual try-on previews, generated images, and videos directly inside the agent workflow.</p>
+      </div>
+      <div class="why-build__card">
+        <h4>Developer-Ready Setup</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
+        <p>Start with copyable MCP configurations, a one-command Skill installation, API documentation, and an interactive API Playground.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SHOWCASE GRID ==================== -->
+  <section class="showcase section-px">
+    <div class="section-title">
+      <h2>See what YouCam can create</h2>
+      <p>From structured analysis and virtual try-on to campaign images and videos — turn a prompt and source media into production-ready visual results.</p>
+    </div>
+
+    <div class="showcase-grid" id="showcaseGrid">
+      <!-- populated identically to Figma's 3x3 grid -->
+    </div>
+  </section>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="faq section-px">
+    <h2>FAQ</h2>
+    <div class="faq-list" id="faqList">
+      <div class="faq-item">
+        <button class="faq-item__q">
+          <span>Do I need an API key?</span>
+          <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
+        </button>
+        <div class="faq-item__a"><p>Yes. Every MCP server and Agent Skill authenticates with the same YouCam API key — get one for free from the API Console and reuse it across all three domain servers.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">
+          <span>What's the difference between MCP and Agent Skill?</span>
+          <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
+        </button>
+        <div class="faq-item__a"><p>An MCP server connects your agent to YouCam tools over a live connection using your client's MCP configuration. An Agent Skill is a reusable, installable skill package that gives an agent the same capabilities without running a separate server.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">
+          <span>Do Agent Skills require an MCP server?</span>
+          <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
+        </button>
+        <div class="faq-item__a"><p>No. Agent Skills work standalone — set YOUCAM_API_KEY in your environment and install the skill your agent needs.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">
+          <span>Which agents &amp; clients are supported?</span>
+          <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
+        </button>
+        <div class="faq-item__a"><p>Any MCP-compatible client or agent framework, including Claude, Cursor, GitHub Copilot, and other agents that support custom tools or skills.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">
+          <span>How is it billed?</span>
+          <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
+        </button>
+        <div class="faq-item__a"><p>Usage is billed through your existing YouCam API plan — there's no separate charge for using MCP servers or Agent Skills.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA ==================== -->
+  <section class="cta">
+    <div class="cta-card">
+      <div>
+        <h2>Connect YouCam to your agent today</h2>
+        <p>Connect YouCam and make your first API call in minutes.</p>
+      </div>
+      <div class="cta-card__buttons">
+        <a class="btn-cta-primary" href="#">Get started now →</a>
+        <a class="btn-cta-secondary" href="#">View documentation</a>
+      </div>
+      <p class="cta-card__fine">One API key · Usage-based pricing · MCP and Agent Skill support</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="footer__brand">
+    <img src="assets/footer/img-vector.svg" alt="YouCam API">
+    <p class="footer__copy">2026 © Perfect Corp. All Rights Reserved.</p>
+    <button class="footer__lang">
+      <img src="assets/icons/globe.svg" alt="">
+      <img src="assets/icons/chevron-down-tiny.svg" alt="" style="width:8px;height:8px;">
+    </button>
+  </div>
+  <div class="footer__cols">
+    <div class="footer__col">
+      <h5>API</h5>
+      <a href="#">About API</a>
+      <a href="#">API Plan</a>
+      <a href="#">Document</a>
+      <a href="#">API Dashboard</a>
+    </div>
+    <div class="footer__col">
+      <h5>Support</h5>
+      <a href="#">API Pricing</a>
+      <a href="#">Blogs</a>
+      <a href="#">FAQ</a>
+    </div>
+    <div class="footer__col">
+      <h5>Legal</h5>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Legal Notice</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
