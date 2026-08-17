@@ -281,7 +281,9 @@ p { margin: 0; }
   background-position: center;
 }
 .hero__variant--b {
-  background: linear-gradient(269.86deg, rgb(0, 32, 97) 2.0857%, rgb(0, 51, 130) 55.079%);
+  background-image: url(../assets/hero/B/BG.png);
+  background-size: cover;
+  background-position: center;
 }
 .hero__video {
   flex: 1 1 0;
@@ -302,9 +304,9 @@ p { margin: 0; }
 .hero__video--b {
   max-width: 1000px;
   border: none;
-  aspect-ratio: 16 / 9; /* matches B01.mp4's native 1920×1080 */
+  aspect-ratio: 2880 / 1254; /* matches video-hero.mp4's native size (desktop source) */
 }
-.hero__video--b video { aspect-ratio: 16 / 9; }
+.hero__video--b video { aspect-ratio: 2880 / 1254; }
 /* A's video is full-bleed background from tablet up (desktop uses
    video-hero.mp4 via <source media>, picked in HTML) — text stays confined
    to the left half instead of splitting the row with a side-by-side panel.
@@ -2017,6 +2019,13 @@ p { margin: 0; }
     width: 100%;
     height: 100%;
     aspect-ratio: auto;
+  }
+  /* B's <source media> switches to video-hero-s.mp4 (16:9) below 768px —
+     match the panel's own aspect-ratio to it so the card isn't stretched
+     against the desktop file's wider 2880:1254 shape. */
+  .hero__video--b,
+  .hero__video--b video {
+    aspect-ratio: 16 / 9;
   }
   .hero__variant--a .hero__content,
   .hero__variant--b .hero__content {

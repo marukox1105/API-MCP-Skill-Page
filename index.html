@@ -78,7 +78,9 @@
       </div>
     </div>
 
-    <!-- Version B: dark navy gradient background, B01.mp4 panel -->
+    <!-- Version B: dark navy BG.png background. Desktop/tablet (>=768px)
+         shows video-hero.mp4; mobile (<=767px) switches to video-hero-s.mp4,
+         same <source media> pattern as A. -->
     <div class="hero__top hero__variant hero__variant--b pv-block" data-pv="b" hidden>
       <div class="hero__content hero__content--b">
         <div>
@@ -99,7 +101,8 @@
 
       <div class="hero__video hero__video--b">
         <video autoplay muted loop playsinline aria-label="YouCam API demo">
-          <source src="assets/hero/B01.mp4" type="video/mp4">
+          <source media="(min-width: 768px)" src="assets/hero/B/video-hero.mp4" type="video/mp4">
+          <source src="assets/hero/B/video-hero-s.mp4" type="video/mp4">
         </video>
       </div>
     </div>
