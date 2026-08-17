@@ -88,7 +88,7 @@
    { display: none }` at equal specificity, so without this override both
    panels can end up visible at once. */
 [hidden] { display: none !important; }
-html { scroll-behavior: smooth; overflow-x: hidden; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -96,7 +96,14 @@ body {
   background: var(--bg-base);
   -webkit-font-smoothing: antialiased;
   font-variation-settings: "wdth" 100;
-  overflow-x: hidden;
+  /* overflow-x:hidden here would be the usual blunt safety net against
+     horizontal scroll, but it's also one of the most common ways to break
+     position:sticky for descendants (many engines resolve a sticky
+     element's scroll container off the nearest overflow-clipping
+     ancestor, including html/body, instead of the true viewport). The
+     min-width:0 fixes on the actual overflowing elements (terminal,
+     diagram-panel-mcp, etc.) are the real fix — this is deliberately left
+     off so .method-tabs-bar's sticky keeps working. */
 }
 img { max-width: 100%; display: block; }
 button { font-family: inherit; cursor: pointer; }
