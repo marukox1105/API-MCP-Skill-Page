@@ -2022,12 +2022,15 @@ p { margin: 0; }
   .hero__variant--b .hero__video {
     position: relative;
     order: -1;
-    width: 100%;
-    max-width: 100%;
+    /* Break out of .hero__top's 24px side padding so the video runs edge-to-
+       edge full-bleed, while .hero__content below keeps its own padding
+       (per the mobile hero reference). No border/border-radius/box-shadow
+       here anymore either — a plain full-width video, not a bordered card. */
+    width: calc(100% + 48px);
+    max-width: calc(100% + 48px);
+    margin-left: -24px;
+    margin-right: -24px;
     height: 0;
-    border: 3px solid rgba(255, 255, 255, 0.6);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-overlay);
   }
   .hero__variant--a .hero__video { padding-bottom: 66.6667%; } /* 3:2, matches A's video-hero-s.mp4 (1800×1200) */
   .hero__variant--b .hero__video { padding-bottom: 56.25%; } /* 16:9, matches B's video-hero-s.mp4 (1920×1080) */
