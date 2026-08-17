@@ -1850,7 +1850,8 @@ p { margin: 0; }
 }
 
 @media (max-width: 767px) {
-  .navbar { padding: 0 32px; }
+  .navbar { padding: 0 16px; }
+  .navbar__logo img { height: 18px; }
   .hero { gap: 40px; }
   .hero__heading { font-size: 32px; line-height: 40px; }
   .hero__desc { font-size: 15px; line-height: 22px; }
