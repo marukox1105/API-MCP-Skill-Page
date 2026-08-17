@@ -360,17 +360,17 @@
       <div class="flow-grid">
         <div class="flow-grid__col flow-grid__col--connector">
           <p class="flow-grid__label">CONNECTOR</p>
-          <div class="connector-row connector-row--stack">
+          <div class="connector-row connector-row--stack" id="diagramBDomainSwitch" data-terminal="mcpJsonB">
             <button type="button" class="connector-item is-active" data-domain="beauty">
-              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-beauty.svg" alt=""><span>Beauty MCP</span></span>
+              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-beauty.svg" data-active-src="assets/icons/domain-beauty.svg" data-inactive-src="assets/icons/domain-beauty-gray.svg" alt=""><span>Beauty MCP</span></span>
               <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
             </button>
             <button type="button" class="connector-item" data-domain="fashion">
-              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-fashion-gray.svg" alt=""><span>Fashion MCP</span></span>
+              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-fashion-gray.svg" data-active-src="assets/icons/domain-fashion.svg" data-inactive-src="assets/icons/domain-fashion-gray.svg" alt=""><span>Fashion MCP</span></span>
               <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
             </button>
             <button type="button" class="connector-item" data-domain="creators">
-              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-creators-gray.svg" alt=""><span>Creators MCP</span></span>
+              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-creators-gray.svg" data-active-src="assets/icons/domain-creators.svg" data-inactive-src="assets/icons/domain-creators-gray.svg" alt=""><span>Creators MCP</span></span>
               <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
             </button>
           </div>
@@ -419,12 +419,12 @@
 
       <div class="terminal">
         <div class="terminal__header">
-          <div class="terminal__logos">
-            <button type="button" class="terminal__logo is-active"><img src="assets/hero/logo/claude.svg" alt="Claude"></button>
-            <button type="button" class="terminal__logo"><img src="assets/hero/logo/github-copilot.svg" alt="GitHub Copilot"></button>
-            <button type="button" class="terminal__logo"><img src="assets/hero/logo/n8n.svg" alt="n8n"></button>
-            <button type="button" class="terminal__logo"><img src="assets/hero/logo/cursor.svg" alt="Cursor"></button>
-            <button type="button" class="terminal__logo"><img src="assets/hero/logo/codex.svg" alt="Codex"></button>
+          <div class="terminal__logos" id="diagramBClientSwitch">
+            <button type="button" class="terminal__logo is-active" data-client="claude"><img src="assets/hero/logo/claude.svg" alt="Claude"></button>
+            <button type="button" class="terminal__logo" data-client="copilot"><img src="assets/hero/logo/github-copilot.svg" alt="GitHub Copilot"></button>
+            <button type="button" class="terminal__logo" data-client="n8n"><img src="assets/hero/logo/n8n.svg" alt="n8n"></button>
+            <button type="button" class="terminal__logo" data-client="cursor"><img src="assets/hero/logo/cursor.svg" alt="Cursor"></button>
+            <button type="button" class="terminal__logo" data-client="codex"><img src="assets/hero/logo/codex.svg" alt="Codex"></button>
           </div>
           <button class="terminal__copy" data-copy-target="mcpJsonB">Copy</button>
         </div>
@@ -547,37 +547,31 @@
       </div>
     </div>
 
-    <!-- Version B: 2x2 grid, each card carrying its own tinted background +
-         a decorative illustration bleeding off the edge, instead of A's
-         4-across plain icon cards. -->
-    <div class="feature-grid feature-grid--b pv-block" data-pv="b" hidden>
-      <div class="feature-card-b" style="background:#EAF2FF;">
-        <div class="feature-card-b__text">
-          <h4>Visual AI built for real use cases</h4>
-          <p>Specialized APIs for beauty, hair, fashion, jewelry, image creation, and video workflows.</p>
-        </div>
-        <img class="feature-card-b__art" src="assets/features-b/card-1.jpg" alt="">
+    <!-- Version B: per direct request, this section now just reuses A's
+         plain 4-across icon-card visual as-is instead of carrying its own
+         tinted-illustration design (the old .feature-card-b/--b treatment
+         is retired here, kept elsewhere in css/assets in case it's wanted
+         again later). -->
+    <div class="feature-grid pv-block" data-pv="b" hidden>
+      <div class="feature-card">
+        <span class="feature-card__icon"><img src="assets/icons/sparkle-burst.svg" alt=""></span>
+        <h4>Visual AI built for real use cases</h4>
+        <p>Specialized APIs for beauty, hair, fashion, jewelry, image creation, and video workflows.</p>
       </div>
-      <div class="feature-card-b" style="background:#FEF8E7;">
-        <div class="feature-card-b__text">
-          <h4>From prompt to real output</h4>
-          <p>Return structured analysis, virtual try-on previews, generated images, and videos in your workflow.</p>
-        </div>
-        <img class="feature-card-b__art" src="assets/features-b/card-2.jpg" alt="">
+      <div class="feature-card">
+        <span class="feature-card__icon"><img src="assets/icons/link-chain.svg" alt=""></span>
+        <h4>Compose multi-step visual workflows</h4>
+        <p>Combine analysis, generation, editing, and virtual try-on APIs to build complete visual experiences.</p>
       </div>
-      <div class="feature-card-b" style="background:#EAF7EE;">
-        <div class="feature-card-b__text">
-          <h4>Compose multi-step visual workflows</h4>
-          <p>Combine analysis, generation, editing, and virtual try-on APIs to build complete visual experiences.</p>
-        </div>
-        <img class="feature-card-b__art" src="assets/features-b/card-3.jpg" alt="">
+      <div class="feature-card">
+        <span class="feature-card__icon"><img src="assets/icons/document-lines.svg" alt=""></span>
+        <h4>From prompt to real output</h4>
+        <p>Return structured analysis, virtual try-on previews, generated images, and videos in your workflow.</p>
       </div>
-      <div class="feature-card-b" style="background:#F1ECFB;">
-        <div class="feature-card-b__text">
-          <h4>One key, existing billing</h4>
-          <p>Access YouCam capabilities with the same API key and existing API plan—no separate MCP or Agent Skill billing.</p>
-        </div>
-        <img class="feature-card-b__art" src="assets/features-b/card-4.jpg" alt="">
+      <div class="feature-card">
+        <span class="feature-card__icon"><img src="assets/icons/key.svg" alt=""></span>
+        <h4>One key, existing billing</h4>
+        <p>Access YouCam capabilities with the same API key and existing API plan—no separate MCP or Agent Skill billing.</p>
       </div>
     </div>
   </section>
@@ -667,36 +661,37 @@
       </div>
     </div>
 
-    <!-- Version B: reverts to the original icon-badge card treatment
-         (star/file/refresh-cw) instead of A's divider-line cards. -->
+    <!-- Version B: icon-badge card treatment instead of A's divider-line
+         cards. Icons per node 16945:149148 — each card now gets its own
+         distinct icon (was 3 icons cycling across 6 cards). -->
     <div class="why-build__grid why-build__grid--b pv-block" data-pv="b" hidden>
       <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/star.svg" alt=""></span>
+        <span class="why-build__icon"><img src="assets/icons/why-build-visual-ai.svg" alt=""></span>
         <h4>Specialized Visual AI</h4>
         <p>Access purpose-built tools across skin, face, beauty, hair, fashion, jewelry, image, and video workflows—not only general image generation.</p>
       </div>
       <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/file-outline.svg" alt=""></span>
+        <span class="why-build__icon"><img src="assets/icons/why-build-mcp-skills.svg" alt=""></span>
         <h4>MCP Servers and Ready-Made Skills</h4>
         <p>Give agents direct access to individual tools through MCP, or install Skills that select and call the required APIs automatically.</p>
       </div>
       <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/refresh-cw.svg" alt=""></span>
+        <span class="why-build__icon"><img src="assets/icons/why-build-connect.svg" alt=""></span>
         <h4>Connect Only What You Need</h4>
         <p>Choose Beauty &amp; Personal Care, Fashion &amp; Retail, or Creators—or connect all three servers when your workflow spans multiple domains.</p>
       </div>
       <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/star.svg" alt=""></span>
+        <span class="why-build__icon"><img src="assets/icons/why-build-api-key.svg" alt=""></span>
         <h4>One API Key and Existing Billing</h4>
         <p>Use the same YouCam API key and API plan across all three MCP servers and every Agent Skill. There is no separate charge for the MCP or Skill layer.</p>
       </div>
       <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/file-outline.svg" alt=""></span>
+        <span class="why-build__icon"><img src="assets/icons/why-build-structured-results.svg" alt=""></span>
         <h4>Structured Results and Real Media</h4>
         <p>Return cosmetic analysis reports, appearance profiles, virtual try-on previews, generated images, and videos directly inside the agent workflow.</p>
       </div>
       <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/refresh-cw.svg" alt=""></span>
+        <span class="why-build__icon"><img src="assets/icons/why-build-developer-setup.svg" alt=""></span>
         <h4>Developer-Ready Setup</h4>
         <p>Start with copyable MCP configurations, a one-command Skill installation, API documentation, and an interactive API Playground.</p>
       </div>

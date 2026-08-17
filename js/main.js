@@ -320,8 +320,16 @@
     workspaceTabsEl.querySelectorAll('.workspace__tab').forEach(function (t) {
       t.classList.toggle('is-active', t.getAttribute('data-usecase') === key);
     });
+    // replayDemo() first: it synchronously strips .is-visible from every
+    // reveal-item (result photo included) before the new use case's content
+    // gets swapped in. Doing it in the other order — content swap, then
+    // reset — briefly showed the NEW result photo fading out under the OLD
+    // .is-visible state, since .reveal-item's hide is a 0.5s opacity
+    // transition, not an instant cut. Reset-then-swap means whatever fades
+    // out is always the outgoing use case's own content, never a preview of
+    // the next one.
+    if (replayDemo) replayDemo();
     renderUseCaseContent(key);
-    if (replayDemo) replayDemo(); // replay the reveal story from the top for the new content
   }
 
   function renderWorkspaceTabs(tabKeys) {
@@ -334,8 +342,10 @@
   function setWorkspaceMethod(method) {
     var tabKeys = method === 'skill' ? SKILL_TABS : MCP_TABS;
     renderWorkspaceTabs(tabKeys);
-    renderUseCaseContent(tabKeys[0]);
+    // Same reset-before-swap ordering as setActiveUseCase above, and for the
+    // same reason.
     if (replayDemo) replayDemo();
+    renderUseCaseContent(tabKeys[0]);
   }
 
   /* ---------------- "Two ways to connect" cards: also swap with the method ----------------
@@ -588,8 +598,12 @@
   // Client logos (Claude / GitHub Copilot / n8n / Cursor / Codex) in the
   // terminal header: the active one gets swapped to the white-pill treatment
   // in CSS. The JSON body stays keyed to whichever domain is active.
-  var mcpClientSwitch = document.getElementById('mcpClientSwitch');
-  if (mcpClientSwitch) {
+  // Generic over every [id$="ClientSwitch"] instance (A's mcpClientSwitch,
+  // B's diagramBClientSwitch, any future ones) instead of one hardcoded ID —
+  // the footer status is found by DOM traversal from within the same
+  // .terminal instead of a second hardcoded ID, so this scales to as many
+  // terminals as the page has without extra wiring per one.
+  document.querySelectorAll('[id$="ClientSwitch"]').forEach(function (mcpClientSwitch) {
     mcpClientSwitch.addEventListener('click', function (e) {
       var btn = e.target.closest('.terminal__logo');
       if (!btn) return;
@@ -599,10 +613,11 @@
       var client = CLIENTS[btn.getAttribute('data-client')];
       // Only clients that shell out to `npx mcp-remote` locally need a
       // Node.js/npm runtime; others run the connection through their own host.
-      var footerStatus = document.getElementById('mcpFooterStatus');
+      var terminal = mcpClientSwitch.closest('.terminal');
+      var footerStatus = terminal ? terminal.querySelector('.terminal__footer-status') : null;
       if (client && footerStatus) footerStatus.style.display = client.requiresNode ? '' : 'none';
     });
-  }
+  });
 
   /* ---------------- Card-grid reveal-on-scroll ----------------
      Any container passed here fades/slides its direct children in with a
@@ -885,9 +900,23 @@
 
       var playCycle = function () {
         clearAllTimers();
+        // Removing .is-visible still runs .reveal-item's own 0.5s opacity
+        // transition — a normal fade-out on its own, but setActiveUseCase
+        // swaps each element's actual content (the result photo included)
+        // to the NEW use case right after this reset returns, so without
+        // forcing the fade instant here, that 0.5s window fades out
+        // whatever's now underneath, i.e. a glimpse of the new photo before
+        // its real staged reveal later in the timeline. Kill transitions for
+        // one reflow so the reset is an instant cut, then restore them so
+        // every later scheduled reveal still animates normally.
+        revealItems.forEach(function (el) { el.style.transition = 'none'; });
+        if (typingEl) typingEl.style.transition = 'none';
         revealItems.forEach(function (el) { el.classList.remove('is-visible'); });
         if (typingEl) typingEl.classList.remove('is-visible');
         demoCard.classList.remove('is-result-shown'); // mobile shrink/float state, reset each replay
+        void demoCard.offsetHeight; // force layout flush before re-enabling transitions
+        revealItems.forEach(function (el) { el.style.transition = ''; });
+        if (typingEl) typingEl.style.transition = '';
         if (chatLog) chatLog.scrollTop = 0; // start each replay back at the top
 
         var t = 400;

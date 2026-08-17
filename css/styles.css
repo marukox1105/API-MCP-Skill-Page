@@ -270,7 +270,7 @@ p { margin: 0; }
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-  min-height: 560px; /* give the background room to breathe instead of being cropped tight */
+  min-height: 500px; /* give the background room to breathe instead of being cropped tight */
   padding: 56px max(clamp(20px, 6vw, 80px), calc((100% - var(--page-content-max)) / 2)) 48px;
 }
 /* Version A / B share the .hero__top layout above; only their own background
@@ -1047,7 +1047,7 @@ p { margin: 0; }
 .horizontal-steps .step { flex: 1 1 0; min-width: 0; }
 .horizontal-steps__divider {
   flex-shrink: 0;
-  align-self: center;
+  align-self: start;
   width: 100px;
   height: 1px;
   margin: 0 12px;
@@ -1457,10 +1457,21 @@ p { margin: 0; }
 }
 .result-frame {
   position: relative;
+  /* Width used to be set explicitly (100%, capped at max-width) at the same
+     time height was flex-grown to fill .result-reveal's leftover vertical
+     space — two independently-constrained dimensions competing against one
+     aspect-ratio is what broke the ratio (flex-grow authoritatively resizes
+     the main-size/height to fill free space AFTER the aspect-ratio-derived
+     hypothetical size is computed, ignoring it from then on, so height ended
+     up wherever the viewport's height put it instead of matching the width).
+     Leaving width unset makes it the one derived dimension instead: height
+     is still whatever the flex box gives it, and aspect-ratio now computes
+     width purely from that height, so the box is always a true 4:5 no
+     matter what height it lands on. */
   flex: 1 1 0;
   min-height: 0;
-  width: 100%;
   max-width: 340px;
+  max-height: 425px; /* 340 * 5/4 — same visual size ceiling the old max-width:340px gave, now expressed on whichever axis ends up constrained */
   aspect-ratio: 4 / 5;
   display: flex;
   align-items: center;
@@ -1470,17 +1481,11 @@ p { margin: 0; }
   border-radius: var(--radius-xl);
   overflow: hidden;
 }
-/* Reverted back to contain (briefly tried cover): .result-frame is a
-   flex:1 1 0 item with aspect-ratio:4/5 — that combination doesn't reliably
-   hold a true 4:5 box at every viewport height (the same aspect-ratio-on-a-
-   flex-item unreliability hit earlier with the mobile hero video), so with
-   cover, whatever shape the frame actually ends up at gets treated as the
-   crop target — reading as the photo itself getting distorted/over-cropped
-   as the window's height changes. contain sidesteps that entirely: the
-   photo always keeps its own proportions no matter what shape the frame
-   ends up being, at the cost of the letterboxed blank strips this was
-   meant to avoid — an acceptable tradeoff per direct feedback. */
-.result-frame__img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+/* Now that .result-frame reliably holds a true 4:5 box, cover is safe again:
+   it fills the frame completely and crops the overflow, photo's own
+   proportions untouched (no stretching) — the earlier "distortion" was
+   actually the frame's own shape drifting, not the photo. */
+.result-frame__img { width: 100%; height: 100%; object-fit: cover; }
 .result-caption {
   padding: 8px 16px;
   background: #fff;
@@ -1697,7 +1702,12 @@ p { margin: 0; }
 .showcase-card { display: flex; flex-direction: column; gap: 12px; }
 .showcase-card__body {
   position: relative;
-  height: 240px;
+  /* Was a fixed height:240px — fine at the desktop 3-column width (384px
+     column ≈ 8:5), but at mobile's single full-width column that same fixed
+     240px made for a much wider, shorter box than desktop's shape, cropping
+     deep into the photo (object-fit:cover fills whatever box it's given).
+     aspect-ratio keeps the exact same 8:5 shape at any width instead. */
+  aspect-ratio: 8 / 5;
   display: flex;
   align-items: center;
   justify-content: center;
