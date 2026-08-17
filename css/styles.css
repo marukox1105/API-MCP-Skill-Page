@@ -1872,20 +1872,30 @@ p { margin: 0; }
      via <source media>), and the text centers under it. Layout-wise B
      follows the same shape (video card on top, centered text+buttons below)
      even though it keeps its own dark background/video. */
+  /* aspect-ratio on the container alone kept collapsing to ~0 height here
+     (likely a flex-item/aspect-ratio interaction quirk), so this uses the
+     old bulletproof padding-bottom trick instead — height:0 + a
+     width-based percentage padding always yields a real, non-zero box
+     regardless of aspect-ratio support or flex sizing, and the <video>
+     is pulled out of flow to fill that box via inset:0. */
   .hero__variant--a .hero__video {
-    position: static;
+    position: relative;
     order: -1;
     width: 100%;
     max-width: 100%;
-    aspect-ratio: 3 / 2; /* set on the container too — otherwise its height
-      depends entirely on the <video> resolving height:100% + its own
-      aspect-ratio, which can collapse to ~0 before the video has decoded
-      any frames on some engines. */
+    height: 0;
+    padding-bottom: 66.6667%; /* 3:2 */
     border: 3px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-overlay);
   }
-  .hero__variant--a .hero__video video { aspect-ratio: 3 / 2; }
+  .hero__variant--a .hero__video video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+  }
   .hero__variant--a .hero__content,
   .hero__variant--b .hero__content {
     max-width: 560px;
