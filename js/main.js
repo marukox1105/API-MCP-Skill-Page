@@ -1148,4 +1148,61 @@
       runPass();
     }
   }
+
+  /* ---------------- Version B's horizontal 1-2-3 steps ----------------
+     Same sequential-glow concept as A's vertical steps/traveling-dot, just
+     adapted sideways: each divider between circles fills blue as that leg
+     "completes", lighting the next circle, then holds fully lit and resets
+     to loop again. */
+  var horizontalSteps = document.getElementById('horizontalSteps');
+  if (horizontalSteps && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+    var hCircles = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.step__num'));
+    var hDividerFills = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.horizontal-steps__divider-fill'));
+    var H_STEP_MS = 1400;
+    var H_HOLD_MS = 900;
+    var H_GAP_MS = 700;
+
+    function hSetGlow(activeCount) {
+      hCircles.forEach(function (c, i) { c.classList.toggle('is-glowing', i < activeCount); });
+    }
+    function hSetDividers(filledCount) {
+      hDividerFills.forEach(function (d, i) { d.classList.toggle('is-filled', i < filledCount); });
+    }
+
+    function hRunPass() {
+      horizontalSteps.classList.add('is-playing');
+      hSetGlow(1);
+      hSetDividers(0);
+      setTimeout(function () {
+        hSetDividers(1);
+        hSetGlow(2);
+        setTimeout(function () {
+          hSetDividers(2);
+          hSetGlow(3);
+          setTimeout(function () {
+            hSetGlow(0);
+            hSetDividers(0);
+            horizontalSteps.classList.remove('is-playing');
+            setTimeout(hRunPass, H_GAP_MS);
+          }, H_HOLD_MS);
+        }, H_STEP_MS);
+      }, H_STEP_MS);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var hStarted = false;
+      var hIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !hStarted) {
+            hStarted = true;
+            hRunPass();
+            hIo.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      hIo.observe(horizontalSteps);
+    } else {
+      hRunPass();
+    }
+  }
 })();
