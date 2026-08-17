@@ -280,6 +280,20 @@ p { margin: 0; }
   aspect-ratio: 16 / 9; /* matches B01.mp4's native 1920×1080 */
 }
 .hero__video--b video { aspect-ratio: 16 / 9; }
+/* A's video is full-bleed background from tablet up (desktop uses
+   video-hero.mp4 via <source media>, picked in HTML) — text stays confined
+   to the left half instead of splitting the row with a side-by-side panel.
+   Mobile reverts both back to a normal in-flow card (see 767px below). */
+.hero__variant--a .hero__video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  max-width: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.hero__variant--a .hero__video video { aspect-ratio: auto; }
 .hero__content {
   position: relative;
   z-index: 1;
@@ -290,6 +304,7 @@ p { margin: 0; }
   flex-direction: column;
   gap: 40px;
 }
+.hero__variant--a .hero__content { max-width: 50%; }
 .hero__heading {
   font-family: var(--font-display);
   font-weight: 800;
@@ -1744,10 +1759,12 @@ p { margin: 0; }
   .navbar__burger { display: flex; }
 
   /* No room for side-by-side once nav collapses — stack instead, video on
-     top (via order, so markup doesn't need to change) rather than hiding it. */
+     top (via order, so markup doesn't need to change) rather than hiding it.
+     A stays full-bleed-background at this width (only collapses at 767px
+     below) — only B's side-by-side card needs to stack here. */
   .hero__top { flex-direction: column; align-items: stretch; padding-top: 40px; text-align: left; min-height: 0; }
-  .hero__content { max-width: 100%; }
-  .hero__video, .hero__video--b { order: -1; max-width: 100%; }
+  .hero__variant--b .hero__content { max-width: 100%; }
+  .hero__video--b { order: -1; max-width: 100%; }
 
   .connect__cards { grid-template-columns: repeat(2, 1fr); }
 
@@ -1787,6 +1804,21 @@ p { margin: 0; }
   .hero__heading { font-size: 30px; }
   .hero__desc { font-size: 15px; line-height: 22px; }
   .hero__buttons .btn { flex: 1 1 auto; }
+
+  /* A reverts from full-bleed-background back to a normal in-flow video
+     card (stacked above the text via order, which is now video-hero-s.mp4
+     via <source media>), and the text centers under it. */
+  .hero__variant--a .hero__video {
+    position: static;
+    order: -1;
+    max-width: 100%;
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-overlay);
+  }
+  .hero__variant--a .hero__video video { aspect-ratio: 3 / 2; }
+  .hero__variant--a .hero__content { max-width: 100%; text-align: center; align-items: center; }
+  .hero__variant--a .hero__buttons { justify-content: center; }
 
   .section-title h2, .connect-title h3 { font-size: 24px; line-height: 32px; }
 

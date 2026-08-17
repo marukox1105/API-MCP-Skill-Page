@@ -45,7 +45,10 @@
        .pv-block on the page together; shared content between them (like the
        marquee below) isn't duplicated. -->
   <section class="hero">
-    <!-- Version A: light background, video-hero-s.mp4 panel -->
+    <!-- Version A: light background. Desktop/tablet (>=768px) shows
+         video-hero.mp4 full-bleed behind left-half text; mobile (<=767px)
+         switches to video-hero-s.mp4 as a normal card stacked above
+         centered text (see <source media> below + the 767px breakpoint). -->
     <div class="hero__top hero__variant hero__variant--a pv-block is-active" data-pv="a">
       <div class="hero__content">
         <div>
@@ -66,6 +69,7 @@
 
       <div class="hero__video">
         <video autoplay muted loop playsinline aria-label="YouCam API demo">
+          <source media="(min-width: 768px)" src="assets/hero/A/video-hero.mp4" type="video/mp4">
           <source src="assets/hero/A/video-hero-s.mp4" type="video/mp4">
         </video>
       </div>
