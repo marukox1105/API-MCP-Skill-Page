@@ -1862,7 +1862,7 @@ p { margin: 0; }
      once left/right stack, let the card take its natural (scrollable-page)
      height instead of squeezing both into one screen. */
   .workspace-card { width: 100%; flex-direction: column; height: auto; max-height: none; }
-  .workspace-card__left { overflow-y: visible; }
+  .workspace-card__left { overflow-y: visible; padding: 16px 16px; }
   /* Mobile/tablet result panel reverts to a full-bleed cover image with just
      a small "RESULT" pill floating over the top-left corner, instead of
      desktop's centered fixed-ratio frame + caption pill (per the mobile
