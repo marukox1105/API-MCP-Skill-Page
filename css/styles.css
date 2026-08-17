@@ -1993,6 +1993,11 @@ p { margin: 0; }
 
   .navbar { padding: 0 16px; }
   .navbar__logo img { height: 18px; }
+  /* BG.png is only meant to sit behind the video on desktop (mostly hidden
+     under the full-bleed video anyway) — on mobile the video is a normal
+     in-flow card instead, so this would show through around the text.
+     A's own #eef4ff base background (on .hero) shows through in its place. */
+  .hero__variant--a { background-image: none; }
   .hero__heading { font-size: 32px; line-height: 40px; }
   .hero__desc { font-size: 15px; line-height: 22px; }
   /* Buttons stack full-width instead of sitting side by side — same layout
