@@ -2016,7 +2016,12 @@ p { margin: 0; }
 
   .stats__row--figures { gap: 20px 24px; }
   .stats__divider { display: none; } /* dividers between wrapped rows just look like stray marks */
-  .stats__row--cards { flex-direction: column; }
+  .stats__row--cards { flex-direction: column; flex-wrap: nowrap; }
+  /* .stats__card's 220px flex-basis was meant as a tablet WIDTH basis (row
+     layout) — once direction flips to column here, the same flex-basis
+     becomes a HEIGHT basis instead, forcing every card to a fixed 220px
+     tall regardless of content (that's the empty space below the number). */
+  .stats__card { flex: 1 1 auto; }
 
   .why-build__grid { grid-template-columns: 1fr; }
 

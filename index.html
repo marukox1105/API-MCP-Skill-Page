@@ -473,6 +473,10 @@
 
       <div class="workspace-card__right">
         <div class="result-reveal reveal-item" data-reveal="8">
+          <!-- Mobile-only: once this reveals, the card shrinks and this panel
+               floats overlapping its corner instead of sitting in normal
+               flow (see #workspaceDemo.is-result-shown in main.js/CSS). -->
+          <button class="result-float__close" id="resultFloatClose" aria-label="Dismiss result" type="button">&times;</button>
           <div class="result-header"><span class="result-header__dot" aria-hidden="true"></span><span class="result-badge">RESULT</span></div>
           <div class="result-frame">
             <img class="result-frame__img" id="wsResultImage" src="assets/workspace/img-right-preview-workspace.png" alt="Generated result">
