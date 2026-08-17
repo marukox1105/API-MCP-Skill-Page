@@ -602,6 +602,37 @@
     });
   }
 
+  /* ---------------- Card-grid reveal-on-scroll ----------------
+     Any container passed here fades/slides its direct children in with a
+     small stagger once it scrolls into view — connect cards, feature cards,
+     why-build cards, showcase cards, stats cards/figures all use this. */
+  function revealCardGrid(container) {
+    if (!container) return;
+    Array.prototype.slice.call(container.children).forEach(function (child, i) {
+      child.style.transitionDelay = (i * 60) + 'ms';
+    });
+    container.classList.add('is-revealed');
+  }
+  function armCardGrid(container) {
+    if (!container) return;
+    container.classList.add('card-reveal');
+    if (!('IntersectionObserver' in window)) { revealCardGrid(container); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          revealCardGrid(container);
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.15 });
+    io.observe(container);
+  }
+  ['connectCardsGrid', 'showcaseGrid', 'statsCards'].forEach(function (id) {
+    armCardGrid(document.getElementById(id));
+  });
+  var statsFigures = document.querySelector('.stats__row--figures');
+  if (statsFigures) armCardGrid(statsFigures);
+  document.querySelectorAll('.feature-grid, .why-build__grid').forEach(armCardGrid);
 
   /* ---------------- FAQ accordion ---------------- */
   var faqList = document.getElementById('faqList');

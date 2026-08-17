@@ -1267,6 +1267,19 @@ p { margin: 0; }
   .reveal-item { opacity: 1; transform: none; transition: none; }
   #workspaceTyping { display: none !important; }
 }
+
+/* Card-grid reveal-on-scroll: any container with .card-reveal fades/slides
+   its direct children up with a small per-card stagger (transition-delay
+   set inline by JS) once the container scrolls into view. */
+.card-reveal > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.card-reveal.is-revealed > * { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .card-reveal > * { opacity: 1; transform: none; transition: none; }
+}
 .agent-log__status { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: var(--fs-small); }
 .agent-log__status img { width: 20px; height: 20px; }
 .agent-log > p { font-size: var(--fs-small); line-height: 24px; color: var(--text-weak); margin: 0; }
