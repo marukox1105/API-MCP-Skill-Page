@@ -2286,17 +2286,17 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
      with. */
   body[data-pv-mode="b"] .workspace-card { transition: width 0.4s ease; }
   body[data-pv-mode="b"] .workspace-card.is-result-shown {
-    width: 90%;
+    width: 80%;
     margin-right: auto;
     margin-left: 0;
     position: relative;
   }
   body[data-pv-mode="b"] .workspace-card.is-result-shown .workspace-card__right {
     position: absolute;
-    right: -12%;
+    right: -26%;
     bottom: 4%;
     width: 58%;
-    height: 58%;
+    height: 42%;
     min-height: 0;
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-overlay);
