@@ -1419,6 +1419,24 @@ p { margin: 0; }
   color: var(--text-strong);
   white-space: nowrap;
 }
+/* Only shown on mobile once the card is in its shrunk/floating state (see
+   the media query below) — hidden everywhere else. */
+.result-float__close {
+  display: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
 
 /* ==========================================================================
    Features (2x2 icon cards)
@@ -1985,6 +2003,29 @@ p { margin: 0; }
   }
 
   .marquee-logo { height: 16px; }
+
+  /* Once the result reveals, the card shrinks to 90% width and the result
+     panel breaks out of normal flow to float overlapping its bottom-right
+     corner instead — .is-result-shown is added by main.js at the same
+     moment data-reveal="8" becomes visible (16973:153309). */
+  .workspace-card { transition: width 0.4s ease; }
+  .workspace-card.is-result-shown {
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+  }
+  .workspace-card.is-result-shown .workspace-card__right {
+    position: absolute;
+    right: -6%;
+    bottom: -12%;
+    width: 58%;
+    height: 55%;
+    min-height: 0;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-overlay);
+    z-index: 5;
+  }
+  .workspace-card.is-result-shown .result-float__close { display: flex; align-items: center; justify-content: center; }
 
   /* 1 column at true mobile (was still inheriting the tablet 2-column rule
      — there was no 767px override for A's grid specifically). */

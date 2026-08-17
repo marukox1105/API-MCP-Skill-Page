@@ -885,6 +885,7 @@
         clearAllTimers();
         revealItems.forEach(function (el) { el.classList.remove('is-visible'); });
         if (typingEl) typingEl.classList.remove('is-visible');
+        demoCard.classList.remove('is-result-shown'); // mobile shrink/float state, reset each replay
         if (chatLog) chatLog.scrollTop = 0; // start each replay back at the top
 
         var t = 400;
@@ -911,6 +912,10 @@
           }
           schedule(function () {
             groups[key].forEach(function (el) { el.classList.add('is-visible'); });
+            // On mobile, the result panel (step 8) also shrinks the card and
+            // floats itself over its corner instead of sitting in normal
+            // flow — see the .is-result-shown CSS + #resultFloatClose below.
+            if (key === '8') demoCard.classList.add('is-result-shown');
             // Follow the last (bottom-most) element of this step down into
             // view — delayed until its own reveal transition has settled.
             schedule(function () {
@@ -933,6 +938,15 @@
         started = true;
         playCycle();
       };
+
+      // Mobile "×" on the floating result panel — dismiss it back to the
+      // card's full width rather than re-running the whole reveal cycle.
+      var resultFloatClose = document.getElementById('resultFloatClose');
+      if (resultFloatClose) {
+        resultFloatClose.addEventListener('click', function () {
+          demoCard.classList.remove('is-result-shown');
+        });
+      }
 
       if ('IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (entries) {
