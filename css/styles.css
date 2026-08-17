@@ -2093,10 +2093,18 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
      layout — hide it once steps wrap into a row/grid. */
   .steps__connector { display: none; }
 
-  /* The viewport-height cap only makes sense for the side-by-side layout —
-     once left/right stack, let the card take its natural (scrollable-page)
-     height instead of squeezing both into one screen. */
-  .workspace-card { width: 100%; flex-direction: column; height: auto; max-height: none; }
+  /* Capped at 80vh instead of growing unbounded with the stacked layout's
+     content. Tried making .workspace-card__left scroll internally first
+     (flex-grow filling the leftover space up to the cap) — but with
+     .workspace-card's height:auto, flex-grow has no definite space to
+     distribute in the first place (auto-height flex containers size to
+     their items' hypothetical/flex-basis sizes, not to any max-height
+     ceiling), so __left just collapsed toward its 0 flex-basis instead of
+     filling up to 80vh before scrolling. Simpler and actually correct: let
+     the card itself scroll as one unit once its natural (image + chat)
+     content exceeds the cap, instead of trying to carve out an inner
+     scroll region. */
+  .workspace-card { width: 100%; flex-direction: column; height: auto; max-height: 80vh; overflow-y: auto; }
   .workspace-card__left { overflow-y: visible; padding: 16px 16px; }
   /* Mobile/tablet result panel reverts to a full-bleed cover image with just
      a small "RESULT" pill floating over the top-left corner, instead of
