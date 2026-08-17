@@ -609,7 +609,7 @@
   function revealCardGrid(container) {
     if (!container) return;
     Array.prototype.slice.call(container.children).forEach(function (child, i) {
-      child.style.transitionDelay = (i * 60) + 'ms';
+      child.style.transitionDelay = (i * 100) + 'ms';
     });
     container.classList.add('is-revealed');
   }
@@ -624,7 +624,11 @@
           io.disconnect();
         }
       });
-    }, { threshold: 0.15 });
+      // Shrinks the effective viewport bottom by 20% so a grid that's
+      // already sitting right at the initial fold (e.g. the connect cards,
+      // just below the hero) doesn't fire the instant the page loads —
+      // it waits until scrolling actually brings it meaningfully into view.
+    }, { threshold: 0.15, rootMargin: '0px 0px -20% 0px' });
     io.observe(container);
   }
   ['connectCardsGrid', 'showcaseGrid', 'statsCards'].forEach(function (id) {
