@@ -1891,7 +1891,16 @@ p { margin: 0; }
 
   .connect__cards { grid-template-columns: 1fr; }
 
+  .diagram-section { padding-top: 40px; padding-bottom: 40px; }
+
+  /* True mobile goes back to a single column (unlike the tablet row-wrap
+     above), so the connector line makes sense again — undo the 1023px
+     .step flex-basis:260px (that was a WIDTH basis there; in this column
+     layout the same property would instead force a 260px min-HEIGHT) and
+     restore the line/dot. */
   .steps { flex-direction: column; }
+  .step { flex: none; }
+  .steps__connector { display: block; }
 
   .terminal__body { font-size: 10px; }
 
