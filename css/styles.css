@@ -1397,7 +1397,7 @@ p { margin: 0; }
      as the view jumping back up right after our own scroll-to-bottom finished. */
   overflow-anchor: none;
 }
-.workspace-card__assets { display: flex; gap: 24px; align-self: flex-end; }
+.workspace-card__assets { display: flex; gap: 4px; align-self: flex-end; }
 .asset-badge {
   width: 112px; height: 146px;
   border: 2px solid var(--color-primary-weak);
@@ -2248,8 +2248,8 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
        descendant of this box. Reopen it only in this state. */
     overflow: visible;
     width: 90%;
-    margin-left: auto;
-    margin-right: 0;
+    margin-right: auto;
+    margin-left: 0;
     position: relative;
   }
   body[data-pv-mode="b"] .workspace-card.is-result-shown .workspace-card__right {
