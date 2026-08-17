@@ -251,7 +251,7 @@ p { margin: 0; }
 /* Version A / B share the .hero__top layout above; only their own background
    (and the text/button color overrides further down) differ. */
 .hero__variant--a {
-  background-image: url(../assets/hero/BG.png);
+  background-image: url(../assets/hero/A/BG.png);
   background-size: cover;
   background-position: center;
 }
@@ -1761,6 +1761,8 @@ p { margin: 0; }
   .hero__buttons .btn { flex: 1 1 auto; }
 
   .section-title h2, .connect-title h3 { font-size: 24px; line-height: 32px; }
+
+  .connect__cards { grid-template-columns: 1fr; }
 
   .steps { flex-direction: column; }
 
