@@ -912,6 +912,34 @@ p { margin: 0; }
 .terminal__footer-status img { width: 12px; height: 12px; filter: invert(0.6); }
 .terminal__footer-link { font-size: 11px; font-weight: 700; color: var(--color-primary); }
 
+/* Version A's terminal, reskinned light to match the rest of the page's
+   palette instead of the dark "code editor" look (still used as-is for
+   B's Flow-Grid terminal, which stays dark). Same structure, just tokens
+   swapped for their light equivalents. */
+.terminal--light {
+  background: #fff;
+  border: 1px solid var(--stroke-weak);
+  box-shadow: var(--shadow-raised);
+}
+.terminal--light .terminal__header,
+.terminal--light .terminal__footer {
+  background: var(--bg-section-tint);
+}
+.terminal--light .terminal__footer { border-top-color: var(--stroke-weak); }
+.terminal--light .terminal__logo img { filter: none; opacity: 0.45; }
+.terminal--light .terminal__logo:hover img { opacity: 0.75; }
+.terminal--light .terminal__logo.is-active { background: #fff; box-shadow: var(--shadow-raised); }
+.terminal--light .terminal__logo.is-active img { opacity: 1; }
+.terminal--light .terminal__copy {
+  background: #fff;
+  border-color: var(--stroke-weak);
+  color: var(--text-weak);
+}
+.terminal--light .terminal__copy:hover { color: var(--color-primary); border-color: var(--color-primary); }
+.terminal--light .terminal__body { background: #fff; color: #1a7f5a; }
+.terminal--light .terminal__footer-status { color: var(--text-weak); }
+.terminal--light .terminal__footer-status img { filter: none; opacity: 0.7; }
+
 /* ==========================================================================
    Diagram-Section Version B: 3-column flow (Connector -> API Console ->
    Agent Chat Preview), stacked above the same terminal config card A uses.
