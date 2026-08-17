@@ -2069,6 +2069,7 @@ p { margin: 0; }
     width: 100%;
     height: 100%;
     aspect-ratio: auto;
+    transform: none; /* the desktop rule's translateY(-50%) centering trick isn't reset by the properties above — left in place it was shoving the mobile stacked card's video up out of its own box */
   }
   .hero__variant--a .hero__content,
   .hero__variant--b .hero__content {
