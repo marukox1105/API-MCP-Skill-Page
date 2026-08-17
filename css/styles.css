@@ -331,11 +331,17 @@ p { margin: 0; }
      equal sliver off both edges instead of one specific edge losing content. */
   position: absolute;
   top: 50%;
-  left: 0;
+  left: 50%;
   width: 100%;
+  max-width: 2000px;
   height: auto;
   aspect-ratio: 2880 / 1254; /* native size of video-hero.mp4 (both A and B) */
-  transform: translateY(-50%);
+  /* left:0 kept it flush against the left edge — once max-width:2000px
+     capped the video's own width below the viewport's, that left a blank
+     gap on the right instead of centering it. left:50% + translateX(-50%)
+     (combined with the existing vertical centering) keeps it centered
+     horizontally too, however wide the viewport gets. */
+  transform: translate(-50%, -50%);
 }
 .hero__content {
   position: relative;
