@@ -281,6 +281,7 @@ p { margin: 0; }
   background-position: center;
 }
 .hero__variant--b {
+  background-color: #000319; /* 16978:156056 */
   background-image: url(../assets/hero/B/BG.png);
   background-size: cover;
   background-position: center;
