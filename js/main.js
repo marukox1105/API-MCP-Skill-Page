@@ -1166,8 +1166,19 @@
     var hCircles = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.step__num'));
     var hDividerFills = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.horizontal-steps__divider-fill'));
     var H_STEP_MS = 1400;
-    var H_HOLD_MS = 900;
+    var H_HOLD_MS = 5000; // once all 3 steps + cards are lit, hold here before looping back to the start
     var H_GAP_MS = 700;
+
+    // The 3 Flow-Grid cards below reveal in step with the glow: card 1
+    // (connector) is visible from the start; card 2 (console) + its leading
+    // arrow appear when step 2 lights; card 3 (chat) + its leading arrow
+    // appear when step 3 lights. .flow-grid.is-staged (added below) is what
+    // makes cards 2/3 + both arrows start hidden via CSS in the first place.
+    var flowGrid = document.querySelector('.flow-grid');
+    var flowConsole = flowGrid ? flowGrid.querySelector('.flow-grid__col--console') : null;
+    var flowChat = flowGrid ? flowGrid.querySelector('.flow-grid__col--chat') : null;
+    var flowArrows = flowGrid ? Array.prototype.slice.call(flowGrid.querySelectorAll('.flow-grid__arrow')) : [];
+    if (flowGrid) flowGrid.classList.add('is-staged');
 
     function hSetGlow(activeCount) {
       hCircles.forEach(function (c, i) { c.classList.toggle('is-glowing', i < activeCount); });
@@ -1175,20 +1186,29 @@
     function hSetDividers(filledCount) {
       hDividerFills.forEach(function (d, i) { d.classList.toggle('is-filled', i < filledCount); });
     }
+    function hSetFlow(revealedCount) {
+      if (flowConsole) flowConsole.classList.toggle('is-visible', revealedCount >= 2);
+      if (flowChat) flowChat.classList.toggle('is-visible', revealedCount >= 3);
+      flowArrows.forEach(function (arrow, i) { arrow.classList.toggle('is-visible', revealedCount >= i + 2); });
+    }
 
     function hRunPass() {
       horizontalSteps.classList.add('is-playing');
       hSetGlow(1);
       hSetDividers(0);
+      hSetFlow(1);
       setTimeout(function () {
         hSetDividers(1);
         hSetGlow(2);
+        hSetFlow(2);
         setTimeout(function () {
           hSetDividers(2);
           hSetGlow(3);
+          hSetFlow(3);
           setTimeout(function () {
             hSetGlow(0);
             hSetDividers(0);
+            hSetFlow(0);
             horizontalSteps.classList.remove('is-playing');
             setTimeout(hRunPass, H_GAP_MS);
           }, H_HOLD_MS);

@@ -1062,6 +1062,25 @@ p { margin: 0; }
 .flow-grid__col--console { gap: 20px; padding: 24px; border-radius: var(--radius-lg); }
 .flow-grid__col--chat { padding: 12px; }
 .flow-grid__label { font-size: var(--fs-micro); font-weight: 600; color: var(--text-weak); margin: 0; }
+/* Card 2 (console) + card 3 (chat) and their leading arrows stay hidden
+   until main.js's hRunPass() reveals them in step with the horizontal-steps
+   glow above — card 1 (connector) is visible from the start, matching
+   step 1's immediate glow. .is-staged is only added once the animation is
+   actually going to run (skipped under reduced-motion), so without JS the
+   whole grid just renders normally with nothing hidden. */
+.flow-grid.is-staged .flow-grid__col--console,
+.flow-grid.is-staged .flow-grid__col--chat,
+.flow-grid.is-staged .flow-grid__arrow {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.flow-grid.is-staged .flow-grid__col--console.is-visible,
+.flow-grid.is-staged .flow-grid__col--chat.is-visible,
+.flow-grid.is-staged .flow-grid__arrow.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 .flow-grid__arrow { flex-shrink: 0; align-self: center; width: 20px; height: 20px; }
 .flow-grid__arrow img { width: 100%; height: 100%; }
 /* Reuses .connector-item but stacked full-width inside its own card instead
