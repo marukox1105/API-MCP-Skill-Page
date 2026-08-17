@@ -1350,7 +1350,9 @@ p { margin: 0; }
      the container drawing a shared line — overflow-x:auto here implicitly
      turns overflow-y to auto too, which was clipping the old negative-margin
      trick used to overlay the active tab's colored border on the container's. */
+  scrollbar-width: none; /* the browser's own horizontal scrollbar was rendering right on top of each tab's border-bottom, reading as a doubled/thicker gray line under whichever tab it crossed */
 }
+.workspace__tabs::-webkit-scrollbar { display: none; }
 .workspace__tab {
   flex-shrink: 0;
   padding: 0 16px;
@@ -2082,9 +2084,25 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
      revealed. Redeclare each state here with the rotation folded in. */
   .flow-grid.is-staged .flow-grid__arrow { transform: rotate(90deg) translateY(16px); }
   .flow-grid.is-staged .flow-grid__arrow.is-visible { transform: rotate(90deg) translateY(0); }
-  .horizontal-steps { flex-direction: column; gap: 24px; }
-  .horizontal-steps__divider { align-self: flex-start; width: 1px; height: 24px; margin: 0 0 0 13px; }
-  .horizontal-steps__divider-fill { width: 100%; height: 0%; transition: height 0.6s ease; }
+  /* Once stacked vertically, B's connector now matches A's own vertical
+     steps convention (dashed line instead of a solid fill bar) — same
+     .step__num circles + .is-glowing glow are already shared with A as-is
+     (same class, no B-specific override existed), so circles already
+     matched; only the connecting line's look was different. */
+  .horizontal-steps { flex-direction: column; gap: 0px; }
+  .horizontal-steps__divider {
+    align-self: flex-start;
+    width: 1px;
+    height: 24px;
+    margin: 0 0 0 13px;
+    background: repeating-linear-gradient(to bottom, var(--stroke-weak) 0 4px, transparent 4px 9px);
+  }
+  .horizontal-steps__divider-fill {
+    width: 100%;
+    height: 0%;
+    background: repeating-linear-gradient(to bottom, var(--color-primary) 0 4px, transparent 4px 9px);
+    transition: height 0.6s ease;
+  }
   .horizontal-steps.is-playing .horizontal-steps__divider-fill.is-filled { width: 100%; height: 100%; }
   .steps-wrap { width: 100%; }
   .steps { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 24px; }
@@ -2113,7 +2131,7 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
      sizes to fit it naturally — max-height only then kicks in as an actual
      ceiling once that content exceeds it, which is when overflow-y:auto
      actually has something to scroll. */
-  .workspace-card__left { flex: 0 1 auto; max-height: 45vh; overflow-y: auto; min-height: 0; padding: 16px 16px; }
+  .workspace-card__left { flex: 0 1 auto; max-height: 65vh; overflow-y: auto; min-height: 0; padding: 16px 16px; }
   /* Mobile/tablet result panel reverts to a full-bleed cover image with just
      a small "RESULT" pill floating over the top-left corner, instead of
      desktop's centered fixed-ratio frame + caption pill (per the mobile
