@@ -1859,6 +1859,13 @@ p { margin: 0; }
   .hero__buttons { flex-direction: column; width: 100%; }
   .hero__buttons .btn { width: 100%; }
 
+  /* Compact "tiny" button size for mobile — e.g. "Learn more in the API
+     docs" — per the mobile CTA reference. Scoped to .btn-tiny specifically
+     so it doesn't shrink other .btn-outline buttons (like the hero's
+     full-width "View documentation"). */
+  .btn-tiny { height: 32px; padding: 0 12px; font-size: var(--fs-tiny); }
+  .btn-tiny img { width: 16px; height: 16px; }
+
   /* A reverts from full-bleed-background back to a normal in-flow video
      card (stacked above the text via order, which is now video-hero-s.mp4
      via <source media>), and the text centers under it. Layout-wise B
