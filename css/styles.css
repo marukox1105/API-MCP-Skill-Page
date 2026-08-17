@@ -1738,6 +1738,14 @@ body[data-pv-mode="b"] .stats { background: #00083f; }
   margin: 0;
   color: var(--color-primary);
 }
+/* B only: navy gradient per 16933:148990 (dark navy at the bottom fading to
+   a medium blue at the top), instead of A's flat solid blue. */
+body[data-pv-mode="b"] .stats__card-num {
+  background: linear-gradient(0deg, rgb(1, 32, 97) 0%, rgb(21, 91, 201) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
 .stats__card-label { font-size: var(--fs-small); font-weight: 600; color: var(--text-strong); margin: 0; }
 
 /* ==========================================================================
