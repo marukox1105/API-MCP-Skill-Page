@@ -1826,14 +1826,19 @@ p { margin: 0; }
 
 @media (max-width: 767px) {
   .navbar { padding: 0 16px; }
-  .hero { gap: 32px; }
-  .hero__heading { font-size: 30px; }
+  .hero { gap: 40px; }
+  .hero__heading { font-size: 32px; line-height: 40px; }
   .hero__desc { font-size: 15px; line-height: 22px; }
-  .hero__buttons .btn { flex: 1 1 auto; }
+  /* Buttons stack full-width instead of sitting side by side — same layout
+     for both A and B per the mobile Figma reference. */
+  .hero__buttons { flex-direction: column; width: 100%; }
+  .hero__buttons .btn { width: 100%; }
 
   /* A reverts from full-bleed-background back to a normal in-flow video
      card (stacked above the text via order, which is now video-hero-s.mp4
-     via <source media>), and the text centers under it. */
+     via <source media>), and the text centers under it. Layout-wise B
+     follows the same shape (video card on top, centered text+buttons below)
+     even though it keeps its own dark background/video. */
   .hero__variant--a .hero__video {
     position: static;
     order: -1;
@@ -1843,8 +1848,12 @@ p { margin: 0; }
     box-shadow: var(--shadow-overlay);
   }
   .hero__variant--a .hero__video video { aspect-ratio: 3 / 2; }
-  .hero__variant--a .hero__content { max-width: 100%; text-align: center; align-items: center; }
-  .hero__variant--a .hero__buttons { justify-content: center; }
+  .hero__variant--a .hero__content,
+  .hero__variant--b .hero__content {
+    max-width: 560px;
+    text-align: center;
+    align-items: center;
+  }
 
   .section-title h2, .connect-title h3 { font-size: 24px; line-height: 32px; }
 
