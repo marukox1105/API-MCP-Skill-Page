@@ -21,12 +21,14 @@
      each pair marked data-pv="a"/"b". Not part of either design; remove this
      block (and #pvSwitch in the HTML) once a version is picked. */
   var pvSwitch = document.getElementById('pvSwitch');
+  document.body.setAttribute('data-pv-mode', 'a'); // default, matches the hero__variant--a shown by default
   if (pvSwitch) {
     var pvBlocks = Array.prototype.slice.call(document.querySelectorAll('.pv-block'));
     pvSwitch.addEventListener('click', function (e) {
       var btn = e.target.closest('button[data-pv-switch]');
       if (!btn) return;
       var version = btn.getAttribute('data-pv-switch');
+      document.body.setAttribute('data-pv-mode', version); // lets sections without a duplicated A/B pair (like the workspace demo) still branch behavior off the global toggle
       pvSwitch.querySelectorAll('button').forEach(function (b) {
         b.classList.toggle('is-active', b === btn);
       });
@@ -915,7 +917,12 @@
             // On mobile, the result panel (step 8) also shrinks the card and
             // floats itself over its corner instead of sitting in normal
             // flow — see the .is-result-shown CSS + #resultFloatClose below.
-            if (key === '8') demoCard.classList.add('is-result-shown');
+            // B-version only: #workspaceDemo isn't a .pv-block itself (it's
+            // shared, not duplicated per A/B), so we branch on the page-wide
+            // toggle's data-pv-mode instead. Version A never gets this class.
+            if (key === '8' && document.body.getAttribute('data-pv-mode') === 'b') {
+              demoCard.classList.add('is-result-shown');
+            }
             // Follow the last (bottom-most) element of this step down into
             // view — delayed until its own reveal transition has settled.
             schedule(function () {
