@@ -829,6 +829,9 @@ p { margin: 0; }
   display: flex;
   gap: 16px;
   width: 100%;
+  min-width: 0; /* same fix, one level up — it's a flex item of
+    .diagram-panel-mcp, so its own aggregate min-content width (even with
+    each .connector-item already shrinkable) could still force it wider */
 }
 .connector-item {
   flex: 1 1 0;
@@ -931,6 +934,7 @@ p { margin: 0; }
   gap: 12px;
   padding: 10px 16px;
   background: var(--bg-terminal-header);
+  min-width: 0; /* flex item of .terminal (column) — same pattern again */
 }
 .terminal__copy {
   flex-shrink: 0;
@@ -963,6 +967,7 @@ p { margin: 0; }
   padding: 8px 16px;
   border-top: 1px solid var(--bg-terminal-border);
   background: var(--bg-terminal-header);
+  min-width: 0;
 }
 .terminal__footer-status { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--terminal-text-dim); }
 .terminal__footer-status img { width: 12px; height: 12px; filter: invert(0.6); }
