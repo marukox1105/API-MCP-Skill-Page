@@ -566,7 +566,15 @@
       var btn = e.target.closest('.connector-item');
       if (!btn || !group.contains(btn)) return;
       group.querySelectorAll('.connector-item').forEach(function (item) {
-        item.classList.toggle('is-active', item === btn);
+        var active = item === btn;
+        item.classList.toggle('is-active', active);
+        // Domain icon swaps blue (active) <-> gray (inactive); the status
+        // badge only needs its background toggled (handled in CSS).
+        var icon = item.querySelector('.connector-item__icon');
+        if (icon) {
+          var src = active ? icon.getAttribute('data-active-src') : icon.getAttribute('data-inactive-src');
+          if (src) icon.src = src;
+        }
       });
       if (terminalId) {
         var pre = document.getElementById(terminalId);
