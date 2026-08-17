@@ -1467,7 +1467,15 @@ p { margin: 0; }
   border-radius: var(--radius-xl);
   overflow: hidden;
 }
-.result-frame__img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+/* object-fit:contain (with width/height:auto) was fitting the whole image
+   inside the frame instead of filling it — since each use case's photo has
+   its own natural aspect ratio that rarely matches the frame's fixed 4:5,
+   that left letterboxed blank strips (top/bottom for a portrait-cropped
+   photo, left/right for a wider one). cover fills the frame completely and
+   crops the overflow instead, with the photo's own proportions untouched —
+   no stretching, just the same crop-to-fill behavior as the mobile version
+   below already uses. */
+.result-frame__img { width: 100%; height: 100%; object-fit: cover; }
 .result-caption {
   padding: 8px 16px;
   background: #fff;
@@ -1870,8 +1878,16 @@ p { margin: 0; }
   background: var(--bg-footer);
   color: #fff;
 }
-.footer__brand { display: flex; flex-direction: column; gap: 20px; }
-.footer__brand img { height: 24px; width: auto; filter: brightness(0) invert(1); }
+/* align-items defaults to stretch on a column flex container — with no
+   align-items set, the logo's width:auto stopped being "auto" (stretch
+   overrides it) and got pulled to the full width of .footer__brand instead
+   of its real 175x24 size, distorting it. */
+.footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+/* No filter here — assets/footer/img-vector.svg already bakes in the
+   correct per-path colors (white "YouCam", #3183FF blue "API"); the old
+   brightness(0) invert(1) was crushing every path to solid white,
+   including the blue "API", losing the two-tone look entirely. */
+.footer__brand img { height: 24px; width: 175px; }
 .footer__copy { font-size: 12px; color: #fff; margin: 0; }
 .footer__lang {
   display: inline-flex;
