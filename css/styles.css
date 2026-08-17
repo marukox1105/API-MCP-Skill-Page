@@ -1473,15 +1473,17 @@ p { margin: 0; }
   border-radius: var(--radius-xl);
   overflow: hidden;
 }
-/* object-fit:contain (with width/height:auto) was fitting the whole image
-   inside the frame instead of filling it — since each use case's photo has
-   its own natural aspect ratio that rarely matches the frame's fixed 4:5,
-   that left letterboxed blank strips (top/bottom for a portrait-cropped
-   photo, left/right for a wider one). cover fills the frame completely and
-   crops the overflow instead, with the photo's own proportions untouched —
-   no stretching, just the same crop-to-fill behavior as the mobile version
-   below already uses. */
-.result-frame__img { width: 100%; height: 100%; object-fit: cover; }
+/* Reverted back to contain (briefly tried cover): .result-frame is a
+   flex:1 1 0 item with aspect-ratio:4/5 — that combination doesn't reliably
+   hold a true 4:5 box at every viewport height (the same aspect-ratio-on-a-
+   flex-item unreliability hit earlier with the mobile hero video), so with
+   cover, whatever shape the frame actually ends up at gets treated as the
+   crop target — reading as the photo itself getting distorted/over-cropped
+   as the window's height changes. contain sidesteps that entirely: the
+   photo always keeps its own proportions no matter what shape the frame
+   ends up being, at the cost of the letterboxed blank strips this was
+   meant to avoid — an acceptable tradeoff per direct feedback. */
+.result-frame__img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 .result-caption {
   padding: 8px 16px;
   background: #fff;
