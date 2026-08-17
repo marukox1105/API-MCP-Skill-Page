@@ -1875,7 +1875,12 @@ p { margin: 0; }
   .hero__variant--a .hero__video {
     position: static;
     order: -1;
+    width: 100%;
     max-width: 100%;
+    aspect-ratio: 3 / 2; /* set on the container too — otherwise its height
+      depends entirely on the <video> resolving height:100% + its own
+      aspect-ratio, which can collapse to ~0 before the video has decoded
+      any frames on some engines. */
     border: 3px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-overlay);
