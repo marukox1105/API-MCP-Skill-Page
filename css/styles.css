@@ -1861,9 +1861,38 @@ p { margin: 0; }
   /* The viewport-height cap only makes sense for the side-by-side layout —
      once left/right stack, let the card take its natural (scrollable-page)
      height instead of squeezing both into one screen. */
-  .workspace-card { flex-direction: column; height: auto; max-height: none; }
+  .workspace-card { width: 100%; flex-direction: column; height: auto; max-height: none; }
   .workspace-card__left { overflow-y: visible; }
-  .workspace-card__right { width: 100%; min-height: 320px; }
+  /* Mobile/tablet result panel reverts to a full-bleed cover image with just
+     a small "RESULT" pill floating over the top-left corner, instead of
+     desktop's centered fixed-ratio frame + caption pill (per the mobile
+     workspace-demo reference). */
+  .workspace-card__right { width: 100%; min-height: 320px; padding: 0; position: relative; overflow: hidden; }
+  .result-reveal { position: absolute; inset: 0; }
+  .result-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    border: none;
+    border-radius: 0;
+    background: none;
+  }
+  .result-frame__img { width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover; }
+  .result-header {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 4px 12px;
+    border-radius: 24px;
+  }
+  .result-header__dot { display: none; }
+  .result-badge { color: #fff; }
+  .result-caption { display: none; }
 
   .feature-grid { grid-template-columns: repeat(2, 1fr); }
   .feature-grid--b { grid-template-columns: 1fr; }
