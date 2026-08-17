@@ -551,19 +551,28 @@
     cursor:  { filename: 'mcp.json', requiresNode: false },
     codex:   { filename: 'config.toml', requiresNode: true }
   };
+  // Real per-token JSON coloring (keys vs. string values) instead of one
+  // flat color for the whole block — .terminal__body's own base color acts
+  // as the punctuation/brace color, .tok-key/.tok-str override just the
+  // parts wrapped here. Safe to build as an HTML string (not user input,
+  // every value comes from the DOMAINS map above) and assign via innerHTML;
+  // .textContent still returns the plain JSON for the copy button, since it
+  // just concatenates the text nodes regardless of the span wrappers.
+  function jsonKey(s) { return '<span class="tok-key">"' + s + '"</span>'; }
+  function jsonStr(s) { return '<span class="tok-str">"' + s + '"</span>'; }
   function buildMcpConfig(domainKey) {
     var d = DOMAINS[domainKey] || DOMAINS.beauty;
     return '{\n' +
-      '  "mcpServers": {\n' +
-      '    "' + d.server + '": {\n' +
-      '      "command": "npx",\n' +
-      '      "args": [\n' +
-      '        "-y", "mcp-remote",\n' +
-      '        "https://mcp-api-01.youcamapi.com/mcp/' + d.slug + '",\n' +
-      '        "--header", "Authorization:${AUTH}"\n' +
+      '  ' + jsonKey('mcpServers') + ': {\n' +
+      '    ' + jsonKey(d.server) + ': {\n' +
+      '      ' + jsonKey('command') + ': ' + jsonStr('npx') + ',\n' +
+      '      ' + jsonKey('args') + ': [\n' +
+      '        ' + jsonStr('-y') + ', ' + jsonStr('mcp-remote') + ',\n' +
+      '        ' + jsonStr('https://mcp-api-01.youcamapi.com/mcp/' + d.slug) + ',\n' +
+      '        ' + jsonStr('--header') + ', ' + jsonStr('Authorization:${AUTH}') + '\n' +
       '      ],\n' +
-      '      "env": {\n' +
-      '        "AUTH": "Bearer YOUR_API_KEY"\n' +
+      '      ' + jsonKey('env') + ': {\n' +
+      '        ' + jsonKey('AUTH') + ': ' + jsonStr('Bearer YOUR_API_KEY') + '\n' +
       '      }\n' +
       '    }\n' +
       '  }\n' +
@@ -590,7 +599,7 @@
       });
       if (terminalId) {
         var pre = document.getElementById(terminalId);
-        if (pre) pre.textContent = buildMcpConfig(btn.getAttribute('data-domain'));
+        if (pre) pre.innerHTML = buildMcpConfig(btn.getAttribute('data-domain'));
       }
     });
   });

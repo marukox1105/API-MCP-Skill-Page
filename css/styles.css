@@ -977,10 +977,15 @@ p { margin: 0; }
   font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
   font-size: 11px;
   line-height: 1.6;
-  color: var(--terminal-text-code);
+  /* Acts as the punctuation/brace color now — .tok-key/.tok-str (wrapped in
+     the JSON markup below) override just the parts that need real syntax-
+     highlight colors, instead of the whole block being one flat color. */
+  color: var(--terminal-text-dim);
   overflow-x: auto;
   white-space: pre;
 }
+.terminal__body .tok-key { color: #79c0ff; }
+.terminal__body .tok-str { color: var(--terminal-text-code); }
 .terminal__footer {
   display: flex;
   align-items: center;
@@ -1030,10 +1035,14 @@ p { margin: 0; }
 .terminal--light .terminal__copy:hover { color: var(--color-primary); border-color: var(--color-primary); }
 .terminal--light .terminal__body {
   background: #fff;
-  color: var(--color-primary);
+  /* Punctuation/brace color — .tok-key/.tok-str below override the parts
+     that need real syntax-highlight colors, same idea as the dark theme. */
+  color: var(--text-weak);
   font-size: 12px;
   line-height: 16px;
 }
+.terminal--light .terminal__body .tok-key { color: var(--color-primary); }
+.terminal--light .terminal__body .tok-str { color: #1a7f37; }
 .terminal--light .terminal__footer-status { color: #8b949e; }
 .terminal--light .terminal__footer-status img { filter: none; opacity: 1; }
 
@@ -1050,7 +1059,9 @@ p { margin: 0; }
   align-self: start;
   width: 100px;
   height: 1px;
-  margin: 0 12px;
+  /* 14px top margin = half of .step__num's 28px height, so the line centers
+     on the circle instead of sitting flush with its very top edge. */
+  margin: 14px 12px 0;
   background: var(--stroke-weak);
   overflow: hidden;
 }
@@ -1207,7 +1218,10 @@ p { margin: 0; }
 .flow-chat__send img { width: 14px; height: 14px; }
 
 /* Agent Skill mode's install/auth/invoke card — a self-contained dark "code
-   editor" look distinct from the light MCP connector+terminal it swaps with. */
+   editor" look distinct from the light MCP connector+terminal it swaps with.
+   Version A now has a light reskin (.code-steps-card--light below), same
+   idea as .terminal--light; B keeps this dark as-is (its diagram is always
+   MCP-mode, so it never shows this panel). */
 .diagram-panel-mcp { display: flex; flex-direction: column; gap: 16px; width: 100%; min-width: 0; }
 .code-steps-card {
   display: flex;
@@ -1276,6 +1290,42 @@ p { margin: 0; }
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 .code-block__copy:hover { color: #fff; border-color: #3183ff; }
+
+/* Light reskin, same tokens/approach as .terminal--light: white outer card,
+   fill-weak for the step wrapper, white again for the code line itself
+   (separated from the step's fill-weak by its own border instead of a dark-
+   on-darker contrast). terminal--light's body also drops per-token syntax
+   colors for a single solid blue rather than porting the dark theme's
+   kw/fg/str palette — matched here for the same reason. */
+.code-steps-card--light {
+  background: #fff;
+  border: 1px solid var(--stroke-weak);
+}
+.code-steps-card--light .code-step {
+  background: var(--fill-weak);
+  border-color: var(--stroke-weak);
+}
+.code-steps-card--light .code-step__num {
+  background: #fff;
+  border: 1px solid rgba(17, 24, 26, 0.2);
+  color: var(--text-strong);
+}
+.code-steps-card--light .code-step__header p { color: var(--text-strong); }
+.code-steps-card--light .code-block {
+  background: #fff;
+  border-color: var(--stroke-weak);
+}
+/* Real per-token syntax coloring instead of one flat blue — same idea as
+   the dark theme's kw/fg/str palette, recolored for a white background. */
+.code-steps-card--light .code-block .tok-kw { color: var(--color-primary); }
+.code-steps-card--light .code-block .tok-fg { color: var(--text-strong); }
+.code-steps-card--light .code-block .tok-str { color: #1a7f37; }
+.code-steps-card--light .code-block__copy {
+  background: #fff;
+  border: 1px solid rgba(17, 24, 26, 0.2);
+  color: var(--text-weak);
+}
+.code-steps-card--light .code-block__copy:hover { color: var(--color-primary); border-color: var(--color-primary); }
 
 .chat-typing { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 4px 0; }
 .chat-typing img.dots { width: 20px; height: 4px; }
@@ -1495,6 +1545,52 @@ p { margin: 0; }
   color: var(--text-strong);
   white-space: nowrap;
 }
+/* B only, desktop/tablet: full-bleed cover result instead of A's centered
+   fixed-ratio frame + caption pill — the same treatment already used at
+   mobile (below), now applied at desktop widths too. Scoped via the
+   page-wide toggle since #workspaceDemo has no .pv-block pair of its own
+   (it's one shared element, not duplicated per A/B). */
+@media (min-width: 768px) {
+  /* Tried fixing .workspace-card__right's own ratio here first (its height
+     normally comes from align-items:stretch matching .workspace-card's
+     viewport-height-driven 60vh, which swings hard with window height —
+     0.74 ratio at 900px tall vs 0.96 at 700px tall, verified in-browser,
+     while its width stays put). Breaking out of stretch to fix a ratio off
+     that stable width worked for the shape, but then it stopped matching
+     .workspace-card__left's height, leaving a visible gap at the bottom of
+     the card. Left it stretched (unchanged) and fixed the actual symptom —
+     the crop, not the box — via object-position below instead. */
+  body[data-pv-mode="b"] .workspace-card__right { padding: 0; overflow: hidden; }
+  body[data-pv-mode="b"] .result-reveal { position: absolute; inset: 0; }
+  body[data-pv-mode="b"] .result-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    aspect-ratio: auto;
+    border: none;
+    border-radius: 0;
+    background: none;
+  }
+  /* object-position biases toward the top instead of a dead-center crop —
+     matters most for portrait/person photos, where cropping evenly off both
+     edges is exactly what was cutting into faces/heads. */
+  body[data-pv-mode="b"] .result-frame__img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  body[data-pv-mode="b"] .result-header {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 4px 12px;
+    border-radius: 24px;
+  }
+  body[data-pv-mode="b"] .result-header__dot { display: none; }
+  body[data-pv-mode="b"] .result-badge { color: #fff; }
+  body[data-pv-mode="b"] .result-caption { display: none; }
+}
 /* Only shown on mobile once the card is in its shrunk/floating state (see
    the media query below) — hidden everywhere else. */
 .result-float__close {
@@ -1590,6 +1686,10 @@ p { margin: 0; }
   padding-bottom: 80px;
   background: var(--color-primary);
 }
+/* B only: dark navy instead of the flat blue, per 16933:148978. No .pv-block
+   pair here (this section is shared, not duplicated per A/B), so scoped via
+   the page-wide toggle like the other shared elements. */
+body[data-pv-mode="b"] .stats { background: #00083f; }
 .stats .section-title h2,
 .stats .section-title p { color: #fff; }
 .stats .section-title p { opacity: 0.85; }
@@ -1856,6 +1956,11 @@ p { margin: 0; }
   box-shadow: 0px 16px 32px 0px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
+/* B only: dark navy instead of the flat blue, per 16839:143502. No
+   .pv-block pair here (this section is shared, not duplicated per A/B), so
+   scoped via the page-wide toggle like the other shared elements. Existing
+   text colors (white/near-white) already work fine against this too. */
+body[data-pv-mode="b"] .cta-card { background: #00083f; }
 .cta-card h2 {
   font-size: var(--fs-h2);
   line-height: 40px;

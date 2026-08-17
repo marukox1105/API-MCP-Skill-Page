@@ -266,16 +266,16 @@
               <button class="terminal__copy" data-copy-target="mcpJson">Copy</button>
             </div>
             <pre class="terminal__body" id="mcpJson">{
-  "mcpServers": {
-    "youcam-beauty": {
-      "command": "npx",
-      "args": [
-        "-y", "mcp-remote",
-        "https://mcp-api-01.youcamapi.com/mcp/beauty",
-        "--header", "Authorization:${AUTH}"
+  <span class="tok-key">"mcpServers"</span>: {
+    <span class="tok-key">"youcam-beauty"</span>: {
+      <span class="tok-key">"command"</span>: <span class="tok-str">"npx"</span>,
+      <span class="tok-key">"args"</span>: [
+        <span class="tok-str">"-y"</span>, <span class="tok-str">"mcp-remote"</span>,
+        <span class="tok-str">"https://mcp-api-01.youcamapi.com/mcp/beauty"</span>,
+        <span class="tok-str">"--header"</span>, <span class="tok-str">"Authorization:${AUTH}"</span>
       ],
-      "env": {
-        "AUTH": "Bearer YOUR_API_KEY"
+      <span class="tok-key">"env"</span>: {
+        <span class="tok-key">"AUTH"</span>: <span class="tok-str">"Bearer YOUR_API_KEY"</span>
       }
     }
   }
@@ -288,7 +288,7 @@
         </div>
 
         <!-- Agent Skill mode: copyable install / auth / invoke commands -->
-        <div class="code-steps-card" id="diagramPanelSkill" hidden>
+        <div class="code-steps-card code-steps-card--light" id="diagramPanelSkill" hidden>
           <div class="code-step">
             <div class="code-step__header">
               <span class="code-step__num">1</span>
@@ -429,16 +429,16 @@
           <button class="terminal__copy" data-copy-target="mcpJsonB">Copy</button>
         </div>
         <pre class="terminal__body" id="mcpJsonB">{
-  "mcpServers": {
-    "youcam-beauty": {
-      "command": "npx",
-      "args": [
-        "-y", "mcp-remote",
-        "https://mcp-api-01.youcamapi.com/mcp/beauty",
-        "--header", "Authorization:${AUTH}"
+  <span class="tok-key">"mcpServers"</span>: {
+    <span class="tok-key">"youcam-beauty"</span>: {
+      <span class="tok-key">"command"</span>: <span class="tok-str">"npx"</span>,
+      <span class="tok-key">"args"</span>: [
+        <span class="tok-str">"-y"</span>, <span class="tok-str">"mcp-remote"</span>,
+        <span class="tok-str">"https://mcp-api-01.youcamapi.com/mcp/beauty"</span>,
+        <span class="tok-str">"--header"</span>, <span class="tok-str">"Authorization:${AUTH}"</span>
       ],
-      "env": {
-        "AUTH": "Bearer YOUR_API_KEY"
+      <span class="tok-key">"env"</span>: {
+        <span class="tok-key">"AUTH"</span>: <span class="tok-str">"Bearer YOUR_API_KEY"</span>
       }
     }
   }
@@ -661,38 +661,39 @@
       </div>
     </div>
 
-    <!-- Version B: icon-badge card treatment instead of A's divider-line
-         cards. Icons per node 16945:149148 — each card now gets its own
-         distinct icon (was 3 icons cycling across 6 cards). -->
-    <div class="why-build__grid why-build__grid--b pv-block" data-pv="b" hidden>
-      <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/why-build-visual-ai.svg" alt=""></span>
+    <!-- Version B: per direct request, this section now just reuses A's
+         divider-line card visual as-is instead of its own icon-badge
+         treatment (the old .why-build__card--b/__icon assets are kept but
+         unreferenced, in case it's wanted again later). -->
+    <div class="why-build__grid pv-block" data-pv="b" hidden>
+      <div class="why-build__card">
         <h4>Specialized Visual AI</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
         <p>Access purpose-built tools across skin, face, beauty, hair, fashion, jewelry, image, and video workflows—not only general image generation.</p>
       </div>
-      <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/why-build-mcp-skills.svg" alt=""></span>
+      <div class="why-build__card">
         <h4>MCP Servers and Ready-Made Skills</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
         <p>Give agents direct access to individual tools through MCP, or install Skills that select and call the required APIs automatically.</p>
       </div>
-      <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/why-build-connect.svg" alt=""></span>
+      <div class="why-build__card">
         <h4>Connect Only What You Need</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
         <p>Choose Beauty &amp; Personal Care, Fashion &amp; Retail, or Creators—or connect all three servers when your workflow spans multiple domains.</p>
       </div>
-      <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/why-build-api-key.svg" alt=""></span>
+      <div class="why-build__card">
         <h4>One API Key and Existing Billing</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
         <p>Use the same YouCam API key and API plan across all three MCP servers and every Agent Skill. There is no separate charge for the MCP or Skill layer.</p>
       </div>
-      <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/why-build-structured-results.svg" alt=""></span>
+      <div class="why-build__card">
         <h4>Structured Results and Real Media</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
         <p>Return cosmetic analysis reports, appearance profiles, virtual try-on previews, generated images, and videos directly inside the agent workflow.</p>
       </div>
-      <div class="why-build__card why-build__card--b">
-        <span class="why-build__icon"><img src="assets/icons/why-build-developer-setup.svg" alt=""></span>
+      <div class="why-build__card">
         <h4>Developer-Ready Setup</h4>
+        <span class="why-build__rule" aria-hidden="true"></span>
         <p>Start with copyable MCP configurations, a one-command Skill installation, API documentation, and an interactive API Playground.</p>
       </div>
     </div>
