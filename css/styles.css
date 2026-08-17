@@ -1889,9 +1889,11 @@ p { margin: 0; }
   .hero__variant--a .hero__content,
   .hero__variant--b .hero__content {
     max-width: 560px;
-    text-align: center;
-    align-items: center;
+    text-align: left;
+    align-items: flex-start;
   }
+
+  .marquee-logo { height: 16px; }
 
   .section-title h2, .connect-title h3 { font-size: 24px; line-height: 32px; }
 
