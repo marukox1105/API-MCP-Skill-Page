@@ -2046,6 +2046,11 @@ p { margin: 0; }
      defined above, unconditionally. */
   body[data-pv-mode="b"] .workspace-card { transition: width 0.4s ease; }
   body[data-pv-mode="b"] .workspace-card.is-result-shown {
+    /* .workspace-card's base rule sets overflow:hidden (it clips the chat
+       log to its own rounded corners) — that was also clipping this floated
+       panel wherever it broke outside those bounds, since it's still a
+       descendant of this box. Reopen it only in this state. */
+    overflow: visible;
     width: 90%;
     margin: 0 auto;
     position: relative;
@@ -2059,7 +2064,7 @@ p { margin: 0; }
     min-height: 0;
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-overlay);
-    z-index: 5;
+    z-index: 20; /* clear of the card's own content stack, now that overflow is open */
   }
   body[data-pv-mode="b"] .workspace-card.is-result-shown .result-float__close { display: flex; align-items: center; justify-content: center; }
 
