@@ -2093,24 +2093,36 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
      layout — hide it once steps wrap into a row/grid. */
   .steps__connector { display: none; }
 
-  /* Capped at 80vh instead of growing unbounded with the stacked layout's
-     content. Tried making .workspace-card__left scroll internally first
-     (flex-grow filling the leftover space up to the cap) — but with
-     .workspace-card's height:auto, flex-grow has no definite space to
-     distribute in the first place (auto-height flex containers size to
-     their items' hypothetical/flex-basis sizes, not to any max-height
-     ceiling), so __left just collapsed toward its 0 flex-basis instead of
-     filling up to 80vh before scrolling. Simpler and actually correct: let
-     the card itself scroll as one unit once its natural (image + chat)
-     content exceeds the cap, instead of trying to carve out an inner
-     scroll region. */
-  .workspace-card { width: 100%; flex-direction: column; height: auto; max-height: 80vh; overflow-y: auto; }
-  .workspace-card__left { overflow-y: visible; padding: 16px 16px; }
+  /* Scrolling .workspace-card itself as one unit (tried earlier) forces
+     overflow:hidden/auto on it, which directly conflicts with the floated
+     result panel below needing overflow:visible to escape the card's
+     rounded corners for its shrink+float treatment — with both active
+     together, the card could neither clip nor scroll, letting chat text
+     spill out from behind the floating photo instead of being contained
+     one way or the other. Scoping the cap to .workspace-card__left alone
+     instead avoids the conflict entirely: the chat scrolls internally on
+     its own bounded height, .workspace-card__right stays free to float,
+     and .workspace-card itself never needs to constrain overflow at all. */
+  .workspace-card { width: 100%; flex-direction: column; height: auto; max-height: none; overflow: visible; }
+  /* flex:0 1 auto overrides the desktop base's flex:1 1 0 — same flex-basis
+     bug hit repeatedly this session: with .workspace-card's height:auto,
+     flex-basis:0 gives this nothing to grow into (auto-height containers
+     size to hypothetical/flex-basis sizes, not to any cap) and it collapses
+     toward 0 instead of its actual content height. flex-basis:auto makes
+     its hypothetical size the content's real height instead, so the column
+     sizes to fit it naturally — max-height only then kicks in as an actual
+     ceiling once that content exceeds it, which is when overflow-y:auto
+     actually has something to scroll. */
+  .workspace-card__left { flex: 0 1 auto; max-height: 45vh; overflow-y: auto; min-height: 0; padding: 16px 16px; }
   /* Mobile/tablet result panel reverts to a full-bleed cover image with just
      a small "RESULT" pill floating over the top-left corner, instead of
      desktop's centered fixed-ratio frame + caption pill (per the mobile
      workspace-demo reference). */
-  .workspace-card__right { width: 100%; min-height: 320px; padding: 0; position: relative; overflow: hidden; }
+  /* flex:0 0 auto (overriding the desktop base's flex:1 1 0) keeps this out
+     of the stacked column's flex-grow distribution — same reasoning as the
+     desktop B fix above: a flex-grown height would fight aspect-ratio
+     instead of letting it hold a true 4:5 shape. */
+  .workspace-card__right { width: 100%; flex: 0 0 auto; aspect-ratio: 4 / 5; padding: 0; position: relative; overflow: hidden; }
   .result-reveal { position: absolute; inset: 0; }
   .result-frame {
     position: absolute;
@@ -2243,18 +2255,19 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
   /* Once the result reveals, the card shrinks to 90% width and the result
      panel breaks out of normal flow to float overlapping its bottom-right
      corner instead — .is-result-shown is added by main.js at the same
-     moment data-reveal="8" becomes visible (16973:153309). B-version only:
-     #workspaceDemo has no .pv-block A/B pair of its own (it's one shared
-     element), so this is gated on the page-wide toggle's data-pv-mode
-     instead. Version A keeps the plain full-bleed-cover result panel
-     defined above, unconditionally. */
+     moment data-reveal="8" becomes visible. B-version only: #workspaceDemo
+     has no .pv-block A/B pair of its own (it's one shared element), so this
+     is gated on the page-wide toggle's data-pv-mode instead.
+     This previously conflicted with capping .workspace-card itself to
+     80vh + overflow-y:auto (needed overflow:visible here to let the panel
+     escape the card's rounded corners, which canceled that scroll and let
+     chat text spill out from behind the floating photo). Resolved by moving
+     the scroll cap onto .workspace-card__left alone (above) instead of the
+     outer card — .workspace-card itself no longer needs to constrain
+     overflow at all, so it can stay visible here with nothing to conflict
+     with. */
   body[data-pv-mode="b"] .workspace-card { transition: width 0.4s ease; }
   body[data-pv-mode="b"] .workspace-card.is-result-shown {
-    /* .workspace-card's base rule sets overflow:hidden (it clips the chat
-       log to its own rounded corners) — that was also clipping this floated
-       panel wherever it broke outside those bounds, since it's still a
-       descendant of this box. Reopen it only in this state. */
-    overflow: visible;
     width: 90%;
     margin-right: auto;
     margin-left: 0;
@@ -2262,14 +2275,14 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
   }
   body[data-pv-mode="b"] .workspace-card.is-result-shown .workspace-card__right {
     position: absolute;
-    right: -6%;
-    bottom: 5%;
+    right: -12%;
+    bottom: 4%;
     width: 58%;
-    height: 55%;
+    height: 40%;
     min-height: 0;
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-overlay);
-    z-index: 20; /* clear of the card's own content stack, now that overflow is open */
+    z-index: 20;
   }
   body[data-pv-mode="b"] .workspace-card.is-result-shown .result-float__close { display: flex; align-items: center; justify-content: center; }
 

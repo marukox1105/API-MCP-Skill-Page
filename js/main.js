@@ -892,7 +892,16 @@
      reset → replay. */
   var demoCard = document.getElementById('workspaceDemo');
   if (demoCard) {
-    var revealItems = Array.prototype.slice.call(demoCard.querySelectorAll('.reveal-item'));
+    // [data-reveal] excludes #workspaceTyping (a .reveal-item with no
+    // data-reveal of its own, handled entirely by its own dedicated show/
+    // hide below) from this generic per-step grouping. Without this, it
+    // fell into a group keyed by the string "null" (getAttribute returns
+    // null, coerced to an object key) that sorted to the END of stepKeys —
+    // meaning the generic loop re-added .is-visible to it a second time,
+    // long after its own deliberate hide, right around when the full reply
+    // finished revealing. That's what kept showing "AI is thinking..."
+    // alongside the finished reply instead of just during the pause before it.
+    var revealItems = Array.prototype.slice.call(demoCard.querySelectorAll('.reveal-item[data-reveal]'));
     var typingEl = document.getElementById('workspaceTyping');
     var groups = {};
     revealItems.forEach(function (el) {
@@ -901,19 +910,31 @@
     });
     var stepKeys = Object.keys(groups).sort(function (a, b) { return Number(a) - Number(b); });
 
-    // The chat log now has its own scrollbar (card height is capped to a
-    // share of the viewport), so as each reply piece appears, follow it down
-    // like a real chat — but only scroll as far as needed to bring it fully
-    // into view, not all the way to the bottom every time.
+    // The chat log has its own scrollbar on desktop (card height capped to a
+    // share of the viewport) but not on mobile anymore, where the whole
+    // .workspace-card scrolls as one unit instead — so as each reply piece
+    // appears, follow it down like a real chat by scrolling whichever of the
+    // two is actually the scrolling container, not always .workspace-card__left.
     var chatLog = demoCard.querySelector('.workspace-card__left');
+    function scrollContainer() {
+      return (chatLog && chatLog.scrollHeight > chatLog.clientHeight + 1) ? chatLog : demoCard;
+    }
     function scrollNewestIntoView(el) {
-      if (!chatLog || !el) return;
+      if (!el) return;
+      var container = scrollContainer();
       var elRect = el.getBoundingClientRect();
-      var logRect = chatLog.getBoundingClientRect();
-      var overflowBelow = elRect.bottom - logRect.bottom;
+      var containerRect = container.getBoundingClientRect();
+      var overflowBelow = elRect.bottom - containerRect.bottom;
       if (overflowBelow > 0) {
-        chatLog.scrollTo({ top: chatLog.scrollTop + overflowBelow + 16, behavior: 'smooth' });
+        container.scrollTo({ top: container.scrollTop + overflowBelow + 16, behavior: 'smooth' });
       }
+    }
+    // Per direct request: always settle at the very bottom once the whole
+    // reply has finished revealing, rather than stopping wherever the last
+    // "follow the newest piece into view" scroll happened to land.
+    function scrollToBottom() {
+      var container = scrollContainer();
+      container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
     }
 
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -945,6 +966,7 @@
         revealItems.forEach(function (el) { el.style.transition = ''; });
         if (typingEl) typingEl.style.transition = '';
         if (chatLog) chatLog.scrollTop = 0; // start each replay back at the top
+        demoCard.scrollTop = 0; // ditto for mobile, where demoCard itself is the scrolling container instead
 
         var t = 400;
         var STEP_GAP = 550;
@@ -955,6 +977,7 @@
         // however many px are left to settle, then the layout "jumps" that
         // last bit into place a moment after we already stopped scrolling.
         var REVEAL_SETTLE_MS = 500;
+        var lastKey = stepKeys[stepKeys.length - 1];
 
         stepKeys.forEach(function (key) {
           // Show a brief "AI is thinking" pause right before the first
@@ -981,8 +1004,15 @@
             }
             // Follow the last (bottom-most) element of this step down into
             // view — delayed until its own reveal transition has settled.
+            // Once the whole reply has finished (the last step), settle at
+            // the true bottom instead, per direct request, rather than
+            // wherever this step's own "follow it into view" scroll landed.
             schedule(function () {
-              scrollNewestIntoView(groups[key][groups[key].length - 1]);
+              if (key === lastKey) {
+                scrollToBottom();
+              } else {
+                scrollNewestIntoView(groups[key][groups[key].length - 1]);
+              }
             }, REVEAL_SETTLE_MS);
           }, t);
           t += STEP_GAP;
