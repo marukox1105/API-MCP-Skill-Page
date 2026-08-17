@@ -181,7 +181,7 @@
       result: 'assets/workspace/usecases/brand-marketing-result.jpg'
     },
     'Creative agency': {
-      photos: ['assets/workspace/img-visual-asset-badge.png', 'assets/workspace/img-visual-asset-badge1.png'],
+      photos: ['assets/workspace/usecases/creative-agency-badge.png', 'assets/workspace/usecases/creative-agency-badge2.png'],
       prompt: 'Turn this approved key visual into a five-second social promo.',
       status: 'n8n',
       description: "I'll add controlled motion to the approved visual and prepare a short-form asset suitable for a client campaign.",
@@ -189,7 +189,7 @@
       outcomeTitle: 'The five-second social promo is ready for agency review.',
       bullets: ['Approved subject and composition preserved', 'Subtle push-in and lighting motion added', 'Duration optimized for short-form placement'],
       footerNote: "The resulting clip can move directly into the team's review and delivery workflow.",
-      result: 'assets/workspace/img-right-preview-workspace.png'
+      result: 'assets/workspace/usecases/creative-agency-result.mp4'
     },
     'Skin Analysis Expert': {
       photos: ['assets/workspace/usecases/skin-analysis-expert-overlay.png'],
@@ -308,8 +308,26 @@
     var footerNoteEl = document.getElementById('wsFooterNote');
     if (footerNoteEl) footerNoteEl.textContent = data.footerNote;
 
+    // A few use cases (e.g. Creative agency's "Used AI Video Generator")
+    // produce a video result instead of a still image — detected by file
+    // extension since that's already the one thing distinguishing them in
+    // the data, no extra flag needed. Swap which element is visible instead
+    // of trying to play a video through an <img> tag (silently broken) or
+    // show a static poster for a video result (undersells the feature).
     var resultImg = document.getElementById('wsResultImage');
-    if (resultImg) resultImg.src = data.result;
+    var resultVideo = document.getElementById('wsResultVideo');
+    var isVideo = /\.(mp4|webm|mov)$/i.test(data.result);
+    if (resultImg) resultImg.hidden = isVideo;
+    if (resultVideo) {
+      resultVideo.hidden = !isVideo;
+      if (isVideo) {
+        if (resultVideo.getAttribute('src') !== data.result) resultVideo.src = data.result;
+        resultVideo.play().catch(function () {}); // autoplay can reject before the reveal-cycle's own opacity transition finishes settling; harmless either way
+      } else {
+        resultVideo.pause();
+      }
+    }
+    if (resultImg && !isVideo) resultImg.src = data.result;
 
     var resultCaptionEl = document.getElementById('wsResultCaption');
     if (resultCaptionEl) resultCaptionEl.textContent = data.toolBadge;
