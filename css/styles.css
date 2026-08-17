@@ -319,7 +319,23 @@ p { margin: 0; }
 }
 .hero__variant--a .hero__video video,
 .hero__variant--b .hero__video video {
-  aspect-ratio: auto;
+  /* Previously width:100%/height:100% (inherited from the base rule above)
+     forced the video to stretch to fill .hero__top's own box exactly —
+     since .hero__top's shape (very wide, short) rarely matches the video's
+     native 2880:1254 ratio, object-fit:cover was cropping deep into the
+     top and bottom to make up the difference (cutting into the actual
+     UI content in the recording, not just empty margin). Sizing by width
+     with the real aspect-ratio instead means it's never stretched
+     vertically — centered so that on any viewport short enough for it to
+     still overflow the hero, .hero__video's own overflow:hidden trims an
+     equal sliver off both edges instead of one specific edge losing content. */
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2880 / 1254; /* native size of video-hero.mp4 (both A and B) */
+  transform: translateY(-50%);
 }
 .hero__content {
   position: relative;
@@ -1908,6 +1924,12 @@ p { margin: 0; }
   .diagram-section__body { flex-direction: column; }
   .flow-grid { flex-direction: column; }
   .flow-grid__arrow { transform: rotate(90deg); }
+  /* transform isn't additive — the reveal states below (translateY) would
+     otherwise replace this rotation outright instead of combining with it,
+     which is exactly what was leaving the arrows pointing right again once
+     revealed. Redeclare each state here with the rotation folded in. */
+  .flow-grid.is-staged .flow-grid__arrow { transform: rotate(90deg) translateY(16px); }
+  .flow-grid.is-staged .flow-grid__arrow.is-visible { transform: rotate(90deg) translateY(0); }
   .horizontal-steps { flex-direction: column; gap: 24px; }
   .horizontal-steps__divider { align-self: flex-start; width: 1px; height: 24px; margin: 0 0 0 13px; }
   .horizontal-steps__divider-fill { width: 100%; height: 0%; transition: height 0.6s ease; }
