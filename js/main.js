@@ -1250,7 +1250,44 @@
   var horizontalSteps = document.getElementById('horizontalSteps');
   if (horizontalSteps && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
     var hCircles = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.step__num'));
+    var hDividers = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.horizontal-steps__divider'));
     var hDividerFills = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.horizontal-steps__divider-fill'));
+
+    // Once stacked vertically (mobile), each divider is position:absolute
+    // and needs its real top/height measured — same technique as A's own
+    // .steps__connector, just per-divider (one span per adjacent circle
+    // pair) instead of one continuous line across all three. Without this,
+    // the divider's old fixed height covered only a fraction of the true
+    // gap between circles (each step's own 1-3 lines of text made that gap
+    // taller than any fixed value could account for), showing as a short
+    // dashed segment floating with blank space around it instead of a full
+    // line connecting the circles. Desktop's horizontal layout never enters
+    // the flexDirection:'column' branch, so it's untouched — its divider
+    // stays the plain in-flow segment its own CSS already sizes.
+    function measureHDividers() {
+      if (getComputedStyle(horizontalSteps).flexDirection !== 'column') {
+        hDividers.forEach(function (d) { d.style.top = ''; d.style.height = ''; });
+        return;
+      }
+      var wrapRect = horizontalSteps.getBoundingClientRect();
+      var centers = hCircles.map(function (c) {
+        var r = c.getBoundingClientRect();
+        return (r.top + r.height / 2) - wrapRect.top;
+      });
+      hDividers.forEach(function (div, i) {
+        var top = centers[i];
+        var bottom = centers[i + 1];
+        if (top == null || bottom == null) return;
+        div.style.top = top + 'px';
+        div.style.height = Math.max(0, bottom - top) + 'px';
+      });
+    }
+    measureHDividers();
+    window.addEventListener('resize', function () {
+      clearTimeout(window.__hStepsResizeT);
+      window.__hStepsResizeT = setTimeout(measureHDividers, 150);
+    });
+
     var H_STEP_MS = 1400;
     var H_HOLD_MS = 5000; // once all 3 steps + cards are lit, hold here before looping back to the start
     var H_GAP_MS = 700;
@@ -1308,6 +1345,11 @@
         entries.forEach(function (entry) {
           if (entry.isIntersecting && !hStarted) {
             hStarted = true;
+            // The very first measureHDividers() call above ran while B's
+            // whole diagram section was still hidden (A shown by default),
+            // so getBoundingClientRect() on every circle returned zeros —
+            // re-measure now that it's actually visible and laid out.
+            measureHDividers();
             hRunPass();
             hIo.disconnect();
           }
@@ -1315,6 +1357,7 @@
       }, { threshold: 0.3 });
       hIo.observe(horizontalSteps);
     } else {
+      measureHDividers();
       hRunPass();
     }
   }

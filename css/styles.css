@@ -2088,13 +2088,23 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
      steps convention (dashed line instead of a solid fill bar) — same
      .step__num circles + .is-glowing glow are already shared with A as-is
      (same class, no B-specific override existed), so circles already
-     matched; only the connecting line's look was different. */
-  .horizontal-steps { flex-direction: column; gap: 0px; }
+     matched; only the connecting line's look was different.
+     The divider used to be a normal-flow sibling with a fixed 24px height —
+     since each step's own text content (1-3 lines) takes up real space the
+     divider knew nothing about, that fixed 24px only ever covered a small
+     fraction of the true visual gap between circles, reading as "half a
+     dashed line" floating with blank space around it. Same fix as A's own
+     .steps__connector: position it absolutely and have main.js measure the
+     real distance between each pair of circle centers, same technique,
+     just per-divider instead of one continuous span. */
+  .horizontal-steps { flex-direction: column; gap: 32px; position: relative; }
   .horizontal-steps__divider {
-    align-self: flex-start;
+    position: absolute;
+    left: 13px; /* centered on the 28px step__num circle, matching A's connector */
     width: 1px;
-    height: 24px;
-    margin: 0 0 0 13px;
+    margin: 0;
+    /* top/height set inline by main.js to span exactly circle-center to
+       circle-center */
     background: repeating-linear-gradient(to bottom, var(--stroke-weak) 0 4px, transparent 4px 9px);
   }
   .horizontal-steps__divider-fill {
@@ -2139,8 +2149,32 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
   /* flex:0 0 auto (overriding the desktop base's flex:1 1 0) keeps this out
      of the stacked column's flex-grow distribution — same reasoning as the
      desktop B fix above: a flex-grown height would fight aspect-ratio
-     instead of letting it hold a true 4:5 shape. */
-  .workspace-card__right { width: 100%; flex: 0 0 auto; aspect-ratio: 4 / 5; padding: 0; position: relative; overflow: hidden; }
+     instead of letting it hold a true 4:5 shape.
+     border-radius on the bottom corners specifically: .workspace-card
+     itself switched to overflow:visible elsewhere in this block (needed so
+     B's floated result panel can escape its rounded corners) — that also
+     stopped the card from clipping this, its last stacked child, into its
+     own rounded bottom corners the way overflow:hidden used to. Since this
+     element's own overflow:hidden only rounds ITS OWN box, it needs the
+     radius applied directly now that the parent isn't doing it anymore. */
+  .workspace-card__right {
+    /* Hidden until the result actually reveals (data-reveal="8" getting
+       .is-visible, last step of the sequence) — without this, the box
+       still renders at its full aspect-ratio(4:5) size the instant the
+       page loads (sizing doesn't depend on the reveal animation at all),
+       showing as an empty light-blue placeholder — which is exactly the
+       "gap"/"extra space" this whole investigation chased, just earlier
+       in the timeline than where it was being looked for. */
+    display: none;
+    width: 100%;
+    flex: 0 0 auto;
+    aspect-ratio: 4 / 5;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  }
+  .workspace-card__right:has(.result-reveal.is-visible) { display: block; }
   .result-reveal { position: absolute; inset: 0; }
   .result-frame {
     position: absolute;
@@ -2303,6 +2337,14 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
     z-index: 20;
   }
   body[data-pv-mode="b"] .workspace-card.is-result-shown .result-float__close { display: flex; align-items: center; justify-content: center; }
+  /* Bottom-center instead of the shared top-left placement (still used by
+     A's plain mobile treatment, and by B before the result floats). */
+  body[data-pv-mode="b"] .workspace-card.is-result-shown .result-header {
+    top: auto;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+  }
 
   /* 1 column at true mobile (was still inheriting the tablet 2-column rule
      — there was no 767px override for A's grid specifically). */
