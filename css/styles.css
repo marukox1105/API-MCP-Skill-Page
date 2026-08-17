@@ -686,6 +686,9 @@ p { margin: 0; }
   gap: 40px;
   align-items: flex-start;
   width: 100%;
+  min-width: 0; /* it's a flex item of .diagram-section itself — same
+    min-width:auto default that was letting the terminal's content push
+    everything wider than the viewport, one level up in the chain */
 }
 
 .steps-wrap {
@@ -879,7 +882,17 @@ p { margin: 0; }
    inside the terminal header now, as a row of brand wordmarks. The active
    client gets a white pill (true logo colors); the rest sit muted/silhouetted
    directly on the dark header. */
-.terminal__logos { display: flex; align-items: center; gap: 6px; overflow-x: auto; }
+.terminal__logos {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  min-width: 0; /* it's a flex item of .terminal__header — same fix, so its
+    own scroll actually kicks in instead of the header growing wider */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* old Edge */
+}
+.terminal__logos::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 .terminal__logo {
   display: flex;
   align-items: center;
