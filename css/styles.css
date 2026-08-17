@@ -1986,6 +1986,10 @@ p { margin: 0; }
 
   .marquee-logo { height: 16px; }
 
+  /* 1 column at true mobile (was still inheriting the tablet 2-column rule
+     — there was no 767px override for A's grid specifically). */
+  .feature-grid { grid-template-columns: 1fr; }
+
   .section-title h2, .connect-title h3 { font-size: 24px; line-height: 32px; }
 
   .connect__cards { grid-template-columns: 1fr; }
