@@ -301,17 +301,13 @@ p { margin: 0; }
   object-fit: cover;
   aspect-ratio: 3 / 2; /* matches video-hero-s.mp4's native 1800×1200 */
 }
-.hero__video--b {
-  max-width: 1000px;
-  border: none;
-  aspect-ratio: 2880 / 1254; /* matches video-hero.mp4's native size (desktop source) */
-}
-.hero__video--b video { aspect-ratio: 2880 / 1254; }
-/* A's video is full-bleed background from tablet up (desktop uses
-   video-hero.mp4 via <source media>, picked in HTML) — text stays confined
-   to the left half instead of splitting the row with a side-by-side panel.
-   Mobile reverts both back to a normal in-flow card (see 767px below). */
-.hero__variant--a .hero__video {
+/* Both A and B's video are full-bleed background from tablet up (desktop
+   uses video-hero.mp4 via <source media>, picked in HTML) — text stays
+   confined to the left half instead of splitting the row with a
+   side-by-side panel. Mobile reverts both back to a normal in-flow
+   stacked card (see 767px below). */
+.hero__variant--a .hero__video,
+.hero__variant--b .hero__video {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -320,7 +316,10 @@ p { margin: 0; }
   border-radius: 0;
   box-shadow: none;
 }
-.hero__variant--a .hero__video video { aspect-ratio: auto; }
+.hero__variant--a .hero__video video,
+.hero__variant--b .hero__video video {
+  aspect-ratio: auto;
+}
 .hero__content {
   position: relative;
   z-index: 1;
@@ -331,7 +330,8 @@ p { margin: 0; }
   flex-direction: column;
   gap: 40px;
 }
-.hero__variant--a .hero__content { max-width: 50%; }
+.hero__variant--a .hero__content,
+.hero__variant--b .hero__content { max-width: 50%; }
 .hero__heading {
   font-family: var(--font-display);
   font-weight: 800;
@@ -1878,13 +1878,10 @@ p { margin: 0; }
   .navbar__right > .btn-login { display: none; }
   .btn-signup-mobile { display: inline-flex; }
 
-  /* No room for side-by-side once nav collapses — stack instead, video on
-     top (via order, so markup doesn't need to change) rather than hiding it.
-     A stays full-bleed-background at this width (only collapses at 767px
-     below) — only B's side-by-side card needs to stack here. */
+  /* Both A and B stay full-bleed-background at this width now (they only
+     collapse into a stacked in-flow card at 767px below), so nothing
+     variant-specific is needed here beyond the shared column stacking. */
   .hero__top { flex-direction: column; align-items: stretch; padding-top: 40px; text-align: left; min-height: 0; }
-  .hero__variant--b .hero__content { max-width: 100%; }
-  .hero__video--b { order: -1; max-width: 100%; }
 
   .connect__cards { grid-template-columns: repeat(2, 1fr); }
 
@@ -2002,30 +1999,26 @@ p { margin: 0; }
      width-based percentage padding always yields a real, non-zero box
      regardless of aspect-ratio support or flex sizing, and the <video>
      is pulled out of flow to fill that box via inset:0. */
-  .hero__variant--a .hero__video {
+  .hero__variant--a .hero__video,
+  .hero__variant--b .hero__video {
     position: relative;
     order: -1;
     width: 100%;
     max-width: 100%;
     height: 0;
-    padding-bottom: 66.6667%; /* 3:2 */
     border: 3px solid rgba(255, 255, 255, 0.6);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-overlay);
   }
-  .hero__variant--a .hero__video video {
+  .hero__variant--a .hero__video { padding-bottom: 66.6667%; } /* 3:2, matches A's video-hero-s.mp4 (1800×1200) */
+  .hero__variant--b .hero__video { padding-bottom: 56.25%; } /* 16:9, matches B's video-hero-s.mp4 (1920×1080) */
+  .hero__variant--a .hero__video video,
+  .hero__variant--b .hero__video video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     aspect-ratio: auto;
-  }
-  /* B's <source media> switches to video-hero-s.mp4 (16:9) below 768px —
-     match the panel's own aspect-ratio to it so the card isn't stretched
-     against the desktop file's wider 2880:1254 shape. */
-  .hero__video--b,
-  .hero__video--b video {
-    aspect-ratio: 16 / 9;
   }
   .hero__variant--a .hero__content,
   .hero__variant--b .hero__content {
