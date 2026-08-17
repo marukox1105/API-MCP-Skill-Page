@@ -1551,16 +1551,24 @@ p { margin: 0; }
    page-wide toggle since #workspaceDemo has no .pv-block pair of its own
    (it's one shared element, not duplicated per A/B). */
 @media (min-width: 768px) {
-  /* Tried fixing .workspace-card__right's own ratio here first (its height
-     normally comes from align-items:stretch matching .workspace-card's
-     viewport-height-driven 60vh, which swings hard with window height —
-     0.74 ratio at 900px tall vs 0.96 at 700px tall, verified in-browser,
-     while its width stays put). Breaking out of stretch to fix a ratio off
-     that stable width worked for the shape, but then it stopped matching
-     .workspace-card__left's height, leaving a visible gap at the bottom of
-     the card. Left it stretched (unchanged) and fixed the actual symptom —
-     the crop, not the box — via object-position below instead. */
-  body[data-pv-mode="b"] .workspace-card__right { padding: 0; overflow: hidden; }
+  /* First attempt kept width flexible (flex:1 1 0, filling leftover row
+     space) and only patched the crop via object-position — that avoided a
+     height mismatch with .workspace-card__left, but per direct follow-up,
+     what's actually wanted is the panel's WIDTH shrinking together with the
+     viewport's height, keeping a true portrait shape throughout, not just a
+     less-bad crop within a shape that still stretches wide on short screens.
+     Height still comes from align-items:stretch (matches
+     .workspace-card__left, no gap); flex:0 0 auto takes width out of the
+     row's flex distribution so aspect-ratio is free to derive it purely
+     from that stretched height instead of the two fighting each other —
+     .workspace-card__left's own flex:1 1 0 absorbs whatever width this
+     leaves it. */
+  body[data-pv-mode="b"] .workspace-card__right {
+    padding: 0;
+    overflow: hidden;
+    flex: 0 0 auto;
+    aspect-ratio: 4 / 5;
+  }
   body[data-pv-mode="b"] .result-reveal { position: absolute; inset: 0; }
   body[data-pv-mode="b"] .result-frame {
     position: absolute;
