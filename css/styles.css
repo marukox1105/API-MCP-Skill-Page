@@ -88,7 +88,7 @@
    { display: none }` at equal specificity, so without this override both
    panels can end up visible at once. */
 [hidden] { display: none !important; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -193,6 +193,24 @@ p { margin: 0; }
   white-space: nowrap;
 }
 .btn-login:hover { background: #1f6fe0; }
+
+/* Compact mobile-only stand-in for .btn-login — shown instead of it once
+   the burger takes over (see the 1023px breakpoint), matching the mobile
+   header reference's tiny "Sign Up" pill instead of the full-size button. */
+.btn-signup-mobile {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--fs-tiny);
+  white-space: nowrap;
+}
+.btn-signup-mobile:hover { background: #1f6fe0; }
 
 .navbar__burger {
   display: none;
@@ -1783,6 +1801,13 @@ p { margin: 0; }
 @media (max-width: 1023px) {
   .navbar__links { display: none; }
   .navbar__burger { display: flex; }
+  /* The top bar's own login button is redundant once the burger takes
+     over — the mobile panel already has its own copy — and on narrow
+     phones, logo + login pill + burger together no longer fit on one row
+     without forcing horizontal scroll (especially now that the logo is
+     protected from shrinking/distorting). */
+  .navbar__right > .btn-login { display: none; }
+  .btn-signup-mobile { display: inline-flex; }
 
   /* No room for side-by-side once nav collapses — stack instead, video on
      top (via order, so markup doesn't need to change) rather than hiding it.
@@ -1825,7 +1850,7 @@ p { margin: 0; }
 }
 
 @media (max-width: 767px) {
-  .navbar { padding: 0 16px; }
+  .navbar { padding: 0 32px; }
   .hero { gap: 40px; }
   .hero__heading { font-size: 32px; line-height: 40px; }
   .hero__desc { font-size: 15px; line-height: 22px; }

@@ -10,6 +10,11 @@
 <!-- ============================== NAVBAR ============================== -->
 <header class="navbar">
   <div class="navbar__left">
+    <!-- Mobile stacks the burger before the logo (matches the mobile header
+         reference) — hidden on desktop where .navbar__links takes over. -->
+    <button class="navbar__burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <a href="#" class="navbar__logo" aria-label="YouCam API home">
       <img src="assets/nav/img-vector.svg" alt="YouCam API">
     </a>
@@ -23,9 +28,7 @@
   </div>
   <div class="navbar__right">
     <a class="btn-login" href="#">Log In / Sign Up</a>
-    <button class="navbar__burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <a class="btn-signup-mobile" href="#">Sign Up</a>
   </div>
   <div class="navbar__mobile-panel" id="mobilePanel">
     <button class="navbar__link">Products <img class="chev" src="assets/icons/chevron-down-small.svg" alt=""></button>

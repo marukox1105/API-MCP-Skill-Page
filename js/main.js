@@ -987,7 +987,23 @@
       });
     }
 
-    armCardGrid(statsCards, playCountUp);
+    // No card entrance animation here — just the number count-up, on its
+    // own IntersectionObserver (plays once per page load).
+    if ('IntersectionObserver' in window) {
+      var statsStarted = false;
+      var statsIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !statsStarted) {
+            statsStarted = true;
+            playCountUp();
+            statsIo.disconnect();
+          }
+        });
+      }, { threshold: 0.4 });
+      statsIo.observe(statsCards);
+    } else {
+      playCountUp();
+    }
   }
 
   /* ---------------- Steps connector: a dot travels from circle 1 to circle 3
