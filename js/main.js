@@ -613,14 +613,24 @@
     });
     container.classList.add('is-revealed');
   }
-  function armCardGrid(container) {
+  // onRevealed (optional) fires once, after the whole staggered reveal has
+  // actually finished playing — e.g. the stats count-up waits for this
+  // instead of starting at the same time as the cards.
+  function armCardGrid(container, onRevealed) {
     if (!container) return;
     container.classList.add('card-reveal');
-    if (!('IntersectionObserver' in window)) { revealCardGrid(container); return; }
+    function afterReveal() {
+      if (!onRevealed) return;
+      var count = container.children.length;
+      var totalMs = Math.max(0, count - 1) * 100 + 700 + 150; // last stagger delay + transition + a short beat
+      setTimeout(onRevealed, totalMs);
+    }
+    if (!('IntersectionObserver' in window)) { revealCardGrid(container); afterReveal(); return; }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           revealCardGrid(container);
+          afterReveal();
           io.disconnect();
         }
       });
@@ -631,7 +641,7 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -20% 0px' });
     io.observe(container);
   }
-  ['connectCardsGrid', 'showcaseGrid', 'statsCards'].forEach(function (id) {
+  ['connectCardsGrid', 'showcaseGrid'].forEach(function (id) {
     armCardGrid(document.getElementById(id));
   });
   var statsFigures = document.querySelector('.stats__row--figures');
@@ -942,9 +952,10 @@
   }
 
   /* ---------------- Stats banner: count-up on scroll into view ----------------
-     Plays once per page load, the moment the cards first scroll into view —
-     scrolling away and back does NOT replay it (only a fresh page load does),
-     per request. Eased fast-to-slow (ease-out) rather than linear counting. ---------------- */
+     Plays once per page load, right after the cards' own reveal animation
+     finishes (via armCardGrid's onRevealed callback) rather than starting
+     at the same time — scrolling away and back does NOT replay it (only a
+     fresh page load does). Eased fast-to-slow (ease-out) rather than linear. ---------------- */
   var statsCards = document.getElementById('statsCards');
   if (statsCards) {
     var countEls = Array.prototype.slice.call(statsCards.querySelectorAll('[data-count-to]'));
@@ -976,21 +987,7 @@
       });
     }
 
-    if ('IntersectionObserver' in window) {
-      var statsStarted = false;
-      var statsIo = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting && !statsStarted) {
-            statsStarted = true;
-            playCountUp();
-            statsIo.disconnect();
-          }
-        });
-      }, { threshold: 0.4 });
-      statsIo.observe(statsCards);
-    } else {
-      playCountUp();
-    }
+    armCardGrid(statsCards, playCountUp);
   }
 
   /* ---------------- Steps connector: a dot travels from circle 1 to circle 3
