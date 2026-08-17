@@ -934,26 +934,39 @@ p { margin: 0; }
 .terminal--light {
   background: #fff;
   border: 1px solid var(--stroke-weak);
-  box-shadow: var(--shadow-raised);
+  border-radius: 12px;
+  box-shadow: none;
 }
 .terminal--light .terminal__header,
 .terminal--light .terminal__footer {
-  background: var(--bg-section-tint);
+  background: var(--fill-weak);
 }
 .terminal--light .terminal__footer { border-top-color: var(--stroke-weak); }
-.terminal--light .terminal__logo img { filter: none; opacity: 0.45; }
-.terminal--light .terminal__logo:hover img { opacity: 0.75; }
-.terminal--light .terminal__logo.is-active { background: #fff; box-shadow: var(--shadow-raised); }
-.terminal--light .terminal__logo.is-active img { opacity: 1; }
-.terminal--light .terminal__copy {
+/* Logos keep their natural full-color look always — dimming them the way
+   the dark version does would just read as muddy on a light background.
+   The only "active" cue is the white pill + border wrapper, per the design. */
+.terminal--light .terminal__logo img { filter: none; opacity: 1; }
+.terminal--light .terminal__logo.is-active {
   background: #fff;
-  border-color: var(--stroke-weak);
+  border: 1px solid rgba(17, 24, 26, 0.2);
+}
+.terminal--light .terminal__copy {
+  padding: 6px 16px;
+  background: #fff;
+  border: 1px solid rgba(17, 24, 26, 0.2);
+  border-radius: 8px;
   color: var(--text-weak);
+  font-weight: 600;
 }
 .terminal--light .terminal__copy:hover { color: var(--color-primary); border-color: var(--color-primary); }
-.terminal--light .terminal__body { background: #fff; color: #1a7f5a; }
-.terminal--light .terminal__footer-status { color: var(--text-weak); }
-.terminal--light .terminal__footer-status img { filter: none; opacity: 0.7; }
+.terminal--light .terminal__body {
+  background: #fff;
+  color: var(--color-primary);
+  font-size: 12px;
+  line-height: 16px;
+}
+.terminal--light .terminal__footer-status { color: #8b949e; }
+.terminal--light .terminal__footer-status img { filter: none; opacity: 1; }
 
 /* ==========================================================================
    Diagram-Section Version B: 3-column flow (Connector -> API Console ->
