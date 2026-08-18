@@ -371,10 +371,12 @@
      ready-made skills from Figma node 16915:145367. ---------------- */
   var CONNECT_TITLES = {
     mcp: {
+      intro: 'Connect one or more domain servers to give your agent direct access to YouCam API tools. All three servers use the same API key.',
       h2: 'Three MCPs, one API key',
       p: 'Each MCP server groups YouCam API tools by domain. Connect only the server your agent needs, or add all three using the same API key.'
     },
     skill: {
+      intro: 'Install a ready-made workflow. Each skill calls YouCam APIs directly using your API key—no MCP setup required.',
       h2: 'Ready-made Agent Skills',
       p: 'Install ready-made skills for common workflows. Each skill calls YouCam APIs directly and requires only your API key—no MCP setup.'
     }
@@ -444,9 +446,14 @@
   var connectCardsGrid = document.getElementById('connectCardsGrid');
   var connectTitleH2 = document.getElementById('connectTitleH2');
   var connectTitleP = document.getElementById('connectTitleP');
+  var connectIntroP = document.getElementById('connectIntroP');
 
   function renderConnectCards(method) {
     var titles = CONNECT_TITLES[method] || CONNECT_TITLES.mcp;
+    // "Two ways to connect"'s own intro blurb, right above the MCP/Agent
+    // Skill toggle — was static HTML, always showing the MCP wording
+    // regardless of which tab was actually active.
+    if (connectIntroP) connectIntroP.innerHTML = titles.intro;
     if (connectTitleH2) connectTitleH2.innerHTML = titles.h2;
     if (connectTitleP) connectTitleP.innerHTML = titles.p;
 
@@ -457,12 +464,10 @@
         var style = i === 0 ? 'object-fit:contain;' : 'position:absolute; inset:0;';
         return '<img src="' + src + '" alt="" style="' + style + '">';
       }).join('');
-      var tag = card.tag ? '<span class="connect-card__tag">' + card.tag + '</span>' : '';
       var pills = card.pills.map(function (p) { return '<span class="pill">' + p + '</span>'; }).join('');
       return (
         '<article class="connect-card">' +
           '<div class="connect-card__thumb">' + imgs + '</div>' +
-          tag +
           '<h4>' + card.title + '</h4>' +
           '<p>' + card.desc + '</p>' +
           '<div class="connect-card__pills">' + pills + '</div>' +
