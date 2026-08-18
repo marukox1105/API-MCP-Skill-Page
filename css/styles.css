@@ -874,16 +874,20 @@ p { margin: 0; }
   transition: border-color 0.15s ease;
 }
 .connector-item:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
-.connector-item.is-active { border-color: var(--color-primary); }
+/* Was missing the light blue background tint per the Figma reference —
+   border-color alone against the plain white card made the active state
+   read much weaker than intended. */
+.connector-item.is-active { border-color: var(--color-primary); background: var(--color-primary-weak); }
 .connector-item__left { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .connector-item__icon { width: 32px; height: 32px; flex-shrink: 0; }
 .connector-item__left span {
   font-size: var(--fs-tiny);
   font-weight: 400;
   color: var(--text-weak);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* The fuller "YouCam for ___" labels wrap onto two lines per Figma —
+     nowrap+ellipsis (fine for the old short "___ MCP" labels) would just
+     truncate them instead. */
+  white-space: normal;
 }
 .connector-item.is-active span { font-weight: 600; color: var(--color-primary); }
 .connector-item__status {
@@ -1824,8 +1828,8 @@ body[data-pv-mode="b"] .stats__card-num {
      column ≈ 8:5), but at mobile's single full-width column that same fixed
      240px made for a much wider, shorter box than desktop's shape, cropping
      deep into the photo (object-fit:cover fills whatever box it's given).
-     aspect-ratio keeps the exact same 8:5 shape at any width instead. */
-  aspect-ratio: 8 / 5;
+     aspect-ratio keeps the same shape at any width instead. */
+  aspect-ratio: 8 / 5.5;
   display: flex;
   align-items: center;
   justify-content: center;

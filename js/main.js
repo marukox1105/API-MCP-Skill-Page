@@ -482,12 +482,12 @@
   var DIAGRAM_STEPS = {
     mcp: [
       { title: 'Add the connector', desc: 'Paste the selected MCP configuration into your client.' },
-      { title: 'Add your API key', desc: 'Get a <span class="accent">Bearer</span> key from the API Console, then add it to your MCP configuration or set <span class="accent">YOUCAM_API_KEY</span> for Agent Skills.', btn: 'GET FREE API KEY' },
+      { title: 'Add your API key', desc: 'Get a <span class="accent">Bearer</span> key from the API Console, then add it to your MCP configuration or set <span class="accent">YOUCAM_API_KEY</span> for Agent Skills.', btn: 'GET API KEY →' },
       { title: 'Call it from chat', desc: 'Ask in plain English; your agent selects the right tool and returns structured results.' }
     ],
     skill: [
       { title: 'Install the YouCam skills', desc: 'Run <span class="accent">npx skills add youcam</span> to install the complete skill collection.' },
-      { title: 'Add your API key', desc: 'Get a <span class="accent">Bearer</span> key from the API Console, then add it to your MCP configuration or set <span class="accent">YOUCAM_API_KEY</span> for Agent Skills.', btn: 'OPEN API CONSOLE →' },
+      { title: 'Add your API key', desc: 'Get a <span class="accent">Bearer</span> key from the API Console, then add it to your MCP configuration or set <span class="accent">YOUCAM_API_KEY</span> for Agent Skills.', btn: 'GET API KEY →' },
       { title: 'Call it from chat', desc: 'Invoke a skill; it calls the required APIs and returns a formatted report with result media.' }
     ]
   };
@@ -826,23 +826,29 @@
      scrolls away) rather than loading/playing all ten videos at once. ---------------- */
   var showcaseGrid = document.getElementById('showcaseGrid');
   if (showcaseGrid) {
+    // videoFile carries a "-tmp" suffix on several entries — some external
+    // process (not this codebase) renamed every showcase .mp4 with that
+    // suffix while the .jpg posters were left alone, breaking every hover
+    // video's <source> path (posters still showed fine, silently masking
+    // it) until this was caught. Split out from `file` (still used for the
+    // poster path) so a future rename-back only needs to change it here.
     var items = [
-      { label: 'Skin Analysis', file: 'Skin Analysis' },
-      { label: 'Makeup Transfer', file: 'Makeup Transfer' },
+      { label: 'Skin Analysis', file: 'Skin Analysis', videoFile: 'Skin Analysis-tmp' },
+      { label: 'Makeup Transfer', file: 'Makeup Transfer', videoFile: 'Makeup Transfer-tmp' },
       { label: 'Image Generation', file: 'Image Generation', videoExt: null },
-      { label: 'Video Generation', file: 'Video Generation' },
-      { label: 'Clothes VTO', file: 'Clothes VTO' },
-      { label: 'Hair VTO', file: 'Hair VTO' },
-      { label: 'Reshape', file: 'Reshape' },
+      { label: 'Video Generation', file: 'Video Generation', videoFile: 'Video Generation-tmp' },
+      { label: 'Clothes VTO', file: 'Clothes VTO', videoFile: 'Clothes VTO-tmp' },
+      { label: 'Hair VTO', file: 'Hair VTO', videoFile: 'Hair VTO-tmp' },
+      { label: 'Reshape', file: 'Reshape', videoFile: 'Reshape-tmp' },
       { label: 'Image Edit', file: 'Image Edit', videoExt: null },
-      { label: 'Jewelry Try-On', file: 'AR Bracelet-topbanner-pd', posterFile: 'AR Bracelet-topbanner-pd-0' }
+      { label: 'Jewelry Try-On', file: 'AR Bracelet-topbanner-pd', posterFile: 'AR Bracelet-topbanner-pd-0', videoFile: 'AR Bracelet-topbanner-pd-tmp' }
     ];
     var html = items.map(function (item) {
       var poster = 'assets/showcase/' + encodeURIComponent((item.posterFile || item.file) + '.jpg');
       var hasVideo = item.videoExt !== null;
       var media = hasVideo
         ? '<video class="showcase-card__media" muted loop playsinline preload="none" poster="' + poster + '">' +
-            '<source data-src="' + 'assets/showcase/' + encodeURIComponent(item.file + '.mp4') + '" type="video/mp4">' +
+            '<source data-src="' + 'assets/showcase/' + encodeURIComponent((item.videoFile || item.file) + '.mp4') + '" type="video/mp4">' +
           '</video>'
         : '<img class="showcase-card__media" src="' + poster + '" alt="">';
       return (
