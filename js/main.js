@@ -479,6 +479,22 @@
   /* ---------------- "Connect an MCP Server" diagram: steps text + which
      right-hand panel (MCP connector/terminal vs Agent Skill code card) shows,
      also driven by the same top-level method switch. ---------------- */
+  // "Connect an MCP Server"/"Add an Agent Skill" section title + intro —
+  // was static HTML with no ids, never updated by the method toggle at all
+  // (only the numbered steps below it did), so it stayed frozen on MCP
+  // wording even with Agent Skill active.
+  var DIAGRAM_TITLES = {
+    mcp: {
+      h2: 'Connect an MCP Server',
+      p: 'Choose a domain server, add its configuration to your MCP client, and authenticate with your YouCam API key.'
+    },
+    skill: {
+      h2: 'Add an Agent Skill',
+      p: 'Install the complete YouCam skill collection, set your API key, and invoke a workflow from your agent. MCP is not required.'
+    }
+  };
+  var dgTitleH2 = document.getElementById('diagramTitleH2');
+  var dgTitleP = document.getElementById('diagramTitleP');
   var DIAGRAM_STEPS = {
     mcp: [
       { title: 'Add the connector', desc: 'Paste the selected MCP configuration into your client.' },
@@ -502,6 +518,10 @@
   var diagramPanelSkill = document.getElementById('diagramPanelSkill');
 
   function renderDiagramSteps(method) {
+    var titles = DIAGRAM_TITLES[method] || DIAGRAM_TITLES.mcp;
+    if (dgTitleH2) dgTitleH2.textContent = titles.h2;
+    if (dgTitleP) dgTitleP.textContent = titles.p;
+
     var steps = DIAGRAM_STEPS[method] || DIAGRAM_STEPS.mcp;
     if (dgStep1Title) dgStep1Title.textContent = steps[0].title;
     if (dgStep1Desc) dgStep1Desc.innerHTML = steps[0].desc;
