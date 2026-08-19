@@ -316,29 +316,19 @@ p { margin: 0; }
 }
 .hero__variant--a .hero__video video,
 .hero__variant--b .hero__video video {
-  /* Previously width:100%/height:100% (inherited from the base rule above)
-     forced the video to stretch to fill .hero__top's own box exactly —
-     since .hero__top's shape (very wide, short) rarely matches the video's
-     native 2880:1254 ratio, object-fit:cover was cropping deep into the
-     top and bottom to make up the difference (cutting into the actual
-     UI content in the recording, not just empty margin). Sizing by width
-     with the real aspect-ratio instead means it's never stretched
-     vertically — centered so that on any viewport short enough for it to
-     still overflow the hero, .hero__video's own overflow:hidden trims an
-     equal sliver off both edges instead of one specific edge losing content. */
+  /* object-fit:contain always shows the video's full native 2880:1254
+     frame, scaled to fit inside .hero__video's box without ever cropping
+     it — whichever axis has room to spare (left/right on very wide
+     viewports, top/bottom on shorter ones) just letterboxes instead of
+     cutting into the actual UI content in the recording. The video
+     itself has no background, so the letterbox gap reveals whatever's
+     behind it (A's BG.png / B's flat navy), which already reads as
+     intentional fill color rather than empty space. */
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset: 0;
   width: 100%;
-  max-width: 2000px;
-  height: auto;
-  aspect-ratio: 2880 / 1254; /* native size of video-hero.mp4 (both A and B) */
-  /* left:0 kept it flush against the left edge — once max-width:2000px
-     capped the video's own width below the viewport's, that left a blank
-     gap on the right instead of centering it. left:50% + translateX(-50%)
-     (combined with the existing vertical centering) keeps it centered
-     horizontally too, however wide the viewport gets. */
-  transform: translate(-50%, -50%);
+  height: 100%;
+  object-fit: contain;
 }
 .hero__content {
   position: relative;
