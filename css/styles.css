@@ -330,7 +330,7 @@ p { margin: 0; }
   top: 50%;
   left: 50%;
   width: 100%;
-  max-width: 2000px;
+  max-width: 1600px;
   height: auto;
   aspect-ratio: 2880 / 1254; /* native size of video-hero.mp4 (both A and B) */
   /* left:0 kept it flush against the left edge — once max-width:2000px
