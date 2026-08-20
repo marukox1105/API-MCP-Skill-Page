@@ -413,7 +413,7 @@
     mcp: {
       intro: 'Connect one or more domain servers to give your agent direct access to YouCam API tools. All three servers use the same API key.',
       h2: 'Three MCPs, One API Key',
-      p: 'Each MCP server groups YouCam API tools by domain. Connect only the server your agent needs, or add all three using the same API key.'
+      p: 'Each MCP server gives your agent direct access to YouCam API tools by domain. Connect only what you need, or add all three with the same API key.'
     },
     skill: {
       intro: 'Install a ready-made workflow. Each skill calls YouCam APIs directly using your API key—no MCP setup required.',
