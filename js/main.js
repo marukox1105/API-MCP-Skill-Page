@@ -94,7 +94,11 @@
       setConnectMethod(method);
       if (compensate) {
         var gridRectAfter = connectCardsGrid.getBoundingClientRect();
-        window.scrollBy(0, gridRectAfter.bottom - gridRectBefore.bottom);
+        // html has scroll-behavior:smooth for real user-initiated scrolls —
+        // scrollBy would inherit that here too, animating this correction
+        // into a second, visible scroll motion instead of an invisible,
+        // instant one. behavior:'instant' bypasses it for this one call.
+        window.scrollBy({ top: gridRectAfter.bottom - gridRectBefore.bottom, left: 0, behavior: 'instant' });
       }
     });
     // Position it correctly on load (fonts affect tab width) and on resize —
