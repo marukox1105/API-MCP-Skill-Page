@@ -544,13 +544,6 @@ p { margin: 0; }
    since the toggle bar sits between them. */
 .connect-flow__heading { padding-bottom: 0; }
 .connect-flow__heading h3 { text-transform: uppercase; }
-.connect-flow__intro { padding: 16px; }
-.connect-flow__intro p { font-size: var(--fs-tiny); }
-.connect-flow__divider {
-  height: 1px;
-  background: var(--stroke-weak);
-  margin-top: 24px;
-}
 
 /* ==========================================================================
    Connect (Two ways to connect)
