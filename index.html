@@ -125,7 +125,7 @@
        PARENT is still on screen, so the sticky bar needs to be a direct child
        of a wrapper spanning the whole flow, not just the first section. -->
   <div class="connect-flow">
-    <div class="section-eyebrow section-px" style="padding-bottom: 0;">
+    <div class="section-eyebrow section-px connect-flow__heading">
       <h3>Two ways to connect</h3>
     </div>
 
@@ -145,9 +145,11 @@
 
     <!-- Intro blurb moved below the toggle per direct request (was above it,
          between the "Two ways to connect" heading and the toggle). -->
-    <div class="section-eyebrow section-px" style="padding-top: 24px;">
+    <div class="section-eyebrow section-px connect-flow__intro">
       <p id="connectIntroP">Connect one or more domain servers to give your agent direct access to YouCam API tools. All three servers use the same API key.</p>
     </div>
+
+    <div class="connect-flow__divider" aria-hidden="true"></div>
 
     <section class="connect section-px" id="connect">
       <div class="section-title">
