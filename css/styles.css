@@ -719,6 +719,10 @@ p { margin: 0; }
   padding-bottom: 80px;
   background: var(--bg-section-tint);
   border-bottom: 1px solid var(--stroke-weak);
+  /* "Get started now" jumps here via #connectMcpServer — without this, the
+     sticky navbar (64px) + method-tabs-bar (96px) sitting on top of it hide
+     the "Connect an MCP Server" title the anchor is supposed to reveal. */
+  scroll-margin-top: 176px;
 }
 .diagram-section[hidden] { display: none; }
 
@@ -1123,12 +1127,15 @@ p { margin: 0; }
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .flow-grid.is-staged .flow-grid__col--console.is-visible,
-.flow-grid.is-staged .flow-grid__col--chat.is-visible,
-.flow-grid.is-staged .flow-grid__arrow.is-visible {
+.flow-grid.is-staged .flow-grid__col--chat.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
-.flow-grid__arrow { flex-shrink: 0; align-self: center; width: 20px; height: 20px; }
+.flow-grid.is-staged .flow-grid__arrow.is-visible {
+  opacity: 0.3;
+  transform: translateY(0);
+}
+.flow-grid__arrow { flex-shrink: 0; align-self: center; width: 20px; height: 20px; opacity: 0.3; }
 .flow-grid__arrow img { width: 100%; height: 100%; }
 /* Reuses .connector-item but stacked full-width inside its own card instead
    of the three sitting side by side (that's .connector-row's usual layout). */
