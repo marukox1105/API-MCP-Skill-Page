@@ -43,6 +43,15 @@
     });
   }
 
+  /* ---------------- GET API KEY buttons (A's dynamic dgStep2Btn + B's
+     static one) -- both just open the API Console's key page. ---------------- */
+  var API_KEY_URL = 'https://yce.makeupar.com/api-console/en/api-keys/';
+  Array.prototype.slice.call(document.querySelectorAll('.step__key-btn')).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      window.open(API_KEY_URL, '_blank', 'noopener,noreferrer');
+    });
+  });
+
   /* ---------------- Mobile nav toggle ---------------- */
   var burger = document.getElementById('burgerBtn');
   var mobilePanel = document.getElementById('mobilePanel');
