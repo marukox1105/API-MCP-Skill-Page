@@ -2077,9 +2077,6 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
      collapse into a stacked in-flow card at 767px below), so nothing
      variant-specific is needed here beyond the shared column stacking. */
   .hero__top { flex-direction: column; align-items: stretch; padding-top: 0px; text-align: left; min-height: 0; }
-  /* B only: small breathing-room gap between the navbar and the hero video —
-     A stays flush (0px) per direct correction. */
-  .hero__top.hero__variant--b { padding-top: 8px; }
 
   .connect__cards { grid-template-columns: repeat(2, 1fr); }
 
@@ -2292,8 +2289,8 @@ body[data-pv-mode="b"] .cta-card { background: #00083f; }
     margin-right: -24px;
     height: 0;
   }
-  .hero__variant--a .hero__video { padding-bottom: 66.6667%; } /* 3:2, matches A's video-hero-s.mp4 (1800×1200) */
-  .hero__variant--b .hero__video { padding-bottom: 56.25%; } /* 16:9, matches B's video-hero-s.mp4 (1920×1080) */
+  .hero__variant--a .hero__video { padding-bottom: 75%; }
+  .hero__variant--b .hero__video { padding-bottom: 75%; }
   .hero__variant--a .hero__video video,
   .hero__variant--b .hero__video video {
     position: absolute;
