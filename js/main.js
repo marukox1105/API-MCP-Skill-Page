@@ -399,8 +399,8 @@
     {
       tag: 'Creators',
       title: 'YouCam for Creators',
-      desc: 'Remove background from photo with impeccable accuracy, ensuring the high quality of images.',
-      pills: ['Skin, Face &amp; Body', 'Beauty', 'Hair &amp; Beard'],
+      desc: 'Give your agent tools to generate, edit, and transform images and videos from prompts or reference media.',
+      pills: ['Image', 'Video'],
       images: ['assets/connect/img-img.png', 'assets/connect/img-img3.png', 'assets/connect/img-img4.png']
     }
   ];
