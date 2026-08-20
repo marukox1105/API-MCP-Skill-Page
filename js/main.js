@@ -479,7 +479,7 @@
       title: 'Clothes Try-on Studio',
       desc: 'Dresses a model in the provided outfit, optionally changes the background, and generates a turn, runway walk, or pose motion.',
       pills: ['AI Clothes', 'AI Change Background', 'AI Video Generator'],
-      images: ['assets/connect/skills/clothes-tryon-studio.jpg']
+      images: ['assets/connect/skills/clothes-tryon-studio.png']
     }
   ];
 
