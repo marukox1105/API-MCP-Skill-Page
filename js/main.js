@@ -408,7 +408,7 @@
     },
     skill: {
       intro: 'Install a ready-made workflow. Each skill calls YouCam APIs directly using your API key—no MCP setup required.',
-      h2: 'Ready-made Agent Skills',
+      h2: 'Ready-Made Agent Skills',
       p: 'Install ready-made skills for common workflows. Each skill calls YouCam APIs directly and requires only your API key—no MCP setup.'
     }
   };
