@@ -1459,6 +1459,7 @@ p { margin: 0; }
 }
 .agent-log__status { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: var(--fs-small); }
 .agent-log__status img { width: 20px; height: 20px; }
+.agent-log__status img.is-wordmark { width: auto; height: 20px; } /* Claude's full icon+text logo keeps its own ratio instead of being squeezed into the 20x20 square */
 .agent-log > p { font-size: var(--fs-small); line-height: 24px; color: var(--text-weak); margin: 0; }
 .tool-badge {
   display: inline-flex;

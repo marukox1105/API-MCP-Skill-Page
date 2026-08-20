@@ -118,7 +118,8 @@
     'More MCP Clients...': 'assets/hero/logo/claude-icon.svg',
     'ChatGPT Codex': 'assets/hero/logo/codex-icon.svg',
     'n8n': 'assets/hero/logo/n8n-icon.svg',
-    'VS Code Copilot': 'assets/hero/logo/github-copilot-icon.svg'
+    'VS Code Copilot': 'assets/hero/logo/github-copilot-icon.svg',
+    'Claude': 'assets/hero/logo/claude.svg' // full wordmark (icon + text) — the label span is left empty for this one so the word "Claude" isn't duplicated
   };
 
   var MCP_TABS = ['Beauty brand', 'Skincare retail', 'Fashion e-commerce', 'Jewelry retail', 'Brand marketing', 'Creative agency'];
@@ -128,7 +129,7 @@
     'Beauty brand': {
       photos: ['assets/workspace/img-visual-asset-badge.png', 'assets/workspace/img-visual-asset-badge1.png'],
       prompt: 'Create a personalized lipstick preview for this shopper using our soft coral shade.',
-      status: 'More MCP Clients...',
+      status: 'Claude',
       description: "I'll prepare a customer-facing virtual try-on while preserving the shopper's identity and the product shade.",
       toolBadge: 'Used AI Makeup Try-On',
       outcomeTitle: 'The personalized lipstick preview is ready for the beauty consultation flow.',
@@ -227,7 +228,7 @@
     'Hair Advisor': {
       photos: ['assets/workspace/usecases/hair-advisor-badge.png'],
       prompt: 'What hairstyle and color would suit me?',
-      status: 'More MCP Clients...',
+      status: 'Claude',
       description: "I'll analyze the visible facial attributes and color tones, then generate a hairstyle and color preview.",
       toolBadge: 'Used Hair Color & Style Advisor',
       outcomeTitle: 'Two styles are a strong match for the visible face shape: a softly layered shoulder-length cut and a longer face-framing style.',
@@ -286,8 +287,14 @@
 
     var statusIcon = document.getElementById('wsStatusIcon');
     var statusLabel = document.getElementById('wsStatusLabel');
-    if (statusIcon) statusIcon.src = STATUS_ICONS[data.status] || STATUS_ICONS['More MCP Clients...'];
-    if (statusLabel) statusLabel.textContent = data.status;
+    if (statusIcon) {
+      statusIcon.src = STATUS_ICONS[data.status] || STATUS_ICONS['More MCP Clients...'];
+      // 'Claude' uses the full wordmark (icon + text baked into one image),
+      // so it needs its own natural aspect ratio instead of the fixed 20x20
+      // square every other (icon-only) status logo uses.
+      statusIcon.classList.toggle('is-wordmark', data.status === 'Claude');
+    }
+    if (statusLabel) statusLabel.textContent = data.status === 'Claude' ? '' : data.status;
 
     var descEl = document.getElementById('wsDescription');
     if (descEl) descEl.textContent = data.description;
