@@ -80,25 +80,31 @@
       });
       moveMethodThumb(btn);
       var method = btn.getAttribute('data-method');
-      // The connect-cards grid goes from 3 cards (1 row) to 6 (2 rows) or
-      // back, so everything after it shifts up/down by that height delta.
-      // If the grid's top has already scrolled above the viewport, that
-      // shift happens entirely off-screen from the user's perspective —
-      // compensating scroll by the same delta keeps whatever they're
-      // actually looking at (further down the page) from jumping under
-      // them. If the grid itself is still in view, leave scroll alone and
-      // let it reflow naturally — the user is watching the cards change.
-      var gridRectBefore = connectCardsGrid ? connectCardsGrid.getBoundingClientRect() : null;
-      var compensate = gridRectBefore && gridRectBefore.top < 0;
+      // Switching methods can resize both the connect-cards grid (3 cards/1
+      // row vs 6/2 rows) AND the diagram section below it (step copy differs
+      // in length), so everything after either one shifts. Rather than
+      // guessing which element resizes and by how much, anchor on whatever
+      // leaf element is actually at the top of the viewport right now: note
+      // its position, re-render, then nudge scroll by exactly how far that
+      // element moved. Sampled at viewport CENTER, not near the top — the
+      // navbar (position:sticky) and the method-tabs-bar sitting right
+      // below it (also sticky, pinned to the same spot while this whole
+      // flow is on screen) both have a viewport-relative top that never
+      // changes, which made this measure a permanent no-op when sampled up
+      // there. The only remaining risk is the sampled point landing inside
+      // the cards grid, whose innerHTML gets replaced — guarded via
+      // document.contains.
+      var anchor = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+      var anchorTopBefore = anchor ? anchor.getBoundingClientRect().top : null;
       setWorkspaceMethod(method);
       setConnectMethod(method);
-      if (compensate) {
-        var gridRectAfter = connectCardsGrid.getBoundingClientRect();
+      if (anchor && document.contains(anchor)) {
+        var anchorTopAfter = anchor.getBoundingClientRect().top;
         // html has scroll-behavior:smooth for real user-initiated scrolls —
         // scrollBy would inherit that here too, animating this correction
         // into a second, visible scroll motion instead of an invisible,
         // instant one. behavior:'instant' bypasses it for this one call.
-        window.scrollBy({ top: gridRectAfter.bottom - gridRectBefore.bottom, left: 0, behavior: 'instant' });
+        window.scrollBy({ top: anchorTopAfter - anchorTopBefore, left: 0, behavior: 'instant' });
       }
     });
     // Position it correctly on load (fonts affect tab width) and on resize —
