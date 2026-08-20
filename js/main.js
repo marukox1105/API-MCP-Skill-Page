@@ -372,7 +372,7 @@
   var CONNECT_TITLES = {
     mcp: {
       intro: 'Connect one or more domain servers to give your agent direct access to YouCam API tools. All three servers use the same API key.',
-      h2: 'Three MCPs, one API key',
+      h2: 'Three MCPs, One API Key',
       p: 'Each MCP server groups YouCam API tools by domain. Connect only the server your agent needs, or add all three using the same API key.'
     },
     skill: {
