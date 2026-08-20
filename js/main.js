@@ -80,8 +80,22 @@
       });
       moveMethodThumb(btn);
       var method = btn.getAttribute('data-method');
+      // The connect-cards grid goes from 3 cards (1 row) to 6 (2 rows) or
+      // back, so everything after it shifts up/down by that height delta.
+      // If the grid's top has already scrolled above the viewport, that
+      // shift happens entirely off-screen from the user's perspective —
+      // compensating scroll by the same delta keeps whatever they're
+      // actually looking at (further down the page) from jumping under
+      // them. If the grid itself is still in view, leave scroll alone and
+      // let it reflow naturally — the user is watching the cards change.
+      var gridRectBefore = connectCardsGrid ? connectCardsGrid.getBoundingClientRect() : null;
+      var compensate = gridRectBefore && gridRectBefore.top < 0;
       setWorkspaceMethod(method);
       setConnectMethod(method);
+      if (compensate) {
+        var gridRectAfter = connectCardsGrid.getBoundingClientRect();
+        window.scrollBy(0, gridRectAfter.bottom - gridRectBefore.bottom);
+      }
     });
     // Position it correctly on load (fonts affect tab width) and on resize —
     // without a transition on first paint, so it doesn't visibly slide in
@@ -862,12 +876,12 @@
     var items = [
       { label: 'Skin Analysis', file: 'Skin Analysis', videoFile: 'Skin Analysis-tmp' },
       { label: 'Makeup Transfer', file: 'Makeup Transfer', videoFile: 'Makeup Transfer-tmp' },
-      { label: 'Image Generation', file: 'Image Generation', videoExt: null },
+      { label: 'Image Generation', file: 'Image Generation', posterFile: 'Image Generation-1' },
       { label: 'Video Generation', file: 'Video Generation', videoFile: 'Video Generation-tmp' },
       { label: 'Clothes VTO', file: 'Clothes VTO', videoFile: 'Clothes VTO-tmp' },
       { label: 'Hair VTO', file: 'Hair VTO', videoFile: 'Hair VTO-tmp' },
-      { label: 'Reshape', file: 'Reshape', videoFile: 'Reshape-tmp' },
-      { label: 'Image Edit', file: 'Image Edit', videoExt: null },
+      { label: 'Reshape', file: 'Reshape' },
+      { label: 'Image Edit', file: 'Image Edit' },
       { label: 'Jewelry Try-On', file: 'AR Bracelet-topbanner-pd', posterFile: 'AR Bracelet-topbanner-pd-0', videoFile: 'AR Bracelet-topbanner-pd-tmp' }
     ];
     var html = items.map(function (item) {
@@ -912,6 +926,12 @@
       function stopVideo() {
         video.pause();
         video.currentTime = 0; // reset so the next hover replays from the start
+        // Once a video has rendered any frame, its poster never reappears on
+        // its own — pausing/seeking to 0 just leaves whatever that frame
+        // looks like on screen (often a black flash-frame). load() resets
+        // the element back to its pre-playback state, which restores the
+        // poster image until the next hover.
+        video.load();
       }
       card.addEventListener('mouseenter', playVideo);
       card.addEventListener('mouseleave', stopVideo);
