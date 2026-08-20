@@ -1672,7 +1672,7 @@ p { margin: 0; }
   display: flex; align-items: center; justify-content: center;
 }
 .feature-card__icon img { width: 20px; height: 20px; }
-.feature-card h4 { font-size: var(--fs-small); font-weight: 600; margin: 0; }
+.feature-card h4 { font-size: var(--fs-small); font-weight: 600; line-height: 24px; height: 48px; margin: 0; } /* reserve 2 lines (24px each) per Figma 16799:19634, so the description below starts at the same height regardless of whether this card's own title happens to wrap to 1 or 2 lines */
 .feature-card p { font-size: var(--fs-tiny); line-height: 20px; color: var(--text-weak); margin: 0; }
 
 /* Version B: 2x2 grid, each card tinted + a decorative illustration bleeding
