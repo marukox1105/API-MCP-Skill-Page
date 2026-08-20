@@ -115,7 +115,7 @@
      reveal-animation DOM nodes themselves never change, only their content —
      and restarts the reveal so the new story plays from the top. ---------------- */
   var STATUS_ICONS = {
-    'More MCP Clients...': 'assets/hero/logo/claude-icon.svg',
+    'More MCP Clients...': 'assets/workspace/more_mcp_clients_icon.svg',
     'ChatGPT Codex': 'assets/hero/logo/codex-icon.svg',
     'n8n': 'assets/hero/logo/n8n-icon.svg',
     'VS Code Copilot': 'assets/hero/logo/github-copilot-icon.svg',
@@ -256,7 +256,7 @@
       outcomeTitle: 'I completed the outfit try-on and used the result to generate a five-second runway-style clip.',
       bullets: ['Garment details preserved', 'Model identity retained', 'Motion: forward walk with a subtle turn'],
       footerNote: 'The finished runway preview is ready on the right.',
-      result: 'assets/workspace/usecases/clothes-tryon-studio-result.jpg'
+      result: 'assets/workspace/usecases/clothes-tryon-studio-result.mp4'
     }
   };
 
