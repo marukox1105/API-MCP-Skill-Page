@@ -875,7 +875,7 @@ p { margin: 0; }
   align-items: center;
   justify-content: space-between;
   padding: 10px 16px;
-  border: 1.5px solid transparent;
+  border: 1.5px solid var(--stroke-weak); /* per Figma 16839:143188 — unselected connector items also get a visible gray border, not just the active one */
   border-radius: var(--radius-sm);
   gap: 8px;
   /* these are <button> elements — reset native chrome */
