@@ -538,7 +538,7 @@ p { margin: 0; }
   font-weight: 600;
   margin: 0 0 8px;
 }
-.section-eyebrow p { font-size: var(--fs-small); line-height: 24px; margin: 0; }
+.section-eyebrow p { font-size: var(--fs-small); line-height: 24px; margin: 0; width: 500px; max-width: 100%; }
 
 /* ==========================================================================
    Connect (Two ways to connect)
