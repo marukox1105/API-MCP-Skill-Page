@@ -449,31 +449,31 @@
       title: 'Skin Analysis Expert',
       desc: 'Analyzes a selfie across 14 visible skin concerns and turns the API response into a structured, plain-language cosmetic skin report.',
       pills: ['AI Skin Analysis'],
-      images: ['assets/connect/skills/skin-analysis-expert.jpg']
+      images: ['assets/connect/skills/Skin%20Analysis%20Expert.jpg']
     },
     {
       title: 'Facial Consultant',
       desc: 'Analyzes visible facial attributes and color tones, then returns a personalized appearance profile.',
       pills: ['AI Facial Color Tones Analyzer', 'AI Face Attributes'],
-      images: ['assets/connect/skills/facial-consultant.jpg']
+      images: ['assets/connect/skills/Facial%20Consultant.jpg']
     },
     {
       title: 'Beauty Advisor',
       desc: 'Analyzes facial attributes and color tones, recommends a matching makeup look, and generates a preview on the provided photo.',
       pills: ['AI Face Attributes', 'AI Facial Color Tones', 'AI Makeup Try-On', 'AI Look Try-On'],
-      images: ['assets/connect/skills/beauty-advisor.jpg']
+      images: ['assets/connect/skills/Beauty%20Advisor.jpg']
     },
     {
       title: 'Hair Color &amp; Style Advisor',
       desc: 'Analyzes facial attributes and color tones, suggests matching hairstyles and hair colors, and previews each look on the provided photo.',
       pills: ['AI Face Attributes', 'AI Facial Color Tones', 'AI Hairstyle', 'AI Hair Color'],
-      images: ['assets/connect/skills/hair-color-style-advisor.jpg']
+      images: ['assets/connect/skills/Hair%20Color%20%26%20Style%20Advisor.jpg']
     },
     {
       title: 'Hair Diagnostics',
       desc: 'Analyzes four visible hair characteristics—density, type, frizziness, and length—and returns one structured report.',
       pills: ['AI Hair Density Detection', 'AI Hair Type Detection', 'AI Hair Frizziness Detection', 'AI Hair Length Detection'],
-      images: ['assets/connect/skills/hair-diagnostics.jpg']
+      images: ['assets/connect/skills/Hair%20Diagnostics.jpg']
     },
     {
       title: 'Clothes Try-on Studio',
