@@ -15,35 +15,7 @@
   window.addEventListener('resize', setViewportHeightVar);
   window.addEventListener('orientationchange', setViewportHeightVar);
 
-  /* ---------------- Page-wide A/B review switch ----------------
-     Temporary side-by-side comparison aid — one fixed control toggles every
-     .pv-block on the page together (hero, diagram flow, features, etc.),
-     each pair marked data-pv="a"/"b". Not part of either design; remove this
-     block (and #pvSwitch in the HTML) once a version is picked. */
-  var pvSwitch = document.getElementById('pvSwitch');
-  document.body.setAttribute('data-pv-mode', 'a'); // default, matches the hero__variant--a shown by default
-  if (pvSwitch) {
-    var pvBlocks = Array.prototype.slice.call(document.querySelectorAll('.pv-block'));
-    pvSwitch.addEventListener('click', function (e) {
-      var btn = e.target.closest('button[data-pv-switch]');
-      if (!btn) return;
-      var version = btn.getAttribute('data-pv-switch');
-      document.body.setAttribute('data-pv-mode', version); // lets sections without a duplicated A/B pair (like the workspace demo) still branch behavior off the global toggle
-      pvSwitch.querySelectorAll('button').forEach(function (b) {
-        b.classList.toggle('is-active', b === btn);
-      });
-      pvBlocks.forEach(function (block) {
-        var isMatch = block.getAttribute('data-pv') === version;
-        block.hidden = !isMatch;
-        // Only the visible block's video (if any) should actually play —
-        // keeps hidden ones from burning CPU/battery decoding off-screen.
-        var video = block.querySelector('video');
-        if (video) { if (isMatch) { video.play(); } else { video.pause(); } }
-      });
-    });
-  }
-
-  /* ---------------- GET API KEY buttons (A's dynamic dgStep2Btn + B's
+  /* ---------------- GET API KEY buttons (dynamic dgStep2Btn + the
      static one) -- both just open the API Console's key page. ---------------- */
   var API_KEY_URL = 'https://yce.makeupar.com/api-console/en/api-keys/';
   Array.prototype.slice.call(document.querySelectorAll('.step__key-btn')).forEach(function (btn) {
@@ -152,11 +124,13 @@
     'ChatGPT Codex': 'assets/hero/logo/codex-icon.svg',
     'n8n': 'assets/hero/logo/n8n-icon.svg',
     'VS Code Copilot': 'assets/hero/logo/github-copilot-icon.svg',
-    'Claude': 'assets/hero/logo/claude.svg' // full wordmark (icon + text) — the label span is left empty for this one so the word "Claude" isn't duplicated
+    'Claude': 'assets/hero/logo/claude.svg', // full wordmark (icon + text) — the label span is left empty for this one so the word "Claude" isn't duplicated
+    'Claude Desktop': 'assets/hero/logo/claude-icon.svg' // small icon only — label shows the "Claude Desktop" text separately, unlike the 'Claude' wordmark above
   };
 
   var MCP_TABS = ['Beauty brand', 'Skincare retail', 'Fashion e-commerce', 'Jewelry retail', 'Brand marketing', 'Creative agency'];
   var SKILL_TABS = ['Skin Analysis Expert', 'Facial Consultant', 'Beauty Advisor', 'Hair Advisor', 'Hair Diagnostics', 'Clothes Try-on Studio'];
+  var CLI_TABS = ['Skin Analysis', 'Clothes Try-On', 'Photo Background Change', 'Hair Transfer', 'Makeup VTO', 'Hair Color'];
 
   var USE_CASES = {
     'Beauty brand': {
@@ -290,6 +264,85 @@
       bullets: ['Garment details preserved', 'Model identity retained', 'Motion: forward walk with a subtle turn'],
       footerNote: 'The finished runway preview is ready on the right.',
       result: 'assets/workspace/usecases/clothes-tryon-studio-result.mp4'
+    },
+    // CLI use cases — no real photos supplied yet (photos:[] / result:'');
+    // renderUseCaseContent shows a muted placeholder icon for each required
+    // upload slot until real ones are swapped in. `slots` is how many upload
+    // badges this use case needs (1 or 2, per the PM reference's own upload
+    // count per use case) — it's what decides whether the second badge
+    // renders as a placeholder hole or stays hidden, since photos[] alone
+    // (always empty for now) can't tell the two apart.
+    'Skin Analysis': {
+      photos: ['assets/workspace/cli/skin-analysis-input.jpg'],
+      slots: 1,
+      prompt: 'Analyze this selfie and summarize the main visible skin concerns.',
+      status: 'Claude Desktop',
+      description: "I'll check that the face is clearly visible, analyze the supported cosmetic skin concerns, and organize the results into a concise summary.",
+      toolBadge: 'Used YouCam CLI · AI Skin Analysis',
+      outcomeTitle: 'The selfie is suitable for cosmetic skin analysis. The most visible focus areas are texture, pores, and dark circles.',
+      bullets: ['Texture appears moderately uneven', 'Pores are most visible around the T-zone', 'Dark circles are visible beneath both eyes'],
+      footerNote: 'This is a cosmetic image assessment, not a medical diagnosis. The visual report is ready on the right.',
+      result: 'assets/workspace/cli/skin-analysis-result.jpg'
+    },
+    'Clothes Try-On': {
+      photos: ['assets/workspace/cli/clothes-tryon-input.png', 'assets/workspace/cli/clothes-tryon-garment.png'],
+      slots: 2,
+      prompt: 'Show me how this floral dress would look on my full-body photo.',
+      status: 'ChatGPT Codex',
+      description: "I'll apply the floral dress to your full-body photo while preserving your appearance, pose, and background.",
+      toolBadge: 'Used YouCam CLI · AI Clothes Try-On',
+      outcomeTitle: 'Your floral dress preview is ready.',
+      bullets: ['Floral pattern and dress design preserved', 'Fit adapted to your original pose', 'Your appearance and background retained'],
+      footerNote: 'The completed try-on is shown on the right.',
+      result: 'assets/workspace/cli/clothes-tryon-result.png'
+    },
+    'Photo Background Change': {
+      photos: ['assets/workspace/cli/photo-bg-change-input.png'],
+      slots: 1,
+      prompt: 'Replace this product photo background with a clean marble studio and soft daylight.',
+      status: 'n8n',
+      description: "I'll preserve the product and replace its original background with the requested marble studio setting.",
+      toolBadge: 'Used YouCam CLI · AI Photo Background Change',
+      outcomeTitle: 'The new product background is ready.',
+      bullets: ['Main product and edges preserved', 'Clean marble studio generated from the prompt', 'Soft daylight blended across the composition'],
+      footerNote: 'The completed product image is shown on the right.',
+      result: 'assets/workspace/cli/photo-bg-change-result.png'
+    },
+    'Hair Transfer': {
+      photos: ['assets/workspace/cli/hair-transfer-input.png', 'assets/workspace/cli/hair-transfer-reference.png'],
+      slots: 2,
+      prompt: 'Apply the hairstyle from this reference photo to my portrait.',
+      status: 'VS Code Copilot',
+      description: "I'll transfer the reference hairstyle while preserving the subject's face, expression, and overall identity.",
+      toolBadge: 'Used YouCam CLI · AI Hairstyle Transfer',
+      outcomeTitle: 'The hairstyle transfer is complete.',
+      bullets: ['Reference shape and length applied', 'Facial identity and expression preserved', 'Original background retained'],
+      footerNote: 'The generated hairstyle preview is ready on the right.',
+      result: 'assets/workspace/cli/hair-transfer-result.png'
+    },
+    'Makeup VTO': {
+      photos: ['assets/workspace/cli/makeup-vto-input.png', 'assets/workspace/cli/makeup-vto-reference.png'],
+      slots: 2,
+      prompt: 'Preview this soft coral makeup look on my photo.',
+      status: 'Claude Desktop',
+      description: "I'll apply the soft coral look while preserving the subject's facial features, skin tone, and lighting.",
+      toolBadge: 'Used YouCam CLI · AI Makeup Virtual Try-On',
+      outcomeTitle: 'The makeup virtual try-on is ready.',
+      bullets: ['Soft coral tones applied to the selected regions', 'Facial features and skin tone preserved', 'Original lighting retained'],
+      footerNote: 'The completed look is shown on the right.',
+      result: 'assets/workspace/cli/makeup-vto-result.png'
+    },
+    'Hair Color': {
+      photos: ['assets/workspace/cli/hair-color-input.png'],
+      slots: 1,
+      prompt: 'Show me how I look with a warm chestnut hair color.',
+      status: 'ChatGPT Codex',
+      description: "I'll recolor the visible hair to warm chestnut while preserving its texture, highlights, and the rest of the portrait.",
+      toolBadge: 'Used YouCam CLI · AI Hair Color',
+      outcomeTitle: 'The warm chestnut hair-color preview is ready.',
+      bullets: ['Requested shade applied consistently', 'Hair texture and highlights preserved', 'Face, clothing, and background unchanged'],
+      footerNote: 'The finished color preview is available on the right.',
+      result: 'assets/workspace/cli/hair-color-result.png'
     }
   };
 
@@ -304,14 +357,25 @@
     var badge2 = document.getElementById('wsBadge2');
     if (badge1) {
       badge1.classList.remove('is-unused');
-      badge1.querySelector('img').src = data.photos[0];
+      // Some CLI use cases don't have a real source photo yet (photos:[])
+      // — show the same muted placeholder icon .result-frame__img falls
+      // back to below, instead of a broken <img>.
+      badge1.classList.toggle('is-placeholder', !data.photos[0]);
+      badge1.querySelector('img').src = data.photos[0] || 'assets/icons/image.svg';
     }
     if (badge2) {
-      if (data.photos[1]) {
+      // How many upload badges this use case needs — explicit `slots` for
+      // CLI entries (photos:[] can't tell 1-upload from 2-upload use cases
+      // on its own), falling back to the real photo count for MCP/Skill
+      // entries that don't set `slots`.
+      var neededSlots = data.slots || Math.max(data.photos.length, 1);
+      if (neededSlots > 1) {
         badge2.classList.remove('is-unused');
-        badge2.querySelector('img').src = data.photos[1];
+        badge2.classList.toggle('is-placeholder', !data.photos[1]);
+        badge2.querySelector('img').src = data.photos[1] || 'assets/icons/image.svg';
       } else {
         badge2.classList.add('is-unused');
+        badge2.classList.remove('is-placeholder');
       }
     }
 
@@ -367,7 +431,12 @@
         resultVideo.pause();
       }
     }
-    if (resultImg && !isVideo) resultImg.src = data.result;
+    if (resultImg && !isVideo) {
+      // Some CLI use cases don't have a real result image yet (result:'')
+      // — same muted placeholder icon as the input badge above.
+      resultImg.classList.toggle('is-placeholder', !data.result);
+      resultImg.src = data.result || 'assets/icons/image.svg';
+    }
 
     var resultCaptionEl = document.getElementById('wsResultCaption');
     if (resultCaptionEl) resultCaptionEl.textContent = data.toolBadge;
@@ -398,7 +467,7 @@
   }
 
   function setWorkspaceMethod(method) {
-    var tabKeys = method === 'skill' ? SKILL_TABS : MCP_TABS;
+    var tabKeys = method === 'skill' ? SKILL_TABS : method === 'cli' ? CLI_TABS : MCP_TABS;
     renderWorkspaceTabs(tabKeys);
     // Same reset-before-swap ordering as setActiveUseCase above, and for the
     // same reason.
@@ -419,6 +488,11 @@
       intro: 'Install a ready-made workflow. Each skill calls YouCam APIs directly using your API key—no MCP setup required.',
       h2: 'Ready-Made Agent Skills',
       p: 'Install ready-made skills for common workflows. Each skill calls YouCam APIs directly and requires only your API key—no MCP setup.'
+    },
+    cli: {
+      intro: 'One CLI maps YouCam API features to predictable commands for task creation, status checks, templates, and costs—ready for developers, scripts, and command-running agents.',
+      h2: 'CLI: Composable Commands for Every Workflow',
+      p: 'One CLI maps YouCam API features to predictable commands for task creation, status checks, templates, and costs—ready for developers, scripts, and command-running agents.'
     }
   };
   var MCP_CONNECT_CARDS = [
@@ -482,6 +556,54 @@
       images: ['assets/connect/skills/clothes-tryon-studio.png']
     }
   ];
+  // Real photos supplied for all but Fashion so far — mockup:true renders a
+  // placeholder box (.connect-card__thumb--mockup) instead of <img> tags;
+  // `images` (same shape as MCP_CONNECT_CARDS/SKILL_CONNECT_CARDS above)
+  // takes priority over it once set, per renderConnectCards below.
+  var CLI_CONNECT_CARDS = [
+    {
+      title: 'Skin, Face &amp; Body',
+      desc: 'Analyze visible skin and facial attributes, or transform face and body appearance through specialized YouCam APIs.',
+      pills: [],
+      images: ['assets/connect/cli/Skin%2C%20Face%20%26%20Body.png']
+    },
+    {
+      title: 'Beauty',
+      desc: 'Apply makeup looks, transfer nail designs, and build beauty try-on experiences from source and reference media.',
+      pills: [],
+      images: ['assets/connect/cli/Beauty.png']
+    },
+    {
+      title: 'Fashion',
+      desc: 'Dress models in garments and generate product-ready virtual try-on results for retail workflows.',
+      pills: [],
+      images: ['assets/connect/cli/Fashion.png']
+    },
+    {
+      title: 'Jewelry &amp; Watches',
+      desc: 'Place necklaces, earrings, rings, bracelets, and watches onto shopper photos with virtual try-on.',
+      pills: [],
+      images: ['assets/connect/cli/Jewelry%20%26%20Watches.png']
+    },
+    {
+      title: 'Hair &amp; Beard',
+      desc: 'Analyze hair characteristics and preview hairstyles, colors, and beard edits.',
+      pills: [],
+      images: ['assets/connect/cli/Hair%20%26%20Beard.png']
+    },
+    {
+      title: 'Image',
+      desc: 'Generate, edit, enhance, reshape, and replace backgrounds in still-image workflows.',
+      pills: [],
+      images: ['assets/connect/cli/Image.png']
+    },
+    {
+      title: 'Video',
+      desc: 'Generate and transform video assets from prompts, images, and approved visual references.',
+      pills: [],
+      images: ['assets/connect/cli/Video.png']
+    }
+  ];
 
   var connectCardsGrid = document.getElementById('connectCardsGrid');
   var connectTitleH2 = document.getElementById('connectTitleH2');
@@ -490,24 +612,37 @@
 
   function renderConnectCards(method) {
     var titles = CONNECT_TITLES[method] || CONNECT_TITLES.mcp;
-    // "Two ways to connect"'s own intro blurb, right above the MCP/Agent
-    // Skill toggle — was static HTML, always showing the MCP wording
+    // "Three ways to connect"'s own intro blurb, right above the MCP/CLI/
+    // Agent Skill toggle — was static HTML, always showing the MCP wording
     // regardless of which tab was actually active.
     if (connectIntroP) connectIntroP.innerHTML = titles.intro;
     if (connectTitleH2) connectTitleH2.innerHTML = titles.h2;
     if (connectTitleP) connectTitleP.innerHTML = titles.p;
 
     if (!connectCardsGrid) return;
-    var cards = method === 'skill' ? SKILL_CONNECT_CARDS : MCP_CONNECT_CARDS;
+    var cards = method === 'skill' ? SKILL_CONNECT_CARDS : method === 'cli' ? CLI_CONNECT_CARDS : MCP_CONNECT_CARDS;
     connectCardsGrid.innerHTML = cards.map(function (card) {
-      var imgs = card.images.map(function (src, i) {
-        var style = i === 0 ? 'object-fit:contain;' : 'position:absolute; inset:0;';
-        return '<img src="' + src + '" alt="" style="' + style + '">';
-      }).join('');
+      // CLI cards don't have real photos yet (mockup:true) — render the
+      // same gray placeholder box the reference design uses instead of
+      // <img> tags. Swapping in a real `images` array later (matching the
+      // other two card sets' shape) is enough to replace it.
+      var thumb = card.mockup
+        ? '<div class="connect-card__thumb connect-card__thumb--mockup"><span>Mockup</span></div>'
+        : '<div class="connect-card__thumb">' + card.images.map(function (src, i) {
+            // Multi-image cards (MCP) stack a full "contain" base photo
+            // under absolutely-positioned badge overlays — single-image
+            // cards (CLI, Agent Skill) should just fill the box edge-to-
+            // edge like any other photo card (base CSS already does
+            // object-fit:cover; no override needed).
+            var style = card.images.length > 1
+              ? (i === 0 ? 'object-fit:contain;' : 'position:absolute; inset:0;')
+              : '';
+            return '<img src="' + src + '" alt="" style="' + style + '">';
+          }).join('') + '</div>';
       var pills = card.pills.map(function (p) { return '<span class="pill">' + p + '</span>'; }).join('');
       return (
         '<article class="connect-card">' +
-          '<div class="connect-card__thumb">' + imgs + '</div>' +
+          thumb +
           '<h4>' + card.title + '</h4>' +
           '<p>' + card.desc + '</p>' +
           '<div class="connect-card__pills">' + pills + '</div>' +
@@ -531,6 +666,10 @@
     skill: {
       h2: 'Add an Agent Skill',
       p: 'Install the complete YouCam skill collection, set your API key, and invoke a workflow from your agent. MCP is not required.'
+    },
+    cli: {
+      h2: 'Install the YouCam CLI',
+      p: 'Install one command-line tool, authenticate with your YouCam API key, and run visual AI features from a terminal or agent workflow.'
     }
   };
   var dgTitleH2 = document.getElementById('diagramTitleH2');
@@ -545,6 +684,11 @@
       { title: 'Install the YouCam skills', desc: 'Run <span class="accent">npx skills add youcam</span> to install the complete skill collection.' },
       { title: 'Add your API key', desc: 'Get a <span class="accent">Bearer</span> key from the API Console, then add it to your MCP configuration or set <span class="accent">YOUCAM_API_KEY</span> for Agent Skills.', btn: 'GET API KEY →' },
       { title: 'Call it from chat', desc: 'Invoke a skill; it calls the required APIs and returns a formatted report with result media.' }
+    ],
+    cli: [
+      { title: 'Install the CLI', desc: 'Install <span class="accent">youcam-cli</span> globally with npm, then verify the <span class="accent">youcam</span> command.' },
+      { title: 'Add your API key', desc: 'Authenticate once with <span class="accent">youcam auth login</span>. The CLI uses the saved key for subsequent requests.', btn: 'GET API KEY →' },
+      { title: 'Run a command', desc: 'Create a task with <span class="accent">youcam run</span>, then retrieve its result with <span class="accent">youcam status</span>.' }
     ]
   };
   var dgStep1Title = document.getElementById('dgStep1Title');
@@ -556,6 +700,7 @@
   var dgStep3Desc = document.getElementById('dgStep3Desc');
   var diagramPanelMcp = document.getElementById('diagramPanelMcp');
   var diagramPanelSkill = document.getElementById('diagramPanelSkill');
+  var diagramPanelCli = document.getElementById('diagramPanelCli');
 
   function renderDiagramSteps(method) {
     var titles = DIAGRAM_TITLES[method] || DIAGRAM_TITLES.mcp;
@@ -574,8 +719,9 @@
     if (dgStep3Title) dgStep3Title.textContent = steps[2].title;
     if (dgStep3Desc) dgStep3Desc.innerHTML = steps[2].desc;
 
-    if (diagramPanelMcp) diagramPanelMcp.hidden = method === 'skill';
+    if (diagramPanelMcp) diagramPanelMcp.hidden = method !== 'mcp';
     if (diagramPanelSkill) diagramPanelSkill.hidden = method !== 'skill';
+    if (diagramPanelCli) diagramPanelCli.hidden = method !== 'cli';
   }
 
   function setConnectMethod(method) {
@@ -1070,15 +1216,6 @@
           }
           schedule(function () {
             groups[key].forEach(function (el) { el.classList.add('is-visible'); });
-            // On mobile, the result panel (step 8) also shrinks the card and
-            // floats itself over its corner instead of sitting in normal
-            // flow — see the .is-result-shown CSS + #resultFloatClose below.
-            // B-version only: #workspaceDemo isn't a .pv-block itself (it's
-            // shared, not duplicated per A/B), so we branch on the page-wide
-            // toggle's data-pv-mode instead. Version A never gets this class.
-            if (key === '8' && document.body.getAttribute('data-pv-mode') === 'b') {
-              demoCard.classList.add('is-result-shown');
-            }
             // Follow the last (bottom-most) element of this step down into
             // view — delayed until its own reveal transition has settled.
             // Once the whole reply has finished (the last step), settle at
@@ -1319,123 +1456,4 @@
     }
   }
 
-  /* ---------------- Version B's horizontal 1-2-3 steps ----------------
-     Same sequential-glow concept as A's vertical steps/traveling-dot, just
-     adapted sideways: each divider between circles fills blue as that leg
-     "completes", lighting the next circle, then holds fully lit and resets
-     to loop again. */
-  var horizontalSteps = document.getElementById('horizontalSteps');
-  if (horizontalSteps && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
-    var hCircles = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.step__num'));
-    var hDividers = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.horizontal-steps__divider'));
-    var hDividerFills = Array.prototype.slice.call(horizontalSteps.querySelectorAll('.horizontal-steps__divider-fill'));
-
-    // Once stacked vertically (mobile), each divider is position:absolute
-    // and needs its real top/height measured — same technique as A's own
-    // .steps__connector, just per-divider (one span per adjacent circle
-    // pair) instead of one continuous line across all three. Without this,
-    // the divider's old fixed height covered only a fraction of the true
-    // gap between circles (each step's own 1-3 lines of text made that gap
-    // taller than any fixed value could account for), showing as a short
-    // dashed segment floating with blank space around it instead of a full
-    // line connecting the circles. Desktop's horizontal layout never enters
-    // the flexDirection:'column' branch, so it's untouched — its divider
-    // stays the plain in-flow segment its own CSS already sizes.
-    function measureHDividers() {
-      if (getComputedStyle(horizontalSteps).flexDirection !== 'column') {
-        hDividers.forEach(function (d) { d.style.top = ''; d.style.height = ''; });
-        return;
-      }
-      var wrapRect = horizontalSteps.getBoundingClientRect();
-      var centers = hCircles.map(function (c) {
-        var r = c.getBoundingClientRect();
-        return (r.top + r.height / 2) - wrapRect.top;
-      });
-      hDividers.forEach(function (div, i) {
-        var top = centers[i];
-        var bottom = centers[i + 1];
-        if (top == null || bottom == null) return;
-        div.style.top = top + 'px';
-        div.style.height = Math.max(0, bottom - top) + 'px';
-      });
-    }
-    measureHDividers();
-    window.addEventListener('resize', function () {
-      clearTimeout(window.__hStepsResizeT);
-      window.__hStepsResizeT = setTimeout(measureHDividers, 150);
-    });
-
-    var H_STEP_MS = 1400;
-    var H_HOLD_MS = 5000; // once all 3 steps + cards are lit, hold here before looping back to the start
-    var H_GAP_MS = 700;
-
-    // The 3 Flow-Grid cards below reveal in step with the glow: card 1
-    // (connector) is visible from the start; card 2 (console) + its leading
-    // arrow appear when step 2 lights; card 3 (chat) + its leading arrow
-    // appear when step 3 lights. .flow-grid.is-staged (added below) is what
-    // makes cards 2/3 + both arrows start hidden via CSS in the first place.
-    var flowGrid = document.querySelector('.flow-grid');
-    var flowConsole = flowGrid ? flowGrid.querySelector('.flow-grid__col--console') : null;
-    var flowChat = flowGrid ? flowGrid.querySelector('.flow-grid__col--chat') : null;
-    var flowArrows = flowGrid ? Array.prototype.slice.call(flowGrid.querySelectorAll('.flow-grid__arrow')) : [];
-    if (flowGrid) flowGrid.classList.add('is-staged');
-
-    function hSetGlow(activeCount) {
-      hCircles.forEach(function (c, i) { c.classList.toggle('is-glowing', i < activeCount); });
-    }
-    function hSetDividers(filledCount) {
-      hDividerFills.forEach(function (d, i) { d.classList.toggle('is-filled', i < filledCount); });
-    }
-    function hSetFlow(revealedCount) {
-      if (flowConsole) flowConsole.classList.toggle('is-visible', revealedCount >= 2);
-      if (flowChat) flowChat.classList.toggle('is-visible', revealedCount >= 3);
-      flowArrows.forEach(function (arrow, i) { arrow.classList.toggle('is-visible', revealedCount >= i + 2); });
-    }
-
-    function hRunPass() {
-      horizontalSteps.classList.add('is-playing');
-      hSetGlow(1);
-      hSetDividers(0);
-      hSetFlow(1);
-      setTimeout(function () {
-        hSetDividers(1);
-        hSetGlow(2);
-        hSetFlow(2);
-        setTimeout(function () {
-          hSetDividers(2);
-          hSetGlow(3);
-          hSetFlow(3);
-          setTimeout(function () {
-            hSetGlow(0);
-            hSetDividers(0);
-            hSetFlow(0);
-            horizontalSteps.classList.remove('is-playing');
-            setTimeout(hRunPass, H_GAP_MS);
-          }, H_HOLD_MS);
-        }, H_STEP_MS);
-      }, H_STEP_MS);
-    }
-
-    if ('IntersectionObserver' in window) {
-      var hStarted = false;
-      var hIo = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting && !hStarted) {
-            hStarted = true;
-            // The very first measureHDividers() call above ran while B's
-            // whole diagram section was still hidden (A shown by default),
-            // so getBoundingClientRect() on every circle returned zeros —
-            // re-measure now that it's actually visible and laid out.
-            measureHDividers();
-            hRunPass();
-            hIo.disconnect();
-          }
-        });
-      }, { threshold: 0.3 });
-      hIo.observe(horizontalSteps);
-    } else {
-      measureHDividers();
-      hRunPass();
-    }
-  }
 })();

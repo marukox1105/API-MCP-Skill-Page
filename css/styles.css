@@ -280,9 +280,6 @@ p { margin: 0; }
   background-size: cover;
   background-position: center;
 }
-.hero__variant--b {
-  background-color: #000319; /* 16978:156056 — flat color now, no BG.png */
-}
 .hero__video {
   flex: 1 1 0;
   min-width: 0;
@@ -299,13 +296,11 @@ p { margin: 0; }
   object-fit: cover;
   aspect-ratio: 3 / 2; /* matches video-hero-s.mp4's native 1800×1200 */
 }
-/* Both A and B's video are full-bleed background from tablet up (desktop
-   uses video-hero.mp4 via <source media>, picked in HTML) — text stays
-   confined to the left half instead of splitting the row with a
-   side-by-side panel. Mobile reverts both back to a normal in-flow
-   stacked card (see 767px below). */
-.hero__variant--a .hero__video,
-.hero__variant--b .hero__video {
+/* Full-bleed background from tablet up (desktop uses video-hero.mp4 via
+   <source media>, picked in HTML) — text stays confined to the left half
+   instead of splitting the row with a side-by-side panel. Mobile reverts
+   back to a normal in-flow stacked card (see 767px below). */
+.hero__variant--a .hero__video {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -314,8 +309,7 @@ p { margin: 0; }
   border-radius: 0;
   box-shadow: none;
 }
-.hero__variant--a .hero__video video,
-.hero__variant--b .hero__video video {
+.hero__variant--a .hero__video video {
   /* Previously width:100%/height:100% (inherited from the base rule above)
      forced the video to stretch to fill .hero__top's own box exactly —
      since .hero__top's shape (very wide, short) rarely matches the video's
@@ -332,7 +326,7 @@ p { margin: 0; }
   width: 100%;
   max-width: 1600px;
   height: auto;
-  aspect-ratio: 2880 / 1254; /* native size of video-hero.mp4 (both A and B) */
+  aspect-ratio: 2880 / 1254; /* native size of video-hero.mp4 */
   /* left:0 kept it flush against the left edge — once max-width:2000px
      capped the video's own width below the viewport's, that left a blank
      gap on the right instead of centering it. left:50% + translateX(-50%)
@@ -350,8 +344,7 @@ p { margin: 0; }
   flex-direction: column;
   gap: 40px;
 }
-.hero__variant--a .hero__content,
-.hero__variant--b .hero__content { max-width: 50%; }
+.hero__variant--a .hero__content { max-width: 50%; }
 .hero__heading {
   font-family: var(--font-display);
   font-weight: 800;
@@ -374,21 +367,6 @@ p { margin: 0; }
   color: var(--text-strong);
   margin: 0;
 }
-/* Version B: dark background, so heading/body text flip to white and the
-   headline gradient shifts to the design's own blue→mint pairing. */
-.hero__heading--b { color: var(--text-inverse-strong); }
-.hero__heading--b .gradient--b {
-  background: linear-gradient(90deg, rgba(115,171,255,0.95), rgba(49,255,207,0.95));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.hero__desc--b { color: var(--text-inverse-weak); }
-.btn-outline--inverse {
-  color: var(--text-inverse-strong);
-  border-color: rgba(255, 255, 255, 0.6);
-}
-.btn-outline--inverse:hover { background: rgba(255, 255, 255, 0.12); }
 .hero__buttons {
   display: flex;
   flex-wrap: wrap;
@@ -447,37 +425,6 @@ p { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   .marquee__track { animation: none; }
 }
-
-/* Temporary reviewer aid — lets whoever's looking flip between the two hero
-   treatments live, without touching either design. Remove once one's picked. */
-.pv-switch {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 300;
-  display: flex;
-  gap: 2px;
-  padding: 4px;
-  background: rgba(17, 24, 26, 0.7);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-overlay);
-}
-.pv-switch button {
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: 50%;
-  background: none;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: var(--fs-small);
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.pv-switch button:hover { color: #fff; }
-.pv-switch button.is-active { background: var(--color-primary); color: #fff; }
 
 /* Partner logo lockups — clean per-brand SVG exports (assets/hero/logo/),
    each already a self-contained icon+wordmark, so no fragment positioning needed. */
@@ -640,7 +587,7 @@ p { margin: 0; }
 
 .connect__cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 cards (MCP) fill one row; 6 cards (Agent Skill) wrap into 2 rows of 3 */
+  grid-template-columns: repeat(3, 1fr); /* 3 cards (MCP) fill one row; 6 (Agent Skill) wrap into 2 rows of 3; 7 (CLI) wrap into 3+3+1 */
   gap: 32px;
   width: 100%;
 }
@@ -660,6 +607,16 @@ p { margin: 0; }
   background: #eef2f5;
 }
 .connect-card__thumb img { width: 100%; height: 100%; object-fit: cover; }
+/* Placeholder for CLI cards until real photos are supplied — see
+   CLI_CONNECT_CARDS' mockup:true in main.js. */
+.connect-card__thumb--mockup { display: flex; align-items: center; justify-content: center; }
+.connect-card__thumb--mockup span {
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-weak);
+}
 .connect-card__tag {
   display: inline-flex;
   align-self: flex-start;
@@ -1059,185 +1016,9 @@ p { margin: 0; }
 .terminal--light .terminal__footer-status { color: #8b949e; }
 .terminal--light .terminal__footer-status img { filter: none; opacity: 1; }
 
-/* ==========================================================================
-   Diagram-Section Version B: horizontal 1-2-3 steps (mirrors A's vertical
-   steps/traveling-dot, just laid out sideways) above the 3-column flow
-   (Connector -> API Console -> Agent Chat Preview) and the terminal.
-   ========================================================================== */
-.diagram-section__body--b { flex-direction: column; gap: 40px; }
-.horizontal-steps { display: flex; align-items: flex-start; width: 100%; }
-.horizontal-steps .step { flex: 1 1 0; min-width: 0; }
-.horizontal-steps__divider {
-  flex-shrink: 0;
-  align-self: start;
-  width: 100px;
-  height: 1px;
-  /* 14px top margin = half of .step__num's 28px height, so the line centers
-     on the circle instead of sitting flush with its very top edge. */
-  margin: 14px 12px 0;
-  background: var(--stroke-weak);
-  overflow: hidden;
-}
-.horizontal-steps__divider-fill {
-  display: block;
-  width: 0%;
-  height: 100%;
-  background: var(--color-primary);
-  transition: width 0.6s ease;
-}
-.horizontal-steps.is-playing .horizontal-steps__divider-fill.is-filled { width: 100%; }
-.flow-grid {
-  display: flex;
-  align-items: stretch;
-  gap: 32px;
-  width: 100%;
-}
-.flow-grid__col {
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-  background: #fff;
-  border-radius: var(--radius-md);
-  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.16);
-}
-.flow-grid__col--console { gap: 20px; padding: 24px; border-radius: var(--radius-lg); }
-.flow-grid__col--chat { padding: 12px; }
-.flow-grid__label { font-size: var(--fs-micro); font-weight: 600; color: var(--text-weak); margin: 0; }
-/* Card 2 (console) + card 3 (chat) and their leading arrows stay hidden
-   until main.js's hRunPass() reveals them in step with the horizontal-steps
-   glow above — card 1 (connector) is visible from the start, matching
-   step 1's immediate glow. .is-staged is only added once the animation is
-   actually going to run (skipped under reduced-motion), so without JS the
-   whole grid just renders normally with nothing hidden. */
-.flow-grid.is-staged .flow-grid__col--console,
-.flow-grid.is-staged .flow-grid__col--chat,
-.flow-grid.is-staged .flow-grid__arrow {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.flow-grid.is-staged .flow-grid__col--console.is-visible,
-.flow-grid.is-staged .flow-grid__col--chat.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.flow-grid.is-staged .flow-grid__arrow.is-visible {
-  opacity: 0.3;
-  transform: translateY(0);
-}
-.flow-grid__arrow { flex-shrink: 0; align-self: center; width: 20px; height: 20px; opacity: 0.3; }
-.flow-grid__arrow img { width: 100%; height: 100%; }
-/* Reuses .connector-item but stacked full-width inside its own card instead
-   of the three sitting side by side (that's .connector-row's usual layout). */
-.connector-row--stack { flex-direction: column; gap: 12px; flex: 1 1 0; }
-.connector-row--stack .connector-item { height: auto; }
-
-.flow-console { display: flex; flex-direction: column; gap: 20px; flex: 1 1 0; }
-.flow-console__key {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--bg-section-tint);
-  border: 1px solid var(--stroke-weak);
-  border-radius: var(--radius-md);
-}
-.flow-console__key-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  background: rgba(49, 131, 255, 0.07);
-  border-radius: var(--radius-sm);
-}
-.flow-console__key-icon img { width: 16px; height: 16px; }
-.flow-console__dots { flex: 1 1 0; min-width: 0; font-size: 18px; font-weight: 700; color: var(--text-strong); }
-.flow-console__eye { flex-shrink: 0; width: 20px; height: 20px; }
-.flow-console__eye img { width: 100%; height: 100%; }
-.flow-console__token-label { font-size: var(--fs-tiny); color: var(--text-weak); margin: 0 0 6px; }
-.flow-console__token-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 10px 10px 10px 16px;
-  background: var(--bg-section-tint);
-  border: 1px solid var(--stroke-weak);
-  border-radius: var(--radius-md);
-  font-size: var(--fs-tiny);
-  font-weight: 600;
-  color: var(--text-strong);
-}
-.flow-console__copy {
-  flex-shrink: 0;
-  padding: 6px 16px;
-  background: #fff;
-  border: 1px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-  color: var(--color-primary);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.flow-chat { display: flex; flex-direction: column; gap: 8px; flex: 1 1 0; padding: 4px 8px; }
-.flow-chat__area { display: flex; flex-direction: column; gap: 8px; flex: 1 1 0; }
-.flow-chat__msg {
-  max-width: 70%;
-  padding: 8px 10px;
-  font-size: 11px;
-  line-height: 14px;
-  color: var(--text-strong);
-}
-.flow-chat__msg--user {
-  align-self: flex-end;
-  background: rgba(49, 131, 255, 0.08);
-  border-radius: 12px 12px 4px 12px;
-}
-.flow-chat__msg--ai {
-  align-self: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: #f1f3f5;
-  border-radius: 12px 12px 12px 4px;
-}
-.flow-chat__ai-name { font-size: 10px; font-weight: 700; color: var(--color-primary); margin: 0; }
-.flow-chat__msg--ai p { margin: 0; }
-.flow-chat__product { display: flex; align-items: center; gap: 6px; font-size: 9px; }
-.flow-chat__product img { width: 20px; height: 20px; border-radius: 4px; object-fit: cover; flex-shrink: 0; }
-.flow-chat__input {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 32px;
-  padding: 0 8px 0 10px;
-  background: #f1f3f5;
-  border: 1px solid var(--stroke-weak);
-  border-radius: var(--radius-md);
-}
-.flow-chat__input span:first-child { flex: 1 1 0; min-width: 0; font-size: 11px; color: var(--text-weak); }
-.flow-chat__send {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: var(--color-primary);
-  border-radius: var(--radius-md);
-}
-.flow-chat__send img { width: 14px; height: 14px; }
-
 /* Agent Skill mode's install/auth/invoke card — a self-contained dark "code
-   editor" look distinct from the light MCP connector+terminal it swaps with.
-   Version A now has a light reskin (.code-steps-card--light below), same
-   idea as .terminal--light; B keeps this dark as-is (its diagram is always
-   MCP-mode, so it never shows this panel). */
+   editor" look, always paired with the light reskin below
+   (.code-steps-card--light), same idea as .terminal--light. */
 .diagram-panel-mcp { display: flex; flex-direction: column; gap: 16px; width: 100%; min-width: 0; }
 .code-steps-card {
   display: flex;
@@ -1424,6 +1205,11 @@ p { margin: 0; }
 }
 .asset-badge img { width: 100%; height: 100%; object-fit: cover; }
 .asset-badge.is-unused { display: none; }
+/* No real photo yet for some CLI use cases — a muted centered icon on the
+   section's own tint instead of a broken <img>, same treatment as
+   .result-frame__img.is-placeholder below. */
+.asset-badge.is-placeholder { display: flex; align-items: center; justify-content: center; background: var(--bg-section-tint); }
+.asset-badge.is-placeholder img { width: 32px; height: 32px; object-fit: contain; opacity: 0.35; }
 /* Two-photo inputs shouldn't land at once — the second badge starts its
    fade-in 0.5s after the first, even though both get .is-visible together. */
 #wsBadge2.reveal-item { transition-delay: 0.5s; }
@@ -1555,6 +1341,10 @@ p { margin: 0; }
    proportions untouched (no stretching) — the earlier "distortion" was
    actually the frame's own shape drifting, not the photo. */
 .result-frame__img { width: 100%; height: 100%; object-fit: cover; }
+/* No real result photo yet for some CLI use cases — .result-frame is
+   already a centered flex box on the section's tint, so a small muted icon
+   just needs its own size instead of stretching to fill like a real result. */
+.result-frame__img.is-placeholder { width: 48px; height: 48px; object-fit: contain; opacity: 0.35; }
 .result-caption {
   padding: 8px 16px;
   background: #fff;

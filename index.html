@@ -1,7 +1,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YouCam API — MCP Servers &amp; Agent Skills for Visual AI</title>
-<meta name="description" content="Connect YouCam's beauty, fashion, image, and video APIs through MCP servers or Agent Skills. One API key, from prompt to real output.">
+<title>YouCam API — MCP, CLI &amp; Agent Skills for Visual AI</title>
+<meta name="description" content="Connect YouCam's beauty, fashion, image, and video APIs through MCP servers, the YouCam CLI, or Agent Skills. One API key, from prompt or command to real output.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Wix+Madefor+Display:wght@700;800&display=swap" rel="stylesheet">
@@ -43,24 +43,20 @@
 <main>
 
   <!-- ============================== HERO ============================== -->
-  <!-- Two interchangeable hero treatments (A/B) for review — #pvSwitch (a
-       page-wide fixed control, added at the end of <main>) toggles every
-       .pv-block on the page together; shared content between them (like the
-       marquee below) isn't duplicated. -->
   <section class="hero">
-    <!-- Version A: light background. Desktop/tablet (>=768px) shows
-         video-hero.mp4 full-bleed behind left-half text; mobile (<=767px)
-         switches to video-hero-s.mp4 as a normal card stacked above
-         centered text (see <source media> below + the 767px breakpoint). -->
-    <div class="hero__top hero__variant hero__variant--a pv-block is-active" data-pv="a">
+    <!-- Light background. Desktop/tablet (>=768px) shows video-hero.mp4
+         full-bleed behind left-half text; mobile (<=767px) switches to
+         video-hero-s.mp4 as a normal card stacked above centered text (see
+         <source media> below + the 767px breakpoint). -->
+    <div class="hero__top hero__variant hero__variant--a">
       <div class="hero__content">
         <div>
           <h1 class="hero__heading">
-            <span class="gradient">MCP Servers &amp; Agent Skills</span>
+            <span class="gradient">MCP, CLI &amp; Agent Skills</span>
             <span>for Visual AI</span>
           </h1>
           <p class="hero__desc" style="margin-top:20px;">
-            Connect YouCam’s beauty, fashion, image, and video APIs through MCP—or install reusable Agent Skills for complete visual AI workflows. One YouCam API key, from prompt to real output.
+            Connect YouCam’s beauty, fashion, image, and video APIs through MCP, run them from the YouCam CLI, or install reusable Agent Skills for complete visual AI workflows. One YouCam API key, from prompt or command to real output.
           </p>
         </div>
 
@@ -74,35 +70,6 @@
         <video autoplay muted loop playsinline aria-label="YouCam API demo">
           <source media="(min-width: 768px)" src="assets/hero/A/video-hero.mp4" type="video/mp4">
           <source src="assets/hero/A/video-hero-s.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-
-    <!-- Version B: dark navy BG.png background. Desktop/tablet (>=768px)
-         shows video-hero.mp4; mobile (<=767px) switches to video-hero-s.mp4,
-         same <source media> pattern as A. -->
-    <div class="hero__top hero__variant hero__variant--b pv-block" data-pv="b" hidden>
-      <div class="hero__content hero__content--b">
-        <div>
-          <h1 class="hero__heading hero__heading--b">
-            <span class="gradient gradient--b">MCP Servers &amp; Agent Skills</span>
-            <span>for Visual AI</span>
-          </h1>
-          <p class="hero__desc hero__desc--b" style="margin-top:20px;">
-            Connect YouCam’s beauty, fashion, image, and video APIs through MCP—or install reusable Agent Skills for complete visual AI workflows. One YouCam API key, from prompt to real output.
-          </p>
-        </div>
-
-        <div class="hero__buttons">
-          <a class="btn btn-primary" href="#connectMcpServer">Get started now <img src="assets/icons/arrow-right-white.svg" alt=""></a>
-          <a class="btn btn-outline btn-outline--inverse" href="https://docs.perfectcorp.com/develop/mcp" target="_blank" rel="noopener noreferrer">View documentation</a>
-        </div>
-      </div>
-
-      <div class="hero__video">
-        <video autoplay muted loop playsinline aria-label="YouCam API demo">
-          <source media="(min-width: 768px)" src="assets/hero/B/video-hero.mp4" type="video/mp4">
-          <source src="assets/hero/B/video-hero-s.mp4" type="video/mp4">
         </video>
       </div>
     </div>
@@ -126,7 +93,7 @@
        of a wrapper spanning the whole flow, not just the first section. -->
   <div class="connect-flow">
     <div class="section-eyebrow section-px connect-flow__heading">
-      <h3>Two ways to connect</h3>
+      <h3>Three ways to connect</h3>
     </div>
 
     <div class="method-tabs-bar">
@@ -135,6 +102,10 @@
         <button class="method-tab is-active" data-method="mcp">
           <img src="assets/icons/link.svg" alt="">
           MCP
+        </button>
+        <button class="method-tab" data-method="cli">
+          <img src="assets/icons/terminal.svg" alt="">
+          CLI
         </button>
         <button class="method-tab" data-method="skill">
           <img src="assets/icons/document.svg" alt="">
@@ -206,7 +177,7 @@
       <p id="diagramTitleP">Choose a domain server, add its configuration to your MCP client, and authenticate with your YouCam API key.</p>
     </div>
 
-    <div class="diagram-section__body pv-block" data-pv="a">
+    <div class="diagram-section__body">
       <div class="steps-wrap">
         <div class="steps__connector" aria-hidden="true"><span class="steps__dot"></span></div>
         <ol class="steps steps--animated">
@@ -321,130 +292,51 @@
             </div>
           </div>
         </div>
+
+        <!-- CLI mode: copyable install / auth / run commands -->
+        <div class="code-steps-card code-steps-card--light" id="diagramPanelCli" hidden>
+          <div class="code-step">
+            <div class="code-step__header">
+              <span class="code-step__num">1</span>
+              <p>Install and verify the YouCam CLI</p>
+            </div>
+            <div class="code-block">
+              <code><span class="tok-kw">npm</span> <span class="tok-fg">install -g</span> <span class="tok-str">youcam-cli</span></code>
+              <button class="code-block__copy" data-copy-value="npm install -g youcam-cli">Copy</button>
+            </div>
+            <div class="code-block">
+              <code><span class="tok-kw">youcam</span> <span class="tok-fg">--help</span></code>
+              <button class="code-block__copy" data-copy-value="youcam --help">Copy</button>
+            </div>
+          </div>
+          <div class="code-step">
+            <div class="code-step__header">
+              <span class="code-step__num">2</span>
+              <p>Authenticate with your API key</p>
+            </div>
+            <div class="code-block">
+              <code><span class="tok-kw">youcam</span> <span class="tok-fg">auth login </span><span class="tok-str">YOUR_API_KEY</span></code>
+              <button class="code-block__copy" data-copy-value="youcam auth login YOUR_API_KEY">Copy</button>
+            </div>
+          </div>
+          <div class="code-step">
+            <div class="code-step__header">
+              <span class="code-step__num">3</span>
+              <p>Create a task and check its status</p>
+            </div>
+            <div class="code-block">
+              <code><span class="tok-kw">youcam</span> <span class="tok-fg">run </span><span class="tok-str">face-reshape --src_file ./portrait.jpg --version 1.0 --features '{"face_width":-20}'</span></code>
+              <button class="code-block__copy" data-copy-value='youcam run face-reshape --src_file ./portrait.jpg --version 1.0 --features &apos;{"face_width":-20}&apos;'>Copy</button>
+            </div>
+            <div class="code-block">
+              <code><span class="tok-kw">youcam</span> <span class="tok-fg">status </span><span class="tok-str">face-reshape TASK_ID</span></code>
+              <button class="code-block__copy" data-copy-value="youcam status face-reshape TASK_ID">Copy</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Version B: 3-column flow diagram (Connector -> API Console -> Agent
-         Chat Preview) above the same terminal config card. Static/illustrative
-         (not wired to the live domain switch) — purely for A/B visual review. -->
-    <div class="diagram-section__body diagram-section__body--b pv-block" data-pv="b" hidden>
-      <div class="horizontal-steps" id="horizontalSteps">
-        <div class="step">
-          <span class="step__num">1</span>
-          <div class="step__body">
-            <h4>Add the connector</h4>
-            <p>Paste the selected MCP configuration into your client.</p>
-          </div>
-        </div>
-        <span class="horizontal-steps__divider" aria-hidden="true"><span class="horizontal-steps__divider-fill"></span></span>
-        <div class="step">
-          <span class="step__num">2</span>
-          <div class="step__body">
-            <h4>Add your API key</h4>
-            <p>Get a <span class="accent">Bearer</span> key from the API Console, then add it to your MCP configuration or set <span class="accent">YOUCAM_API_KEY</span> for Agent Skills.</p>
-            <button class="step__key-btn" type="button">GET API KEY →</button>
-          </div>
-        </div>
-        <span class="horizontal-steps__divider" aria-hidden="true"><span class="horizontal-steps__divider-fill"></span></span>
-        <div class="step">
-          <span class="step__num">3</span>
-          <div class="step__body">
-            <h4>Call it from chat</h4>
-            <p>Ask in plain English; your agent selects the right tool and returns structured results.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="flow-grid">
-        <div class="flow-grid__col flow-grid__col--connector">
-          <p class="flow-grid__label">CONNECTOR</p>
-          <div class="connector-row connector-row--stack" id="diagramBDomainSwitch" data-terminal="mcpJsonB">
-            <button type="button" class="connector-item is-active" data-domain="beauty">
-              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-beauty.svg" data-active-src="assets/icons/domain-beauty.svg" data-inactive-src="assets/icons/domain-beauty-gray.svg" alt=""><span>YouCam for Beauty &amp; Personal Care</span></span>
-              <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
-            </button>
-            <button type="button" class="connector-item" data-domain="fashion">
-              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-fashion-gray.svg" data-active-src="assets/icons/domain-fashion.svg" data-inactive-src="assets/icons/domain-fashion-gray.svg" alt=""><span>YouCam for Fashion &amp; Retail</span></span>
-              <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
-            </button>
-            <button type="button" class="connector-item" data-domain="creators">
-              <span class="connector-item__left"><img class="connector-item__icon" src="assets/icons/domain-creators-gray.svg" data-active-src="assets/icons/domain-creators.svg" data-inactive-src="assets/icons/domain-creators-gray.svg" alt=""><span>YouCam for Creators</span></span>
-              <span class="connector-item__status"><img src="assets/icons/check-white.svg" alt=""></span>
-            </button>
-          </div>
-        </div>
-
-        <span class="flow-grid__arrow"><img src="assets/icons/flow-arrow-right.svg" alt=""></span>
-
-        <div class="flow-grid__col flow-grid__col--console">
-          <p class="flow-grid__label">API CONSOLE</p>
-          <div class="flow-console">
-            <div class="flow-console__key">
-              <span class="flow-console__key-icon"><img src="assets/icons/flow-key.svg" alt=""></span>
-              <span class="flow-console__dots">•••••••••••••••</span>
-              <span class="flow-console__eye"><img src="assets/icons/flow-eye.svg" alt=""></span>
-            </div>
-            <div class="flow-console__token">
-              <p class="flow-console__token-label">Your Bearer token</p>
-              <div class="flow-console__token-row">
-                <span>YOUCAM_API_KEY</span>
-                <button class="flow-console__copy" data-copy-value="YOUCAM_API_KEY">Copy</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <span class="flow-grid__arrow"><img src="assets/icons/flow-arrow-right.svg" alt=""></span>
-
-        <div class="flow-grid__col flow-grid__col--chat">
-          <div class="flow-chat">
-            <div class="flow-chat__area">
-              <div class="flow-chat__msg flow-chat__msg--user">Find the top 5 trending foundations for oily skin.</div>
-              <div class="flow-chat__msg flow-chat__msg--ai">
-                <p class="flow-chat__ai-name">YouCam Assistant</p>
-                <p>Found matching high-diagnostic tools. Here are the top oily-skin matches:</p>
-                <div class="flow-chat__product"><img src="assets/diagram-skill/img-product-thumb.png" alt="">1. Stay-Perfect Liquid</div>
-                <div class="flow-chat__product"><img src="assets/diagram-skill/img-product-thumb1.png" alt="">2. Oil-Control Matte</div>
-              </div>
-            </div>
-            <div class="flow-chat__input">
-              <span>Ask anything...</span>
-              <span class="flow-chat__send"><img src="assets/icons/flow-send.svg" alt=""></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="terminal">
-        <div class="terminal__header">
-          <div class="terminal__logos" id="diagramBClientSwitch">
-            <button type="button" class="terminal__logo is-active" data-client="claude"><img src="assets/hero/logo/claude.svg" alt="Claude"></button>
-            <button type="button" class="terminal__logo" data-client="copilot"><img src="assets/hero/logo/github-copilot.svg" alt="GitHub Copilot"></button>
-            <button type="button" class="terminal__logo" data-client="cursor"><img src="assets/hero/logo/cursor.svg" alt="Cursor"></button>
-          </div>
-          <button class="terminal__copy" data-copy-target="mcpJsonB">Copy</button>
-        </div>
-        <pre class="terminal__body" id="mcpJsonB">{
-  <span class="tok-key">"mcpServers"</span>: {
-    <span class="tok-key">"youcam-beauty"</span>: {
-      <span class="tok-key">"command"</span>: <span class="tok-str">"npx"</span>,
-      <span class="tok-key">"args"</span>: [
-        <span class="tok-str">"-y"</span>, <span class="tok-str">"mcp-remote"</span>,
-        <span class="tok-str">"https://mcp-api-01.youcamapi.com/mcp/beauty"</span>,
-        <span class="tok-str">"--header"</span>, <span class="tok-str">"Authorization:${AUTH}"</span>
-      ],
-      <span class="tok-key">"env"</span>: {
-        <span class="tok-key">"AUTH"</span>: <span class="tok-str">"Bearer YOUR_API_KEY"</span>
-      }
-    }
-  }
-}</pre>
-        <div class="terminal__footer">
-          <span class="terminal__footer-status"><img src="assets/icons/info.svg" alt="">Requires Node.js and npm</span>
-          <a class="terminal__footer-link" href="#">Full docs →</a>
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- ==================== WORKSPACE DEMO ==================== -->
@@ -521,35 +413,7 @@
       <p>Build complete visual AI experiences with specialized APIs for analysis, virtual try-on, generation, and editing.</p>
     </div>
 
-    <div class="feature-grid pv-block" data-pv="a">
-      <div class="feature-card">
-        <span class="feature-card__icon"><img src="assets/icons/sparkle-burst.svg" alt=""></span>
-        <h4>Visual AI built for real use cases</h4>
-        <p>Specialized APIs for beauty, hair, fashion, jewelry, image creation, and video workflows.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-card__icon"><img src="assets/icons/link-chain.svg" alt=""></span>
-        <h4>Activate directly in your favorite tools</h4>
-        <p>Use YouCam directly in Claude, Gemini CLI, Cursor, and other everyday tools.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-card__icon"><img src="assets/icons/document-lines.svg" alt=""></span>
-        <h4>From prompt to real output</h4>
-        <p>Return structured analysis, virtual try-on previews, generated images, and videos in your workflow.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-card__icon"><img src="assets/icons/user-round-check.svg" alt=""></span>
-        <h4>Retain Manual Review Mechanisms</h4>
-        <p>Retain manual oversight for critical tasks to prevent errors from escalating.</p>
-      </div>
-    </div>
-
-    <!-- Version B: per direct request, this section now just reuses A's
-         plain 4-across icon-card visual as-is instead of carrying its own
-         tinted-illustration design (the old .feature-card-b/--b treatment
-         is retired here, kept elsewhere in css/assets in case it's wanted
-         again later). -->
-    <div class="feature-grid pv-block" data-pv="b" hidden>
+    <div class="feature-grid">
       <div class="feature-card">
         <span class="feature-card__icon"><img src="assets/icons/sparkle-burst.svg" alt=""></span>
         <h4>Visual AI built for real use cases</h4>
@@ -621,20 +485,20 @@
   <!-- ==================== WHY BUILD WITH YOUCAM ==================== -->
   <section class="why-build section-px">
     <div class="section-title">
-      <h2>Why Build with YouCam MCP &amp; Agent Skills?</h2>
-      <p>Choose the level of control your workflow needs—from individual visual AI tools to ready-made, multi-step Skills.</p>
+      <h2>Why Build with YouCam MCP, CLI &amp; Agent Skills?</h2>
+      <p>Choose how your workflow accesses visual AI—from connected agent tools and scriptable commands to ready-made, multi-step Skills.</p>
     </div>
 
-    <div class="why-build__grid pv-block" data-pv="a">
+    <div class="why-build__grid">
       <div class="why-build__card">
         <h4>Centralized Credential Control</h4>
         <span class="why-build__rule" aria-hidden="true"></span>
         <p>YouCam's developer platform centrally issues and tracks all API keys, making team configurations and long-term maintenance much simpler.</p>
       </div>
       <div class="why-build__card">
-        <h4>MCP Servers and Ready-Made Skills</h4>
+        <h4>MCP, CLI, and Ready-Made Skills</h4>
         <span class="why-build__rule" aria-hidden="true"></span>
-        <p>Give agents direct access to individual tools through MCP, or install Skills that select and call the required APIs automatically.</p>
+        <p>Connect individual tools through MCP, automate API tasks with the CLI, or install Skills that select and call the required APIs automatically.</p>
       </div>
       <div class="why-build__card">
         <h4>Top-tier built-in security</h4>
@@ -644,7 +508,7 @@
       <div class="why-build__card">
         <h4>One API Key and Existing Billing</h4>
         <span class="why-build__rule" aria-hidden="true"></span>
-        <p>Use the same YouCam API key and API plan across all three MCP servers and every Agent Skill. There is no separate charge for the MCP or Skill layer.</p>
+        <p>Use the same YouCam API key and API plan across all three MCP servers, the YouCam CLI, and every Agent Skill.</p>
       </div>
       <div class="why-build__card">
         <h4>Actionable Troubleshooting Feedback</h4>
@@ -654,46 +518,10 @@
       <div class="why-build__card">
         <h4>Developer-Ready Setup</h4>
         <span class="why-build__rule" aria-hidden="true"></span>
-        <p>Start with copyable MCP configurations, a one-command Skill installation, API documentation, and an interactive API Playground.</p>
+        <p>Start with copyable MCP configurations, an npm-installed CLI, one-command Skill installation, API documentation, and an interactive API Playground.</p>
       </div>
     </div>
 
-    <!-- Version B: per direct request, this section now just reuses A's
-         divider-line card visual as-is instead of its own icon-badge
-         treatment (the old .why-build__card--b/__icon assets are kept but
-         unreferenced, in case it's wanted again later). -->
-    <div class="why-build__grid pv-block" data-pv="b" hidden>
-      <div class="why-build__card">
-        <h4>Centralized Credential Control</h4>
-        <span class="why-build__rule" aria-hidden="true"></span>
-        <p>YouCam's developer platform centrally issues and tracks all API keys, making team configurations and long-term maintenance much simpler.</p>
-      </div>
-      <div class="why-build__card">
-        <h4>MCP Servers and Ready-Made Skills</h4>
-        <span class="why-build__rule" aria-hidden="true"></span>
-        <p>Give agents direct access to individual tools through MCP, or install Skills that select and call the required APIs automatically.</p>
-      </div>
-      <div class="why-build__card">
-        <h4>Top-tier built-in security</h4>
-        <span class="why-build__rule" aria-hidden="true"></span>
-        <p>With OAuth directly linked to your YouCam account, you completely eliminate the risks of exposing or rotating API keys. Your video assets, account permissions, and credits remain entirely under your control.</p>
-      </div>
-      <div class="why-build__card">
-        <h4>One API Key and Existing Billing</h4>
-        <span class="why-build__rule" aria-hidden="true"></span>
-        <p>Use the same YouCam API key and API plan across all three MCP servers and every Agent Skill. There is no separate charge for the MCP or Skill layer.</p>
-      </div>
-      <div class="why-build__card">
-        <h4>Actionable Troubleshooting Feedback</h4>
-        <span class="why-build__rule" aria-hidden="true"></span>
-        <p>Accelerate debugging with clear, structured error responses. Instantly know whether a failure stems from invalid parameters, lack of permissions, or exceeded limits, making retries and fixes effortless.</p>
-      </div>
-      <div class="why-build__card">
-        <h4>Developer-Ready Setup</h4>
-        <span class="why-build__rule" aria-hidden="true"></span>
-        <p>Start with copyable MCP configurations, a one-command Skill installation, API documentation, and an interactive API Playground.</p>
-      </div>
-    </div>
   </section>
 
   <!-- ==================== SHOWCASE GRID ==================== -->
@@ -717,14 +545,21 @@
           <span>Do I need an API key?</span>
           <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
         </button>
-        <div class="faq-item__a"><p>Yes. Every MCP server and Agent Skill authenticates with the same YouCam API key — get one for free from the API Console and reuse it across all three domain servers.</p></div>
+        <div class="faq-item__a"><p>Yes. MCP servers, the YouCam CLI, and Agent Skills all authenticate with the same YouCam API key. Get one from the API Console and reuse it across every connection method.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-item__q">
-          <span>What's the difference between MCP and Agent Skill?</span>
+          <span>What's the difference between MCP, CLI, and Agent Skill?</span>
           <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
         </button>
-        <div class="faq-item__a"><p>An MCP server connects your agent to YouCam tools over a live connection using your client's MCP configuration. An Agent Skill is a reusable, installable skill package that gives an agent the same capabilities without running a separate server.</p></div>
+        <div class="faq-item__a"><p>MCP gives compatible agents live access to individual YouCam tools. The CLI exposes YouCam API endpoints as scriptable <span class="accent">youcam</span> commands for terminals, automation, and agent-built workflows. Agent Skills are installable, ready-made workflows that select and call the required APIs for a specific task.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__q">
+          <span>What do I need to use the YouCam CLI?</span>
+          <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
+        </button>
+        <div class="faq-item__a"><p>Install Node.js and npm, run <span class="accent">npm install -g youcam-cli</span>, then authenticate with <span class="accent">youcam auth login YOUR_API_KEY</span>. Use <span class="accent">youcam --help</span> to explore available commands.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-item__q">
@@ -738,14 +573,14 @@
           <span>Which agents &amp; clients are supported?</span>
           <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
         </button>
-        <div class="faq-item__a"><p>Any MCP-compatible client or agent framework, including Claude, Cursor, GitHub Copilot, and other agents that support custom tools or skills.</p></div>
+        <div class="faq-item__a"><p>Use MCP with compatible clients such as Claude, Cursor, and GitHub Copilot. Use Agent Skills in platforms that support installable skills. The CLI can run in a terminal, script, CI workflow, or an agent environment that can execute commands.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-item__q">
           <span>How is it billed?</span>
           <span class="faq-item__icon"><img src="assets/icons/plus.svg" alt=""></span>
         </button>
-        <div class="faq-item__a"><p>Usage is billed through your existing YouCam API plan — there's no separate charge for using MCP servers or Agent Skills.</p></div>
+        <div class="faq-item__a"><p>API usage from MCP, CLI, and Agent Skills is billed through your existing YouCam API plan.</p></div>
       </div>
     </div>
   </section>
@@ -754,24 +589,17 @@
   <section class="cta">
     <div class="cta-card">
       <div>
-        <h2>Connect YouCam MCP &amp; Agent Skills to Your Agent Today</h2>
+        <h2>Bring YouCam MCP, CLI &amp; Agent Skills into Your Workflow</h2>
         <p>Connect YouCam and make your first API call in minutes.</p>
       </div>
       <div class="cta-card__buttons">
         <a class="btn-cta-primary" href="#connectMcpServer">Get started now →</a>
         <a class="btn-cta-secondary" href="https://docs.perfectcorp.com/develop/mcp" target="_blank" rel="noopener noreferrer">View documentation</a>
       </div>
-      <p class="cta-card__fine">One API key · Usage-based pricing · MCP and Agent Skill support</p>
+      <p class="cta-card__fine">One API key · Usage-based pricing · MCP, CLI, and Agent Skill support</p>
     </div>
   </section>
 
-  <!-- Page-wide A/B review switch — floats above everything, toggles every
-       .pv-block together. Purely a temporary reviewer aid; not part of
-       either design. Remove this whole block once a version is picked. -->
-  <div class="pv-switch" id="pvSwitch" aria-label="Design version preview switch">
-    <button type="button" class="is-active" data-pv-switch="a">A</button>
-    <button type="button" data-pv-switch="b">B</button>
-  </div>
 </main>
 
 <!-- ==================== FOOTER ==================== -->
