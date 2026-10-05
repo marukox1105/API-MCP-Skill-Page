@@ -321,8 +321,8 @@
       result: 'assets/workspace/cli/hair-transfer-result.png'
     },
     'Makeup VTO': {
-      photos: ['assets/workspace/cli/makeup-vto-input.png', 'assets/workspace/cli/makeup-vto-reference.png'],
-      slots: 2,
+      photos: ['assets/workspace/cli/makeup-vto-input.png'],
+      slots: 1,
       prompt: 'Preview this soft coral makeup look on my photo.',
       status: 'Claude Desktop',
       description: "I'll apply the soft coral look while preserving the subject's facial features, skin tone, and lighting.",
